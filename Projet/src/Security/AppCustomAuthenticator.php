@@ -46,7 +46,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
         dump($token->getRoleNames());
-        return new RedirectResponse($this->urlGenerator->generate('app_default'));
+        return new RedirectResponse($this->urlGenerator->generate('app_reservation_index'));
     }
 
     protected function getLoginUrl(Request $request): string
