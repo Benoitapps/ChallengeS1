@@ -18,18 +18,18 @@ class Reservation
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?User $by = null;
 
-    #[ORM\ManyToMany(targetEntity: Date::class, mappedBy: 'reservdate')]
+    #[ORM\ManyToMany(targetEntity: Date::class, mappedBy: 'reserv')]
     private Collection $dates;
 
-    #[ORM\ManyToOne(inversedBy: 'reservcompo')]
+    #[ORM\ManyToOne(inversedBy: 'reserv')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Composition $composition = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservcountry')]
+    #[ORM\ManyToOne(inversedBy: 'reserv')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Country $country = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservcompa')]
+    #[ORM\ManyToOne(inversedBy: 'reserv')]
     private ?Company $company = null;
 
     public function __construct()

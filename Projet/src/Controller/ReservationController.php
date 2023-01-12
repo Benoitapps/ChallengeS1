@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use App\Repository\ReservationRepository;
+use App\Repository\DateRepository;
+use App\Repository\CountryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,11 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/reservation')]
 class ReservationController extends AbstractController
 {
-    #[Route('/reservation', name: 'app_reservation_index', methods: ['GET'])]
-    public function index(ReservationRepository $reservationRepository): Response
+    #[Route('/', name: 'app_reservation_index', methods: ['GET'])]
+    public function index(ReservationRepository $reservationRepository, DateRepository $dateRepository ,CountryRepository $countryRepository, Request $request): Response
     {
         return $this->render('reservation/index.html.twig', [
             'reservations' => $reservationRepository->findAll(),
+            'dates'=> $dateRepository->findAll(),
+            'country'=> $countryRepository->findAll(),
         ]);
     }
 
