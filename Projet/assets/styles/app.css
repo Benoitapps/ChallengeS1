@@ -1,0 +1,10 @@
+body {
+    background-color: red;
+}
+
+#connexion{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 20%;
+}
