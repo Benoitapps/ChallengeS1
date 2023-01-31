@@ -15,9 +15,15 @@
         <tbody>
 
 
-            {% for reservation in reservations %}
+            {% for reservation in app.user.reservations %}
             <tr>
                 <td>{{ reservation.id }}</td>
+                <td>{{ reservation.by.email }}</td>
+
+
+                <td>{{ reservation.company.name }}</td>
+                <td>{{ reservation.country.name }}</td>
+
 
                 <td>
                     <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">show</a>

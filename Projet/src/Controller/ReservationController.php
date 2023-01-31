@@ -19,9 +19,7 @@ class ReservationController extends AbstractController
     public function index(ReservationRepository $reservationRepository, DateRepository $dateRepository ,CountryRepository $countryRepository, Request $request): Response
     {
         return $this->render('reservation/index.html.twig', [
-            'reservations' => $reservationRepository->findAll(),
-            'dates'=> $dateRepository->findAll(),
-            'country'=> $countryRepository->findAll(),
+
         ]);
     }
 
@@ -39,8 +37,7 @@ class ReservationController extends AbstractController
         }
 
         return $this->renderForm('reservation/new.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
