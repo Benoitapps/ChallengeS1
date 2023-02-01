@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CountryRepository;
+use App\Repository\CompagnyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CountryRepository::class)]
-class Country
+#[ORM\Entity(repositoryClass: CompagnyRepository::class)]
+class Compagny
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,12 +18,12 @@ class Country
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'country', targetEntity: City::class)]
-    private Collection $cities;
+    #[ORM\OneToMany(mappedBy: 'compagny', targetEntity: User::class)]
+    private Collection $users;
 
     public function __construct()
     {
-        $this->cities = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -44,29 +44,29 @@ class Country
     }
 
     /**
-     * @return Collection<int, City>
+     * @return Collection<int, User>
      */
-    public function getCities(): Collection
+    public function getUsers(): Collection
     {
-        return $this->cities;
+        return $this->users;
     }
 
-    public function addCity(City $city): self
+    public function addUser(User $user): self
     {
-        if (!$this->cities->contains($city)) {
-            $this->cities->add($city);
-            $city->setCountry($this);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setCompagny($this);
         }
 
         return $this;
     }
 
-    public function removeCity(City $city): self
+    public function removeUser(User $user): self
     {
-        if ($this->cities->removeElement($city)) {
+        if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($city->getCountry() === $this) {
-                $city->setCountry(null);
+            if ($user->getCompagny() === $this) {
+                $user->setCompagny(null);
             }
         }
 

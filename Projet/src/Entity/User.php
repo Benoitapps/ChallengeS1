@@ -35,12 +35,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\OneToMany(mappedBy: 'by', targetEntity: Reservation::class)]
-    private Collection $reservations;
+    # #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Compagny $compagny = null;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Annonce::class)]
+    private Collection $annoncesUser;
 
     public function __construct()
     {
-        $this->reservations = new ArrayCollection();
+        $this->annoncesUser = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,30 +128,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Reservation>
-     */
-    public function getReservations(): Collection
+    public function getCompagny(): ?Compagny
     {
-        return $this->reservations;
+        return $this->compagny;
     }
 
-    public function addReservation(Reservation $reservation): self
+    public function setCompagny(?Compagny $compagny): self
     {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations->add($reservation);
-            $reservation->setBy($this);
+        $this->compagny = $compagny;
+
+        return $this;
+    }
+    /**
+     * @return Collection<int, Annonce>
+     */
+    public function getAnnoncesUser(): Collection
+    {
+        return $this->annoncesUser;
+    }
+
+    public function addAnnoncesUser(Annonce $annoncesUser): self
+    {
+        if (!$this->annoncesUser->contains($annoncesUser)) {
+            $this->annoncesUser->add($annoncesUser);
+            $annoncesUser->setClient($this);
         }
 
         return $this;
     }
 
-    public function removeReservation(Reservation $reservation): self
+    public function removeAnnoncesUser(Annonce $annoncesUser): self
     {
-        if ($this->reservations->removeElement($reservation)) {
+        if ($this->annoncesUser->removeElement($annoncesUser)) {
             // set the owning side to null (unless already changed)
-            if ($reservation->getBy() === $this) {
-                $reservation->setBy(null);
+            if ($annoncesUser->getClient() === $this) {
+                $annoncesUser->setClient(null);
             }
         }
 

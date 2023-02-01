@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\CompositionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CompositionRepository::class)]
@@ -17,23 +16,17 @@ class Composition
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $nb_adult = null;
+    private ?int $nbAdult = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $nb_child = null;
+    private ?int $nbChild = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $nb_animals = null;
-
-    #[ORM\OneToMany(mappedBy: 'composition', targetEntity: Reservation::class)]
-    private Collection $reserv;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
-    private ?string $prix = null;
+    #[ORM\OneToMany(mappedBy: 'composition', targetEntity: Annonce::class)]
+    private Collection $annoncesCompo;
 
     public function __construct()
     {
-        $this->reserv = new ArrayCollection();
+        $this->annoncesCompo = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -41,80 +34,65 @@ class Composition
         return $this->id;
     }
 
+    public function getNbAdult(): ?int
+    {
+        return $this->nbAdult;
+    }
+
     public function getnb_adult(): ?int
     {
-        return $this->nb_adult;
+        return $this->nbAdult;
     }
 
-    public function setNbAdult(?int $nb_adult): self
+    public function setNbAdult(?int $nbAdult): self
     {
-        $this->nb_adult = $nb_adult;
+        $this->nbAdult = $nbAdult;
 
         return $this;
     }
 
+    public function getNbChild(): ?int
+    {
+        return $this->nbChild;
+    }
     public function getnb_child(): ?int
     {
-        return $this->nb_child;
+        return $this->nbChild;
     }
 
-    public function setNbChild(?int $nb_child): self
+    public function setNbChild(?int $nbChild): self
     {
-        $this->nb_child = $nb_child;
-
-        return $this;
-    }
-
-    public function getnb_animals(): ?int
-    {
-        return $this->nb_animals;
-    }
-
-    public function setNbAnimals(?int $nb_animals): self
-    {
-        $this->nb_animals = $nb_animals;
+        $this->nbChild = $nbChild;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Reservation>
+     * @return Collection<int, Annonce>
      */
-    public function getReserv(): Collection
+    public function getAnnoncesCompo(): Collection
     {
-        return $this->reserv;
+        return $this->annoncesCompo;
     }
 
-    public function addReserv(Reservation $reserv): self
+    public function addAnnoncesCompo(Annonce $annoncesCompo): self
     {
-        if (!$this->reserv->contains($reserv)) {
-            $this->reserv->add($reserv);
-            $reserv->setComposition($this);
+        if (!$this->annoncesCompo->contains($annoncesCompo)) {
+            $this->annoncesCompo->add($annoncesCompo);
+            $annoncesCompo->setComposition($this);
         }
 
         return $this;
     }
 
-    public function removeReserv(Reservation $reserv): self
+    public function removeAnnoncesCompo(Annonce $annoncesCompo): self
     {
-        if ($this->reserv->removeElement($reserv)) {
+        if ($this->annoncesCompo->removeElement($annoncesCompo)) {
             // set the owning side to null (unless already changed)
-            if ($reserv->getComposition() === $this) {
-                $reserv->setComposition(null);
+            if ($annoncesCompo->getComposition() === $this) {
+                $annoncesCompo->setComposition(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getPrix(): ?string
-    {
-        return $this->prix;
-    }
-
-    public function setPrix(string $prix): self
-    {
-        $this->prix = $prix;
 
         return $this;
     }
