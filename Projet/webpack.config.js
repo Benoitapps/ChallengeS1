@@ -1,4 +1,5 @@
 const Encore = require('@symfony/webpack-encore');
+const path = require("path");
 const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -24,6 +25,9 @@ Encore
     .addEntry('app', './assets/app.js')
     .addStyleEntry('login', './assets/styles/login.css')
     .addStyleEntry('register', './assets/styles/register.css')
+    .addStyleEntry('companyHome', './assets/styles/companyHome.css')
+    .addAliases({'@images': path.resolve(__dirname, 'public/images')})
+
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     //.enableStimulusBridge('./assets/controllers.json')
