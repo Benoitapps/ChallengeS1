@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CompositionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CompositionRepository::class)]
@@ -27,6 +28,9 @@ class Composition
     #[ORM\OneToMany(mappedBy: 'composition', targetEntity: Reservation::class)]
     private Collection $reserv;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
+    private ?string $prix = null;
+
     public function __construct()
     {
         $this->reserv = new ArrayCollection();
@@ -37,7 +41,7 @@ class Composition
         return $this->id;
     }
 
-    public function getNbAdult(): ?int
+    public function getnb_adult(): ?int
     {
         return $this->nb_adult;
     }
@@ -49,7 +53,7 @@ class Composition
         return $this;
     }
 
-    public function getNbChild(): ?int
+    public function getnb_child(): ?int
     {
         return $this->nb_child;
     }
@@ -61,7 +65,7 @@ class Composition
         return $this;
     }
 
-    public function getNbAnimals(): ?int
+    public function getnb_animals(): ?int
     {
         return $this->nb_animals;
     }
@@ -99,6 +103,18 @@ class Composition
                 $reserv->setComposition(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrix(): ?string
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(string $prix): self
+    {
+        $this->prix = $prix;
 
         return $this;
     }

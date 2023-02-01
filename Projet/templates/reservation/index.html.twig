@@ -25,6 +25,12 @@
                 <td>{{ reservation.country.name }}</td>
 
 
+                <td>{{ dump(reservation.composition.nb_child) }}</td>
+                <td>{{ dump(reservation.composition.nb_adult) }}</td>
+                <td>{{ dump(reservation.composition.nb_animals) }}</td>
+
+                <td>{{ reservation.prix }}</td>
+
                 <td>
                     <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">show</a>
                     <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
