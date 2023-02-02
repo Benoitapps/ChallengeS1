@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Company;
-use App\Entity\User;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
