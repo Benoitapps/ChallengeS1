@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <h1>User index</h1>
+
+    <table class="table">
+        <thead>
+
+        </thead>
+        <tbody>
+        {% for user in users %}
+            {% if user.isVerified == "Yes" and user.company.company_verified == "1" %}
+
+            <tr>
+
+                <td>{{ user.email }}</td>
+                <td>{{ user.company.company_verified }}</td>
+                <td> souhaite faire valider son entreprise : </td>
+                <td>{{ user.company.name }}</td>
+                <td>
+                    <a href="{{ path('app_user_join', {'id': user.id}) }}">Join</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Refuser</a>
+                </td>
+            </tr>
+
+            {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_new') }}">Create new</a>
+{% endblock %}

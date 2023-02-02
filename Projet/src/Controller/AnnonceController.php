@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Annonce;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +16,7 @@ use Symfony\Component\Form\FormTypeInterface;
 #[Route('/annonce')]
 class AnnonceController extends AbstractController
 {
+
     #[Route('/', name: 'app_annonce_index', methods: ['GET'])]
     public function index(AnnonceRepository $annonceRepository): Response
     {
@@ -21,8 +24,9 @@ class AnnonceController extends AbstractController
             'annonces' => $annonceRepository->findAll(),
         ]);
     }
-
+    #[Security("is_granted('ROLE_COMPANY')")]
     #[Route('/new', name: 'app_annonce_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_COMPANY')]
     public function new(Request $request, AnnonceRepository $annonceRepository): Response
     {
         $annonce = new Annonce();
@@ -48,7 +52,7 @@ class AnnonceController extends AbstractController
             'annonce' => $annonce,
         ]);
     }
-
+    #[Security("(is_granted('ROLE_COMPANY') and user === annonce.getClient()) or is_granted('ROLE_ADMIN')")]
     #[Route('/{id}/edit', name: 'app_annonce_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Annonce $annonce, AnnonceRepository $annonceRepository): Response
     {
@@ -66,7 +70,7 @@ class AnnonceController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+    #[Security("is_granted('ROLE_COMPANY') and user === annonce.getClient()")]
     #[Route('/{id}', name: 'app_annonce_delete', methods: ['POST'])]
     public function delete(Request $request, Annonce $annonce, AnnonceRepository $annonceRepository): Response
     {

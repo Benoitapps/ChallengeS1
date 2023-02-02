@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for annonce in app.user.annoncesUser %}
+        {% for annonce in annonces %}
             <tr>
                 <td>{{ annonce.id }}</td>
                 <td>{{ annonce.client.email }}</td>
@@ -40,9 +40,6 @@
                 <td>{{ annonce.dateRetourArriver|format_datetime(locale='fr') }}</td>
 
 
-
-                <td>{{ annonce.composition.nb_adult }}</td>
-                <td>{{ annonce.composition.nb_child }}</td>
 
 
                 <td>{{ annonce.prix }}</td>
