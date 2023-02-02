@@ -37,8 +37,8 @@ security:
   #      - { path: ^/, roles: ROLE_USER }
 
     role_hierarchy:
-        ROLE_COACH: ROLE_CUSTOMER
-        ROLE_ADMIN: ROLE_COACH
+        ROLE_COMPANY: ROLE_CUSTOMER
+        ROLE_ADMIN: ROLE_COMPANY
 
 when@test:
     security:
