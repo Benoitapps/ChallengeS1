@@ -8,6 +8,7 @@ use App\Entity\Composition;
 use App\Entity\Date;
 use App\Entity\User;
 use App\Repository\DateRepository;
+
 use Doctrine\DBAL\Types\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,12 +23,12 @@ class AnnonceType extends AbstractType
         $builder
             ->add('prix')
 
-            /*->add('dateDepartAller',DateTimeType::class,[
+            ->add('dateDepartAller',DateTimeType::class,[
                 'widget' => "single_text",
             ])
             ->add('dateDepartArriver',DateTimeType::class,[
                 'widget' => "single_text",
-            ])*/
+            ])
 
             ->add('airportDepartAller',EntityType::class,[
                 'class' => Airport::class,
@@ -39,12 +40,12 @@ class AnnonceType extends AbstractType
                 'choice_label' => 'name',
             ])
 
-            /*->add('dateRetourAller',DateTimeType::class,[
+            ->add('dateRetourAller',DateTimeType::class,[
                 'widget' => "single_text",
             ])
             ->add('dateRetourArriver',DateTimeType::class,[
                 'widget' => "single_text",
-            ])*/
+            ])
 
             ->add('airportRetourAller',EntityType::class,[
                 'class' => Airport::class,

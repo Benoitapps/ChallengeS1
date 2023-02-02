@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\AnnonceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
@@ -16,11 +19,11 @@ class Annonce
     #[ORM\Column]
     private ?float $prix = null;
 
-    #[ORM\ManyToOne(inversedBy: 'annoncesDepartAller')]
-    private ?Date $dateDepartAller = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateDepartAller = null;
 
-    #[ORM\ManyToOne(inversedBy: 'annonceDepartArriver')]
-    private ?Date $dateDepartArriver = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateDepartArriver = null;
 
     #[ORM\ManyToOne(inversedBy: 'annoncesDepartAirport')]
     private ?Airport $airportDepartAller = null;
@@ -28,13 +31,11 @@ class Annonce
     #[ORM\ManyToOne(inversedBy: 'annoncesAirportDepartArriver')]
     private ?Airport $airportDepartArriver = null;
 
-    #[ORM\ManyToOne(inversedBy: 'annoncesDateRetourAller')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Date $dateRetourAller = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateRetourAller = null;
 
-    #[ORM\ManyToOne(inversedBy: 'annoncesDateRetourArriver')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Date $dateRetourArriver = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateRetourArriver = null;
 
     #[ORM\ManyToOne(inversedBy: 'annoncesAirportRetourAller')]
     private ?Airport $airportRetourAller = null;
@@ -65,24 +66,24 @@ class Annonce
         return $this;
     }
 
-    public function getDateDepartAller(): ?Date
+    public function getDateDepartAller(): ?\DateTimeInterface
     {
         return $this->dateDepartAller;
     }
 
-    public function setDateDepartAller(?Date $dateDepartAller): self
+    public function setDateDepartAller(\DateTimeInterface $dateDepartAller): self
     {
         $this->dateDepartAller = $dateDepartAller;
 
         return $this;
     }
 
-    public function getDateDepartArriver(): ?Date
+    public function getDateDepartArriver(): ?\DateTimeInterface
     {
         return $this->dateDepartArriver;
     }
 
-    public function setDateDepartArriver(?Date $dateDepartArriver): self
+    public function setDateDepartArriver(\DateTimeInterface $dateDepartArriver): self
     {
         $this->dateDepartArriver = $dateDepartArriver;
 
@@ -113,24 +114,24 @@ class Annonce
         return $this;
     }
 
-    public function getDateRetourAller(): ?Date
+    public function getDateRetourAller(): ?\DateTimeInterface
     {
         return $this->dateRetourAller;
     }
 
-    public function setDateRetourAller(?Date $dateRetourAller): self
+    public function setDateRetourAller(\DateTimeInterface $dateRetourAller): self
     {
         $this->dateRetourAller = $dateRetourAller;
 
         return $this;
     }
 
-    public function getDateRetourArriver(): ?Date
+    public function getDateRetourArriver(): ?\DateTimeInterface
     {
         return $this->dateRetourArriver;
     }
 
-    public function setDateRetourArriver(?Date $dateRetourArriver): self
+    public function setDateRetourArriver(\DateTimeInterface $dateRetourArriver): self
     {
         $this->dateRetourArriver = $dateRetourArriver;
 

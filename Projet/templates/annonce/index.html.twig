@@ -29,9 +29,15 @@
                 <td>{{ annonce.airportDepartAller.name }}</td>
                 <td>{{ annonce.airportDepartArriver.name }}</td>
 
+                <td>{{ annonce.dateDepartAller|format_datetime(locale='fr') }}</td>
+                <td>{{ annonce.dateDepartArriver|format_datetime(locale='fr') }}</td>
+
 
                 <td>{{ annonce.airportRetourAller.name }}</td>
                 <td>{{ annonce.airportRetourArriver.name }}</td>
+
+                <td>{{ annonce.dateRetourAller|format_datetime(locale='fr') }}</td>
+                <td>{{ annonce.dateRetourArriver|format_datetime(locale='fr') }}</td>
 
 
 
