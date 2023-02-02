@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CompagnyRepository;
+use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CompagnyRepository::class)]
-class Compagny
+#[ORM\Entity(repositoryClass: CompanyRepository::class)]
+class Company
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,7 +18,7 @@ class Compagny
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'compagny', targetEntity: User::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
     public function __construct()
@@ -55,7 +55,7 @@ class Compagny
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->setCompagny($this);
+            $user->setCompany($this);
         }
 
         return $this;
@@ -65,8 +65,8 @@ class Compagny
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getCompagny() === $this) {
-                $user->setCompagny(null);
+            if ($user->getCompany() === $this) {
+                $user->setCompany(null);
             }
         }
 

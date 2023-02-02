@@ -35,9 +35,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    # #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Compagny $compagny = null;
-
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Annonce::class)]
     private Collection $annoncesUser;
 
@@ -131,14 +128,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCompagny(): ?Compagny
+    public function getCompany(): ?Company
     {
-        return $this->compagny;
+        return $this->company;
     }
 
-    public function setCompagny(?Compagny $compagny): self
+    public function setCompany(?Company $company): self
     {
-        $this->compagny = $compagny;
+        $this->company = $company;
 
         return $this;
     }

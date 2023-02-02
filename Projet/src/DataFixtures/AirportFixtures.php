@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Airport;
 use App\Entity\City;
-use App\Entity\Country;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -20,7 +19,7 @@ class AirportFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i=0; $i<10; $i++) {
             $object = (new Airport())
-                ->setName($faker->city)
+                ->setName($faker->streetName)
                 ->setCity($faker->randomElement($cities))
             ;
             $manager->persist($object);
