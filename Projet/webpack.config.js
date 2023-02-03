@@ -24,6 +24,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addStyleEntry('login', './assets/styles/login.css')
     .addStyleEntry('register', './assets/styles/register.css')
+    .addStyleEntry('annonce', './assets/styles/annonce.css')
     .addStyleEntry('accueil', './assets/styles/accueil.css')
     .addStyleEntry('companyHome', './assets/styles/companyHome.css')
 

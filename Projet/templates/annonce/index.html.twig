@@ -3,34 +3,67 @@
 {% block title %}Annonce index{% endblock %}
 
 {% block body %}
-    <h1>Annonce index</h1>
+
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('annonce') }}
+    {% endblock %}
+
+    <div class="top-bar">
+
+        <div id="logo">
+            <img id="imglogo" src={{asset('images/logo.png')}}>
+        </div>
+        <div id="contains">
+
+
+            </td>
+            <div class="menu">
+                <a href="{{ path('app_default') }}">Accueil</a></div>
+            <div class="menu">
+                <a href="{{ path('app_annonce_index') }}">Toutes les destinations</a></div>
+            <div class="menu">
+                <a href="{{ path('app_annonce_perso') }}">Mes reservations</a></div>
+            <div class="menu">
+                <a href="{{ path('app_company_index') }}">Contact</a></div>
+            </td>
+
+        </div>
+        <div id="part2">
+            </td>
+            <div class="menu2">
+                <a href="{{ path('app_logout') }}">Logo</a></div>
+            <div class="menu2">
+                <a href="{{ path('app_annonce_panier')}}">panier</a></div>
+            </td>
+        </div>
+
+    </div>
+
+<div class="interieur">
+
+    <div id="ennoncer">
+        <p>Deals du date de aujourd'hui :</p>
+    </div>
+
 
     <table class="table">
-        <thead>
-            <tr>
-                <th>|Id|</th>
-                <th>|User|</th>
-                <th>|Depart|</th>
-                <th>|Arriver|</th>
-                <th>|Depart retour|</th>
-                <th>|Arriver retour|</th>
-                <th>|Nombre adulte|</th>
-                <th>|Nombre enfant|</th>
-                <th>|Prix|</th>
-            </tr>
-        </thead>
         <tbody>
+
         {% for annonce in annonces %}
+            {% if annonce.creator == null %}
             <tr>
-                <td>{{ annonce.id }}</td>
+                <!--<td  class=billet">
+                <td>{{ "annonce.id" }}</td>-->
                 <td>{{ annonce.client.email }}</td>
+
+
+                <td id="datedepartAller">{{ annonce.dateDepartAller|format_datetime(locale='fr') }}</td>
+                <td id="datedepartRetour">{{ annonce.dateDepartArriver|format_datetime(locale='fr') }}</td>
 
 
                 <td>{{ annonce.airportDepartAller.name }}</td>
                 <td>{{ annonce.airportDepartArriver.name }}</td>
-
-                <td>{{ annonce.dateDepartAller|format_datetime(locale='fr') }}</td>
-                <td>{{ annonce.dateDepartArriver|format_datetime(locale='fr') }}</td>
 
 
                 <td>{{ annonce.airportRetourAller.name }}</td>
@@ -40,22 +73,26 @@
                 <td>{{ annonce.dateRetourArriver|format_datetime(locale='fr') }}</td>
 
 
-
-
                 <td>{{ annonce.prix }}</td>
 
                 <td>
                     <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">show</a>
                     <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">edit</a>
+                    <a href="{{ path('app_annonce_ajouter', {'id': annonce.id}) }}">ajouter</a>
                 </td>
+
             </tr>
         {% else %}
             <tr>
                 <td colspan="3">no records found</td>
+
             </tr>
+            {% endif %}
         {% endfor %}
+
         </tbody>
     </table>
 
     <a href="{{ path('app_annonce_new') }}">Create new</a>
+</div>
 {% endblock %}
