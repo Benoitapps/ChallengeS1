@@ -41,10 +41,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Annonce::class)]
+    private Collection $annoncesCreator;
+
+    #[ORM\OneToMany(mappedBy: 'payeur', targetEntity: Payment::class)]
+    private Collection $payments;
+
 
     public function __construct()
     {
         $this->annoncesUser = new ArrayCollection();
+        $this->annoncesCreator = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +172,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($annoncesUser->getClient() === $this) {
                 $annoncesUser->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Annonce>
+     */
+    public function getAnnoncesCreator(): Collection
+    {
+        return $this->annoncesCreator;
+    }
+
+    public function addAnnoncesCreator(Annonce $annoncesCreator): self
+    {
+        if (!$this->annoncesCreator->contains($annoncesCreator)) {
+            $this->annoncesCreator->add($annoncesCreator);
+            $annoncesCreator->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnoncesCreator(Annonce $annoncesCreator): self
+    {
+        if ($this->annoncesCreator->removeElement($annoncesCreator)) {
+            // set the owning side to null (unless already changed)
+            if ($annoncesCreator->getCreator() === $this) {
+                $annoncesCreator->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setPayeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getPayeur() === $this) {
+                $payment->setPayeur(null);
             }
         }
 

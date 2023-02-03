@@ -49,6 +49,12 @@ class Annonce
     #[ORM\ManyToOne(inversedBy: 'annoncesUser')]
     private ?User $client = null;
 
+    #[ORM\ManyToOne(inversedBy: 'annoncesCreator')]
+    private ?User $creator = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $pay = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -182,6 +188,30 @@ class Annonce
     public function setClient(?User $client): self
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): self
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    public function isPay(): ?bool
+    {
+        return $this->pay;
+    }
+
+    public function setPay(?bool $pay): self
+    {
+        $this->pay = $pay;
 
         return $this;
     }

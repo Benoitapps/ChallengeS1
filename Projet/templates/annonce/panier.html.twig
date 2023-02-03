@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonce index{% endblock %}
+
+{% block body %}
+    <h1>Annonce index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>|Id|</th>
+            <th>|User|</th>
+            <th>|Depart|</th>
+            <th>|Arriver|</th>
+            <th>|Depart retour|</th>
+            <th>|Arriver retour|</th>
+            <th>|Nombre adulte|</th>
+            <th>|Nombre enfant|</th>
+            <th>|Prix|</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for annonce in app.user.annoncesCreator%}
+            {% if annonce.pay == null %}
+
+            <tr>
+                <td>{{ annonce.id }}</td>
+                <td>{{ annonce.client.email }}</td>
+
+
+                <td>{{ annonce.airportDepartAller.name }}</td>
+                <td>{{ annonce.airportDepartArriver.name }}</td>
+
+                <td>{{ annonce.dateDepartAller|format_datetime(locale='fr') }}</td>
+                <td>{{ annonce.dateDepartArriver|format_datetime(locale='fr') }}</td>
+
+
+                <td>{{ annonce.airportRetourAller.name }}</td>
+                <td>{{ annonce.airportRetourArriver.name }}</td>
+
+                <td>{{ annonce.dateRetourAller|format_datetime(locale='fr') }}</td>
+                <td>{{ annonce.dateRetourArriver|format_datetime(locale='fr') }}</td>
+
+
+
+
+                <td>{{ annonce.prix }}</td>
+
+                <td>
+                    <a href="{{ path('app_annonce_annuler', {'id': annonce.id}) }}">annuler</a>
+                    <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">show</a>
+                    <a href="{{ path('app_payment_new', {'id': annonce.id}) }}">payer</a>
+                </td>
+            </tr>
+        {% else %}
+
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_annonce_new') }}">Create new</a>
+{% endblock %}
