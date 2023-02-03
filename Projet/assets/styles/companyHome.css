@@ -56,7 +56,7 @@ a{
 
 
 #title{
-    background-color: deepskyblue;
+    background-color: lightgrey;
     height: 5em;
     width: 35%;
     text-align: center;
@@ -75,7 +75,7 @@ a{
 }
 
 #ajoutDestination{
-    background-color: deepskyblue;
+    background-color: lightgrey;
     padding-right: 2%;
     padding-left: 2%;
     flex-direction: column;
@@ -91,7 +91,7 @@ a{
 }
 
 #mesDestinations{
-    background-color: deepskyblue;
+    background-color: lightgrey;
     padding-right: 2%;
     padding-left: 2%;
     flex-direction: column;
@@ -104,15 +104,6 @@ a{
     align-items: center;
     justify-content: center;
     margin-top: 10%;
-}
-
-#logo{
-    display: flex;
-    justify-content: center;
-}
-
-#imglogo{
-    width: 3em;
 }
 
 
