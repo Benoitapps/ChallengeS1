@@ -50,7 +50,13 @@
                 <td>
                     <a href="{{ path('app_annonce_annuler', {'id': annonce.id}) }}">annuler</a>
                     <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">show</a>
-                    <a href="{{ path('app_payment_new', {'id': annonce.id}) }}">payer</a>
+
+                    {% if app.user.id  %}
+                        <a href="{{ path('app_payment_new', {'id': annonce.id}) }}">Ajouter moyen de paiement</a>
+                    {% elseif app.user.payments != null %}
+                        <a href="{{ path('app_annonce_paiment', {'id': annonce.id}) }}">payer</a>
+                    {% endif %}
+
                 </td>
             </tr>
         {% else %}
