@@ -54,6 +54,9 @@ a{
     width: 3em;
 }
 
+#aile{
+    width: 100%;
+}
 
 #title{
     background-color: lightgrey;
