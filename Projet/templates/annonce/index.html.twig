@@ -6,7 +6,11 @@
 
     {% block stylesheets %}
         {{ parent() }}
-        {{ encore_entry_link_tags('annonce') }}
+        {{ encore_entry_link_tags('annoncejs') }}
+    {% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        {{ encore_entry_script_tags('annoncejs') }}
     {% endblock %}
 
     <div class="top-bar">
@@ -43,8 +47,15 @@
 <div class="interieur">
 
     <div id="ennoncer">
-        <p>Deals du date de aujourd'hui :</p>
+        <p>Deals du : </p>
+        <a id="dateheur">.</a>
     </div>
+
+    <div id="timer">
+
+    </div>
+
+
 
 
     <table class="table">
@@ -118,6 +129,8 @@
 
     </table>
 
-    <a href="{{ path('app_annonce_new') }}">Create new</a>
+    {% if is_granted('ROLE_COMPANY') %}
+        <a href="{{ path('app_annonce_new') }}">Create new</a>
+    {% endif %}
 </div>
 {% endblock %}
