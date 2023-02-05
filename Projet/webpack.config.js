@@ -28,6 +28,9 @@ Encore
     .addStyleEntry('accueil', './assets/styles/accueil.css')
     .addStyleEntry('companyHome', './assets/styles/companyHome.css')
 
+    .addEntry('annoncejs','./assets/annonce.js')
+
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     //.enableStimulusBridge('./assets/controllers.json')
 

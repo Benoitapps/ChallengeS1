@@ -85,11 +85,9 @@ class AnnonceController extends AbstractController
     public function ajouter(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, User $user): Response
     {
         $utilisateur = $this->getUser();
-        $idUtilisateur = $utilisateur->getId();
         $annonce->setCreator($utilisateur);
         $annonceRepository->save($annonce,true);
 
-        error_log($idUtilisateur);
         return $this->redirectToRoute('app_annonce_panier');
     }
 
