@@ -25,11 +25,13 @@ class PaymentController extends AbstractController
     public function new(Request $request, PaymentRepository $paymentRepository): Response
     {
         $payment = new Payment();
-        $form = $this->createForm(PaymentType::class, $payment);
+;       $form = $this->createForm(PaymentType::class, $payment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $paymentRepository->save($payment, true);
+
 
             return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
         }

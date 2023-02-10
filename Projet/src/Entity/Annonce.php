@@ -43,9 +43,6 @@ class Annonce
     #[ORM\ManyToOne(inversedBy: 'annoncesAirportRetourArriver')]
     private ?Airport $airportRetourArriver = null;
 
-    #[ORM\ManyToOne(inversedBy: 'annoncesCompo')]
-    private ?Composition $composition = null;
-
     #[ORM\ManyToOne(inversedBy: 'annoncesUser')]
     private ?User $client = null;
 
@@ -54,6 +51,21 @@ class Annonce
 
     #[ORM\Column(nullable: true)]
     private ?bool $pay = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'annoncesBuyer')]
+    private Collection $buyer;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $place = null;
+
+    #[ORM\OneToMany(mappedBy: 'reservation', targetEntity: Place::class)]
+    private Collection $placesReserv;
+
+    public function __construct()
+    {
+        $this->buyer = new ArrayCollection();
+        $this->placesReserv = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -168,18 +180,6 @@ class Annonce
         return $this;
     }
 
-    public function getComposition(): ?Composition
-    {
-        return $this->composition;
-    }
-
-    public function setComposition(?Composition $composition): self
-    {
-        $this->composition = $composition;
-
-        return $this;
-    }
-
     public function getClient(): ?User
     {
         return $this->client;
@@ -212,6 +212,72 @@ class Annonce
     public function setPay(?bool $pay): self
     {
         $this->pay = $pay;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getBuyer(): Collection
+    {
+        return $this->buyer;
+    }
+
+    public function addBuyer(User $buyer): self
+    {
+        if (!$this->buyer->contains($buyer)) {
+            $this->buyer->add($buyer);
+        }
+
+        return $this;
+    }
+
+    public function removeBuyer(User $buyer): self
+    {
+        $this->buyer->removeElement($buyer);
+
+        return $this;
+    }
+
+    public function getPlace(): ?int
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?int $place): self
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Place>
+     */
+    public function getPlacesReserv(): Collection
+    {
+        return $this->placesReserv;
+    }
+
+    public function addPlacesReserv(Place $placesReserv): self
+    {
+        if (!$this->placesReserv->contains($placesReserv)) {
+            $this->placesReserv->add($placesReserv);
+            $placesReserv->setReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlacesReserv(Place $placesReserv): self
+    {
+        if ($this->placesReserv->removeElement($placesReserv)) {
+            // set the owning side to null (unless already changed)
+            if ($placesReserv->getReservation() === $this) {
+                $placesReserv->setReservation(null);
+            }
+        }
 
         return $this;
     }

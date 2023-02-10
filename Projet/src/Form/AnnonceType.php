@@ -55,14 +55,8 @@ class AnnonceType extends AbstractType
                 'class' => Airport::class,
                 'choice_label' => 'name',
             ])
-            ->add('composition',EntityType::class,[
-                'class' => Composition::class,
-                'choice_label' => 'id',
-            ])
-            ->add('client',EntityType::class,[
-                'class' => User::class,
-                'choice_label' => 'email',
-            ])
+
+            ->add('place')
         ;
     }
 

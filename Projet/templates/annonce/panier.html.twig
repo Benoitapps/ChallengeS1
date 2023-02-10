@@ -1,73 +1,120 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonce index{% endblock %}
+{% block title %}Panier{% endblock %}
 
 {% block body %}
-    <h1>Annonce index</h1>
+
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('annonce') }}
+    {% endblock %}
+
+    <div class="top-bar">
+
+        <div id="logo">
+            <img id="imglogo" src={{asset('images/logo.png')}}>
+        </div>
+        <div id="contains">
+
+
+            </td>
+            <div class="menu">
+                <a href="{{ path('app_default') }}">Accueil</a></div>
+            <div class="menu">
+                <a href="{{ path('app_annonce_index') }}">Toutes les destinations</a></div>
+            <div class="menu">
+                <a href="{{ path('app_annonce_perso') }}">Mes reservations</a></div>
+            <div class="menu">
+                <a href="{{ path('app_company_index') }}">Contact</a></div>
+            </td>
+
+        </div>
+        <div id="part2">
+            </td>
+            <div class="menu2">
+                <a href="{{ path('app_logout') }}">Logo</a></div>
+            <div class="menu2">
+                <a href="{{ path('app_annonce_panier')}}">panier</a></div>
+            </td>
+        </div>
+
+    </div>
+
+<div class="interieur">
+
+    <div id="ennoncer">
+        <p>Mon Panier:</p>
+    </div>
+
 
     <table class="table">
-        <thead>
-        <tr>
-            <th>|Id|</th>
-            <th>|User|</th>
-            <th>|Depart|</th>
-            <th>|Arriver|</th>
-            <th>|Depart retour|</th>
-            <th>|Arriver retour|</th>
-            <th>|Nombre adulte|</th>
-            <th>|Nombre enfant|</th>
-            <th>|Prix|</th>
-        </tr>
-        </thead>
-        <tbody>
 
-        {% for annonce in app.user.annoncesCreator%}
-            {% if annonce.pay == null %}
+        <div class="allbillet">
+            {% for annonce in app.user.annoncesBuyer%}
+                {% if annonce.pay == null %}
+                <div class="billet">
 
-            <tr>
-                <td>{{ annonce.id }}</td>
-                <td>{{ annonce.client.email }}</td>
+                    <!--<td>{{ "annonce.id" }}</td>-->
+                    <!--<div id="mail">{{ annonce.client.email }}</div>-->
 
+                    <div id="datedepart">
+                        <div class="lieu">
+                            <div id="paysdepartAller">{{ annonce.airportDepartAller.city.country.name }}  --></div>
+                            <div id="villedepartAller">{{ annonce.airportDepartAller.city.name }}  --></div>
+                            <div id="airportdepartAller">{{ annonce.airportDepartAller.name }}</div>
+                        </div>
 
-                <td>{{ annonce.airportDepartAller.name }}</td>
-                <td>{{ annonce.airportDepartArriver.name }}</td>
+                        <div id="datedepartAller">{{ annonce.dateDepartAller|format_datetime(locale='fr') }}</div>
 
-                <td>{{ annonce.dateDepartAller|format_datetime(locale='fr') }}</td>
-                <td>{{ annonce.dateDepartArriver|format_datetime(locale='fr') }}</td>
+                        <div class="lieu">
+                            <div id="paysretoureAller">{{ annonce.airportRetourAller.city.country.name }}  --></div>
+                            <div id="villeetoureAller">{{ annonce.airportRetourAller.city.name }}  --></div>
+                            <div id="airportretourAller">{{ annonce.airportRetourAller.name }}</div>
+                        </div>
+                        <div id="dateretourAller">{{ annonce.dateRetourAller|format_datetime(locale='fr') }}</div>
+                    </div>
 
+                    <div class="divlogoAvion">
+                        <img class="logoAvion" alt="Impossible de charger l'image" src={{asset('images/logoAvion.png')}}>
 
-                <td>{{ annonce.airportRetourAller.name }}</td>
-                <td>{{ annonce.airportRetourArriver.name }}</td>
-
-                <td>{{ annonce.dateRetourAller|format_datetime(locale='fr') }}</td>
-                <td>{{ annonce.dateRetourArriver|format_datetime(locale='fr') }}</td>
+                        <img class="logoAvion" alt="Impossible de charger l'image" src={{asset('images/logoAvion.png')}}>
+                    </div>
 
 
 
 
-                <td>{{ annonce.prix }}</td>
+                    <div id="dateretour">
+                        <div class="lieu">
+                            <div id="paysdepartArriver">{{ annonce.airportDepartArriver.city.country.name }}  --></div>
+                            <div id="villedepartArriver">{{ annonce.airportDepartArriver.city.name }}  --></div>
+                            <div id="airportdepartArriver">{{ annonce.airportDepartArriver.name }}</div>
+                        </div>
+                        <div id="datedepartArriver">{{ annonce.dateDepartArriver|format_datetime(locale='fr') }}</div>
 
-                <td>
-                    <a href="{{ path('app_annonce_annuler', {'id': annonce.id}) }}">annuler</a>
-                    <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">show</a>
+                        <div class="lieu">
+                            <div id="paysretoureArriver">{{ annonce.airportRetourArriver.city.country.name}}  --></div>
+                            <div id="villeetoureArriver">{{ annonce.airportRetourArriver.city.name }}  --></div>
+                            <div id="airportretourArriver">{{ annonce.airportRetourArriver.name }}</div>
+                        </div>
 
-                    {% if app.user.id  %}
-                        <a href="{{ path('app_payment_new', {'id': annonce.id}) }}">Ajouter moyen de paiement</a>
-                    {% elseif app.user.payments != null %}
-                        <a href="{{ path('app_annonce_paiment', {'id': annonce.id}) }}">payer</a>
-                    {% endif %}
+                        <div id="dateretourArriver">{{ annonce.dateRetourArriver|format_datetime(locale='fr') }}</div>
+                    </div>
 
-                </td>
-            </tr>
-        {% else %}
+                    <div>{{ annonce.prix }}€</div>
 
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-            {% endif %}
-        {% endfor %}
+                </div>
+                 <div>
+                    <a href="{{ path('app_annonce_pay', {'id': annonce.id}) }}">Payer</a>
+                    <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">edit</a>
+                    <a href="{{ path('app_annonce_ajouter', {'id': annonce.id}) }}">ajouter</a>
+                </div>
 
-        </tbody>
+
+                {% endif %}
+            {% endfor %}
+        </div>
+
+</tbody>
     </table>
     {% if is_granted('ROLE_COMPANY') %}
         <a href="{{ path('app_annonce_new') }}">Create new</a>

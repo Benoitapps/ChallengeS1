@@ -14,14 +14,14 @@ class Payment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $NumCarte = null;
+    #[ORM\Column(length: 10)]
+    private ?string $NumCarte = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $expiration = null;
 
-    #[ORM\Column]
-    private ?int $cvv = null;
+    #[ORM\Column(length: 3)]
+    private ?string $cvv = null;
 
     #[ORM\ManyToOne(inversedBy: 'payments')]
     private ?User $payeur = null;
