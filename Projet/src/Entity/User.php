@@ -47,12 +47,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'payeur', targetEntity: Payment::class)]
     private Collection $payments;
 
+    #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'buyer')]
+    private Collection $annoncesBuyer;
+
+    #[ORM\OneToMany(mappedBy: 'acheteur', targetEntity: Place::class)]
+    private Collection $placesUser;
+
 
     public function __construct()
     {
         $this->annoncesUser = new ArrayCollection();
         $this->annoncesCreator = new ArrayCollection();
         $this->payments = new ArrayCollection();
+        $this->annoncesBuyer = new ArrayCollection();
+        $this->placesUser = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,6 +240,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($payment->getPayeur() === $this) {
                 $payment->setPayeur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Annonce>
+     */
+    public function getAnnoncesBuyer(): Collection
+    {
+        return $this->annoncesBuyer;
+    }
+
+    public function addAnnoncesBuyer(Annonce $annoncesBuyer): self
+    {
+        if (!$this->annoncesBuyer->contains($annoncesBuyer)) {
+            $this->annoncesBuyer->add($annoncesBuyer);
+            $annoncesBuyer->addBuyer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnoncesBuyer(Annonce $annoncesBuyer): self
+    {
+        if ($this->annoncesBuyer->removeElement($annoncesBuyer)) {
+            $annoncesBuyer->removeBuyer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Place>
+     */
+    public function getPlacesUser(): Collection
+    {
+        return $this->placesUser;
+    }
+
+    public function addPlacesUser(Place $placesUser): self
+    {
+        if (!$this->placesUser->contains($placesUser)) {
+            $this->placesUser->add($placesUser);
+            $placesUser->setAcheteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlacesUser(Place $placesUser): self
+    {
+        if ($this->placesUser->removeElement($placesUser)) {
+            // set the owning side to null (unless already changed)
+            if ($placesUser->getAcheteur() === $this) {
+                $placesUser->setAcheteur(null);
             }
         }
 

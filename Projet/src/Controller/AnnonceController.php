@@ -3,9 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
-use App\Entity\User;
+
+use App\Entity\Payment;
+use App\Entity\Place;
 use App\Form\AnnonceType;
+use App\Form\PaymentType;
+use App\Form\PlaceType;
 use App\Repository\AnnonceRepository;
+use App\Repository\PaymentRepository;
+use App\Repository\PlaceRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,13 +37,14 @@ class AnnonceController extends AbstractController
     #[Security("is_granted('ROLE_COMPANY')")]
     #[Route('/new', name: 'app_annonce_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_COMPANY')]
-    public function new(Request $request, AnnonceRepository $annonceRepository): Response
+    public function new(Request $request, AnnonceRepository $annonceRepository, PaymentRepository $paymentRepository): Response
     {
         $annonce = new Annonce();
+        $annonce->setClient($this->getUser());
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (($form->isSubmitted() && $form->isValid()) ) {
             $annonceRepository->save($annonce, true);
 
             return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
@@ -60,32 +67,87 @@ class AnnonceController extends AbstractController
 
     //redirection panier
     #[Route('/panier', name: 'app_annonce_panier', methods: ['GET', 'POST'])]
-    public function panier(Request $request, AnnonceRepository $annonceRepository): Response
+    public function panier(Request $request, AnnonceRepository $annonceRepository, PaymentRepository $paymentRepository): Response
       {
+          $payment = new Payment();
+          $utilisateur = $this->getUser();
+          $payment->setPayeur($utilisateur);
+          $formPay = $this->createForm(PaymentType::class,$payment);
+          $formPay->handleRequest($request);
+
+          if ($formPay->isSubmitted() && $formPay->isValid())  {
+              $paymentRepository->save($payment, true);
+
+              return $this->redirectToRoute('app_annonce_panier', [], Response::HTTP_SEE_OTHER);
+          }
+
           return $this->render('annonce/panier.html.twig', [
               'annonces' => $annonceRepository->findAll(),
+              'formPay' => $formPay->createView(),
           ]);
       }
 
     //redirection payer
     #[Route('/pay/{id}', name: 'app_annonce_pay', methods: ['GET', 'POST'])]
-    public function pay(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce): Response
-    {
+    public function pay(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, PaymentRepository $paymentRepository, PlaceRepository $placeRepository): Response
+        {
+            $utilisateur = $this->getUser();
 
-        $annonce->setPay(false);
-        return $this->render('annonce/pay.html.twig', [
-            'annonces' => $annonceRepository->findAll(),
-        ]);
-    }
+            $payment = new Payment();
+            $payment->setPayeur($utilisateur);
+            $formPay = $this->createForm(PaymentType::class,$payment);
+            $formPay->handleRequest($request);
+
+            $place = new Place();
+            $place->setAcheteur($utilisateur);
+            $place->setReservation($annonce);
+            $formPlace = $this->createForm(PlaceType::class,$place,array(
+                'variable' => $annonce->getPlace()
+            ));
+            $formPlace->handleRequest($request);
+
+            if ($formPay->isSubmitted() && $formPay->isValid() && $formPlace->isSubmitted() && $formPlace->isValid()) {
+                $annonce->setPay(true);
+                $annonce->setCreator($this->getUser());
+
+                $placeacheter = $place->getNb();
+                $placetotal = $annonce->getPlace();
+                $placeres = $placetotal - $placeacheter;
+
+                $annonce->setPlace($placeres);
+
+                $annonceRepository->save($annonce, true);
+                $placeRepository->save($place, true);
+
+                return $this->redirectToRoute('app_annonce_panier', [], Response::HTTP_SEE_OTHER);
+            }
+
+            return $this->render('annonce/pay.html.twig', [
+                'annonces' => $annonceRepository->findAll(),
+                'formPay' => $formPay->createView(),
+                'formPlace'=> $formPlace->createView(),
+            ]);
+        }
 
 
 
     //ajouter au panier
     #[Route('/ajouter/{id}', name: 'app_annonce_ajouter', methods: ['GET', 'POST'])]
-    public function ajouter(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, User $user): Response
+    public function ajouter(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce): Response
     {
         $utilisateur = $this->getUser();
-        $annonce->setCreator($utilisateur);
+        $annonce->addBuyer($utilisateur);
+        $annonceRepository->save($annonce,true);
+
+        return $this->redirectToRoute('app_annonce_panier');
+    }
+
+    //Paiement
+    #[Route('/paiment/{id}', name: 'app_annonce_paiment', methods: ['GET', 'POST'])]
+    public function paiment(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce): Response
+    {
+
+        $annonce->setPay(true);
         $annonceRepository->save($annonce,true);
 
         return $this->redirectToRoute('app_annonce_panier');
@@ -96,28 +158,14 @@ class AnnonceController extends AbstractController
     //enlever de panier
 
     #[Route('/annuler/{id}', name: 'app_annonce_annuler', methods: ['GET', 'POST'])]
-    public function annuler(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, User $user): Response
+    public function annuler(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce): Response
     {
         $utilisateur = $this->getUser();
-        $idUtilisateur = $utilisateur->getId();
-        $annonce->setCreator(null);
-        $annonceRepository->save($annonce,true);
-
-        error_log($idUtilisateur);
-        return $this->redirectToRoute('app_annonce_panier');
-    }
-
-    //Paiement
-    #[Route('/paiment/{id}', name: 'app_annonce_paiment', methods: ['GET', 'POST'])]
-    public function paiment(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, User $user): Response
-    {
-
-        $annonce->setPay(true);
+        $annonce->removeBuyer($utilisateur);
         $annonceRepository->save($annonce,true);
 
         return $this->redirectToRoute('app_annonce_panier');
     }
-
 
 
     //afficher

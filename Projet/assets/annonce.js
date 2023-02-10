@@ -44,3 +44,5 @@ function minuteurminuit(){
         timer.innerHTML = `${hours} heures ${minutes} minutes et ${seconds} secondes restantes avant les nouvelles offres.`;
     }, 1000);
 }
+
+

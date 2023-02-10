@@ -62,7 +62,7 @@
 
         <div class="allbillet">
         {% for annonce in annonces %}
-            {% if annonce.creator == null %}
+            {% if annonce.place != 0 %}
             <div class="billet">
 
                 <!--<td>{{ "annonce.id" }}</td>-->
@@ -111,15 +111,14 @@
                     <div id="dateretourArriver">{{ annonce.dateRetourArriver|format_datetime(locale='fr') }}</div>
                 </div>
 
-                <div>{{ annonce.prix }}€</div>
+                <div>{{ annonce.prix }}€/place</div>
+                <div>{{ annonce.place}}places</div>
 
 
                 </div>
-               <!-- <div>
-                    <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">show</a>
+
                     <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">edit</a>
                     <a href="{{ path('app_annonce_ajouter', {'id': annonce.id}) }}">ajouter</a>
-                </div>-->
 
 
             {% endif %}

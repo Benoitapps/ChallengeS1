@@ -6,6 +6,9 @@ use App\Entity\Payment;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,13 +17,23 @@ class PaymentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('NumCarte')
-            ->add('expiration')
-            ->add('cvv')
-            ->add('payeur',EntityType::class,[
-                'class' => User::class,
-                'choice_label' => 'email',
+            ->add('NumCarte', TextType::class,[
+                'attr' => [
+                    'id' => 'numcarte'
+                ]
             ])
+            ->add('expiration', DateType::class,[
+                'attr'=>[
+                    'id' =>'expiration'
+                ]
+            ])
+
+            ->add('cvv', TextType::class,[
+                'attr' => [
+                    'id' => 'cvv'
+                ]
+            ])
+
         ;
     }
 
