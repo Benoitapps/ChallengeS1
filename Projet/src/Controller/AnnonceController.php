@@ -22,6 +22,7 @@ use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
+
 #[Route('/annonce')]
 class AnnonceController extends AbstractController
 {
@@ -57,6 +58,7 @@ class AnnonceController extends AbstractController
     }
 
     //redirection perso
+
     #[Route('/perso', name: 'app_annonce_perso', methods: ['GET', 'POST'])]
     public function perso(Request $request, AnnonceRepository $annonceRepository): Response
     {
@@ -124,6 +126,7 @@ class AnnonceController extends AbstractController
 
             return $this->render('annonce/pay.html.twig', [
                 'annonces' => $annonceRepository->findAll(),
+                'annonce' => $annonce,
                 'formPay' => $formPay->createView(),
                 'formPlace'=> $formPlace->createView(),
             ]);
