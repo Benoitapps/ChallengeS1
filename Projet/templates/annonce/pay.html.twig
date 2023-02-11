@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonce index{% endblock %}
+{% block title %}Payer{% endblock %}
 
 {% block body %}
      {% block stylesheets %}
@@ -42,15 +42,14 @@
 <div class="interieur">
 
     <div id="ennoncer">
-        <p>Mon Panier:</p>
+        <p>Payer :</p>
     </div>
 
 
     <table class="table">
 
         <div class="allbillet">
-            {% for annonce in app.user.annoncesBuyer%}
-                {% if annonce.pay == null %}
+
                     <div class="billet">
 
                         <!--<td>{{ "annonce.id" }}</td>-->
@@ -104,15 +103,6 @@
                         <div>{{ annonce.place}}places</div>
 
                     </div>
-                    <div>
-
-                        <a href="{{ path('app_annonce_panier', {'id': annonce.id}) }}">Retour</a>
-
-                    </div>
-
-
-                {% endif %}
-            {% endfor %}
         </div>
 
     <div id="formpay">
@@ -127,6 +117,7 @@
 
         </tbody>
     </table>
-
-    <a href="{{ path('app_annonce_new') }}">Create new</a>
+    <div>
+        <a href="{{ path('app_annonce_panier', {'id': annonce.id}) }}">Retour</a>
+    </div>
 {% endblock %}

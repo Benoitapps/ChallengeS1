@@ -116,9 +116,10 @@
 
 
                 </div>
-
-                    <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">edit</a>
                     <a href="{{ path('app_annonce_ajouter', {'id': annonce.id}) }}">ajouter</a>
+                {% if is_granted('ROLE_COMPANY') %}
+                    <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">Modifier</a>
+                {% endif %}
 
 
             {% endif %}
