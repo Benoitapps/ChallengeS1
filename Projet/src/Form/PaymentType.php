@@ -19,7 +19,9 @@ class PaymentType extends AbstractType
         $builder
             ->add('NumCarte', TextType::class,[
                 'attr' => [
-                    'id' => 'numcarte'
+                    'id' => 'numcarte',
+                    'maxlength' => 10,
+                    'minlength' => 10
                 ]
             ])
             ->add('expiration', DateType::class,[
@@ -30,7 +32,8 @@ class PaymentType extends AbstractType
 
             ->add('cvv', TextType::class,[
                 'attr' => [
-                    'id' => 'cvv'
+                    'id' => 'cvv',
+                    'maxlength' => 3
                 ]
             ])
 

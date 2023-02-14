@@ -53,17 +53,17 @@ class Annonce
     #[ORM\ManyToOne(inversedBy: 'annoncesCreator')]
     private ?User $creator = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $pay = null;
-
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'annoncesBuyer')]
     private Collection $buyer;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: false)]
     private ?int $place = null;
 
     #[ORM\OneToMany(mappedBy: 'reservation', targetEntity: Place::class)]
     private Collection $placesReserv;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateAnnonce = null;
 
     public function __construct()
     {
@@ -209,18 +209,6 @@ class Annonce
         return $this;
     }
 
-    public function isPay(): ?bool
-    {
-        return $this->pay;
-    }
-
-    public function setPay(?bool $pay): self
-    {
-        $this->pay = $pay;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, User>
      */
@@ -283,6 +271,18 @@ class Annonce
                 $placesReserv->setReservation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateAnnonce(): ?\DateTimeInterface
+    {
+        return $this->dateAnnonce;
+    }
+
+    public function setDateAnnonce(\DateTimeInterface $dateAnnonce): self
+    {
+        $this->dateAnnonce = $dateAnnonce;
 
         return $this;
     }
