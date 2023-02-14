@@ -4,14 +4,17 @@ namespace App\Entity;
 
 use App\Repository\PlaceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\UuidV6 as Uuid;
+
 
 #[ORM\Entity(repositoryClass: PlaceRepository::class)]
 class Place
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $nb = null;
@@ -22,7 +25,10 @@ class Place
     #[ORM\ManyToOne(inversedBy: 'placesReserv')]
     private ?Annonce $reservation = null;
 
-    public function getId(): ?int
+    #[ORM\Column]
+    private ?bool $payer = null;
+
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -59,6 +65,18 @@ class Place
     public function setReservation(?Annonce $reservation): self
     {
         $this->reservation = $reservation;
+
+        return $this;
+    }
+
+    public function isPayer(): ?bool
+    {
+        return $this->payer;
+    }
+
+    public function setPayer(bool $payer): self
+    {
+        $this->payer = $payer;
 
         return $this;
     }

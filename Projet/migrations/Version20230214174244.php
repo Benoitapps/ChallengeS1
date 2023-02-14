@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230211171347 extends AbstractMigration
+final class Version20230214174244 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,12 +27,11 @@ final class Version20230211171347 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE country_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE date_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE payment_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE place_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE reset_password_request_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE airport (id INT NOT NULL, city_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_7E91F7C28BAC62AF ON airport (city_id)');
-        $this->addSql('CREATE TABLE annonce (id UUID NOT NULL, airport_depart_aller_id INT DEFAULT NULL, airport_depart_arriver_id INT DEFAULT NULL, airport_retour_aller_id INT DEFAULT NULL, airport_retour_arriver_id INT DEFAULT NULL, client_id INT DEFAULT NULL, creator_id INT DEFAULT NULL, prix DOUBLE PRECISION NOT NULL, date_depart_aller TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_depart_arriver TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_retour_aller TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_retour_arriver TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, pay BOOLEAN DEFAULT NULL, place INT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE annonce (id UUID NOT NULL, airport_depart_aller_id INT DEFAULT NULL, airport_depart_arriver_id INT DEFAULT NULL, airport_retour_aller_id INT DEFAULT NULL, airport_retour_arriver_id INT DEFAULT NULL, client_id INT DEFAULT NULL, creator_id INT DEFAULT NULL, prix DOUBLE PRECISION NOT NULL, date_depart_aller TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_depart_arriver TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_retour_aller TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_retour_arriver TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, place INT NOT NULL, date_annonce DATE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_F65593E5AF90A56A ON annonce (airport_depart_aller_id)');
         $this->addSql('CREATE INDEX IDX_F65593E59322F4DA ON annonce (airport_depart_arriver_id)');
         $this->addSql('CREATE INDEX IDX_F65593E5C4A5329B ON annonce (airport_retour_aller_id)');
@@ -52,9 +51,10 @@ final class Version20230211171347 extends AbstractMigration
         $this->addSql('CREATE TABLE date (id INT NOT NULL, date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE payment (id INT NOT NULL, payeur_id INT DEFAULT NULL, num_carte VARCHAR(10) NOT NULL, expiration DATE NOT NULL, cvv VARCHAR(3) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_6D28840D422667C5 ON payment (payeur_id)');
-        $this->addSql('CREATE TABLE place (id INT NOT NULL, acheteur_id INT DEFAULT NULL, reservation_id UUID DEFAULT NULL, nb INT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE place (id UUID NOT NULL, acheteur_id INT DEFAULT NULL, reservation_id UUID DEFAULT NULL, nb INT DEFAULT NULL, payer BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_741D53CD96A7BB5F ON place (acheteur_id)');
         $this->addSql('CREATE INDEX IDX_741D53CDB83297E7 ON place (reservation_id)');
+        $this->addSql('COMMENT ON COLUMN place.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN place.reservation_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE reset_password_request (id INT NOT NULL, user_id INT NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, expires_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_7CE748AA76ED395 ON reset_password_request (user_id)');
@@ -103,7 +103,6 @@ final class Version20230211171347 extends AbstractMigration
         $this->addSql('DROP SEQUENCE country_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE date_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE payment_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE place_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE reset_password_request_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
         $this->addSql('ALTER TABLE airport DROP CONSTRAINT FK_7E91F7C28BAC62AF');

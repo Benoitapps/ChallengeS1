@@ -12,6 +12,7 @@ use App\Form\PlaceType;
 use App\Repository\AnnonceRepository;
 use App\Repository\PaymentRepository;
 use App\Repository\PlaceRepository;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,8 +43,13 @@ class AnnonceController extends AbstractController
     {
         $annonce = new Annonce();
         $annonce->setClient($this->getUser());
+        $dateAujourdhui = new DateTime();
+        $dateAujourdhui->modify('+4 days');
+
+        $annonce->setDateAnnonce($dateAujourdhui);
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
+
 
         if (($form->isSubmitted() && $form->isValid()) ) {
             $annonceRepository->save($annonce, true);
@@ -62,8 +68,10 @@ class AnnonceController extends AbstractController
     #[Route('/perso', name: 'app_annonce_perso', methods: ['GET', 'POST'])]
     public function perso(Request $request, AnnonceRepository $annonceRepository): Response
     {
+        $place = new Place();
         return $this->render('annonce/perso.html.twig', [
             'annonces' => $annonceRepository->findAll(),
+            'place' => $place
         ]);
     }
 
@@ -71,6 +79,7 @@ class AnnonceController extends AbstractController
     #[Route('/panier', name: 'app_annonce_panier', methods: ['GET', 'POST'])]
     public function panier(Request $request, AnnonceRepository $annonceRepository, PaymentRepository $paymentRepository): Response
       {
+          $place = new Place();
           $payment = new Payment();
           $utilisateur = $this->getUser();
           $payment->setPayeur($utilisateur);
@@ -86,6 +95,7 @@ class AnnonceController extends AbstractController
           return $this->render('annonce/panier.html.twig', [
               'annonces' => $annonceRepository->findAll(),
               'formPay' => $formPay->createView(),
+              'place' => $place,
           ]);
       }
 
@@ -100,16 +110,19 @@ class AnnonceController extends AbstractController
             $formPay = $this->createForm(PaymentType::class,$payment);
             $formPay->handleRequest($request);
 
-            $place = new Place();
+            $idplace = $request->query->get('idplace');
+            $place = $placeRepository->find($idplace);
+
+
             $place->setAcheteur($utilisateur);
             $place->setReservation($annonce);
+            $place->setPayer(true);
             $formPlace = $this->createForm(PlaceType::class,$place,array(
                 'variable' => $annonce->getPlace()
             ));
             $formPlace->handleRequest($request);
 
             if ($formPay->isSubmitted() && $formPay->isValid() && $formPlace->isSubmitted() && $formPlace->isValid()) {
-                $annonce->setPay(true);
                 $annonce->setCreator($this->getUser());
 
                 $placeacheter = $place->getNb();
@@ -119,6 +132,7 @@ class AnnonceController extends AbstractController
                 $annonce->setPlace($placeres);
 
                 $annonceRepository->save($annonce, true);
+                $placeRepository->save($place, true);
                 $placeRepository->save($place, true);
 
                 return $this->redirectToRoute('app_annonce_panier', [], Response::HTTP_SEE_OTHER);
@@ -136,11 +150,17 @@ class AnnonceController extends AbstractController
 
     //ajouter au panier
     #[Route('/ajouter/{id}', name: 'app_annonce_ajouter', methods: ['GET', 'POST'])]
-    public function ajouter(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce): Response
+    public function ajouter(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, PlaceRepository $placeRepository): Response
     {
+        $place = new Place();
         $utilisateur = $this->getUser();
+        $place->setAcheteur($utilisateur);
+        $place->setReservation($annonce);
+        $place->setPayer(false);
+        $place->setNb(null);
         $annonce->addBuyer($utilisateur);
         $annonceRepository->save($annonce,true);
+        $placeRepository->save($place,true);
 
         return $this->redirectToRoute('app_annonce_panier');
     }
@@ -150,7 +170,9 @@ class AnnonceController extends AbstractController
     public function paiment(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce): Response
     {
 
-        $annonce->setPay(true);
+        $place = new Place();
+        $place->setPayer(true);
+
         $annonceRepository->save($annonce,true);
 
         return $this->redirectToRoute('app_annonce_panier');
