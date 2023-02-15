@@ -1,58 +1,9 @@
 
-body{
+body {
     margin: 0;
-    background-color:#ffffff ;
+    background-color: #ffffff;
 
 }
-
-
-.top-bar{
-
-    background-color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.5em;
-
-}
-a{
-    color: black;
-    text-decoration: none;
-}
-
-#contains{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-
-}
-
-.menu{
-    margin-right: 7em;
-    font-weight: bold;
-}
-
-.menu2{
-    margin-right: 0.6em;
-    font-weight: bold;
-}
-
-#part2{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-#logo{
-    display: flex;
-    justify-content: center;
-}
-
-#imglogo{
-    width: 3em;
-}
-
 
 #aile{
     width: 100%;

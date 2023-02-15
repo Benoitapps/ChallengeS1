@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Entity\RequestCompany;
 use App\Entity\User;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use App\Repository\RequestCompanyRepository;
 use App\Repository\UserRepository;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,6 +31,8 @@ class CompanyController extends AbstractController
     #[Route('/new', name: 'app_company_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CompanyRepository $companyRepository): Response
     {
+
+
         $company = new Company();
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
@@ -44,6 +48,8 @@ class CompanyController extends AbstractController
             'form' => $form,
         ]);
     }
+
+
 
     #[Route('/joinId/{id}', name: 'app_company_join_by_id', methods: ['POST'])]
     public function joinById(Request $request,  Company $company, UserRepository $userRepository): Response
