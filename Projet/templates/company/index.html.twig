@@ -3,33 +3,65 @@
 {% block title %}Company index{% endblock %}
 
 {% block body %}
-    <h1>Company index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for company in compagnies %}
-            <tr>
-                <td>{{ company.id }}</td>
-                <td>{{ company.name }}</td>
-                <td>
-                    <a href="{{ path('app_company_show', {'id': company.id}) }}">show</a>
-                    <a href="{{ path('app_company_edit', {'id': company.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('companyHome') }}
+    {% endblock %}
 
-    <a href="{{ path('app_company_new') }}">Create new</a>
+    <div class="top-bar">
+
+        <div id="logo">
+            <img id="imglogo" src={{asset('images/logo.png')}}>
+        </div>
+        <div id="contains">
+
+
+            </td>
+            <div class="menu">
+                <a href="{{ path('app_default') }}">Accueil</a></div>
+            <div class="menu">
+                <a href="{{ path('app_country_index') }}">Toutes les destinations</a></div>
+            <div class="menu">
+                <a href="{{ path('app_annonce_index') }}">Mes reservations</a></div>
+            <div class="menu">
+                <a href="{{ path('app_company_index') }}">Contact</a></div>
+            </td>
+
+        </div>
+        <div id="part2">
+            </td>
+            <div class="menu2">
+                <a href="{{ path('app_logout') }}">Logout</a></div>
+            <div class="menu2">
+                <a href="{{ path('app_annonce_index')}}">panier</a></div>
+            </td>
+        </div>
+    </div>
+
+
+    <div id="title">
+        <p>Bienvenue sur votre espace partenaire BECLAL</p>
+    </div>
+
+    <div id="block">
+        <div id="ajoutDestination">
+            <p>Ajoutez une destination en renseignant ses informations et commencer à vendre sur BECLAL</p>
+            <div class="liens">
+                <a href="{{ path('app_default') }}">Ajouter une destination</a>
+            </div>
+        </div>
+
+        <div id="mesDestinations">
+            <p>Consultez vos destinations, modifiez-les ou bien supprimez-les</p>
+            <div class="liens">
+                <a href="{{ path('app_default') }}">Mes destinations</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 {% endblock %}
