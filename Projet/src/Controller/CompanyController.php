@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Company;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use App\Repository\UserRepository;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,6 +41,35 @@ class CompanyController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/joinId/{id}', name: 'app_company_join_by_id', methods: ['POST'])]
+    public function joinById(Request $request, CompanyRepository $companyRepository, Company $company): Response
+    {
+
+
+        $utilisateur = $this->getUser();
+        $companies = $companyRepository->findAll();
+
+
+        return $this->render('company/joinCompany.html.twig', [
+            'companies' => $companyRepository->findAll(),
+        ]);
+
+    }
+
+    #[Route('/join', name: 'app_company_join', methods: ['GET'])]
+    public function join(CompanyRepository $companyRepository): Response
+    {
+
+        $companies = $companyRepository->findAll();
+
+        return $this->render('company/joinCompany.html.twig', [
+            'companies' => $companies,
+        ]);
+
+    }
+
+
 
     #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
     public function show(Company $company): Response
