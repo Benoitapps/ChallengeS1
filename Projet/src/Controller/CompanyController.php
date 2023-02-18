@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Entity\User;
+use App\Entity\RequestCompany;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
+use App\Repository\RequestCompanyRepository;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

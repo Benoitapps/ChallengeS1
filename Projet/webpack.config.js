@@ -26,7 +26,7 @@ Encore
     .addStyleEntry('register', './assets/styles/register.css')
     .addStyleEntry('accueil', './assets/styles/accueil.css')
     .addStyleEntry('companyHome', './assets/styles/companyHome.css')
-
+    .addStyleEntry('header', './assets/styles/header.css')
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     //.enableStimulusBridge('./assets/controllers.json')
 

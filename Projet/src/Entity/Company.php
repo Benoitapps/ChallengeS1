@@ -21,6 +21,9 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\Column]
+    private ?int $siren = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -69,6 +72,18 @@ class Company
                 $user->setCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSiren(): ?int
+    {
+        return $this->siren;
+    }
+
+    public function setSiren(int $siren): self
+    {
+        $this->siren = $siren;
 
         return $this;
     }
