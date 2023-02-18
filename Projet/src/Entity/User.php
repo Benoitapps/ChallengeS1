@@ -42,6 +42,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $is_owner = null;
+
+    #[ORM\OneToOne(mappedBy: 'requestor', cascade: ['persist', 'remove'])]
+    private ?RequestCompany $requestCompany = null;
+
+
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Annonce::class)]
     private Collection $annoncesCreator;
 
@@ -200,6 +207,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $annoncesUser->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsOwner(): ?bool
+    {
+        return $this->is_owner;
+    }
+
+    public function setIsOwner(?bool $is_owner): self
+    {
+        $this->is_owner = $is_owner;
+
+        return $this;
+    }
+
+    public function getRequestCompany(): ?RequestCompany
+    {
+        return $this->requestCompany;
+    }
+
+    public function setRequestCompany(RequestCompany $requestCompany): self
+    {
+        // set the owning side of the relation if necessary
+        if ($requestCompany->getRequestor() !== $this) {
+            $requestCompany->setRequestor($this);
+        }
+
+        $this->requestCompany = $requestCompany;
 
         return $this;
     }

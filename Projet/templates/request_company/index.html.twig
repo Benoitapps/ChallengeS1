@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <table>
+            <tr>
+                <th>Company Name</th>
+                <th>Status actuel</th>
+                <th>Action</th>
+            </tr>
+            {% for requestCompany in requestCompanies %}
+                <tr>
+                    <td>{{ requestCompany.id }}</td>
+                    <td>{{ requestCompany.name }}</td>
+                    <td>
+                        <form method="post" action="{{ path('app_company_join_by_id', {'id': requestCompany.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('joinById' ~ requestCompany.id) }}">
+                            <button class="btn">Accepter</button>
+                        </form>
+                        <form method="post" action="{{ path('app_company_join_by_id', {'id': requestCompany.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('joinById' ~ requestCompany.id) }}">
+                            <button class="btn">Refuser</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
