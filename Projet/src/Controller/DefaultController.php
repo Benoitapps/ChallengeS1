@@ -6,13 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use SendinBlue;
-use GuzzleHttp;
 
 class DefaultController extends AbstractController
 {
-    #[Route('/default', name: 'app_default')]
-    public function index(UserRepository $userRepository): Response
+    #[Route('/', name: 'app_default')]
+    public function index(): Response
     {
         $user = $this->getUser();
 
