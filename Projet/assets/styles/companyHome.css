@@ -106,7 +106,14 @@ a{
     margin-top: 10%;
 }
 
+#logo{
+    display: flex;
+    justify-content: center;
+}
 
+#imglogo{
+    width: 3em;
+}
 
 .liens{
     background-color: #4875B8;

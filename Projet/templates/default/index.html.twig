@@ -47,17 +47,46 @@
             <p>Prenez un shot de voyage</p>
         </div>
         <div id="btn">
-             <a href="{{ path('app_annonce_index') }}">Consulter les deals du jour</a></div>
-
+             <a href="{{ path('app_annonce_index') }}">Consulter les deals du jour</a>
+        </div>
 
     </div>
 
-    <section class="cards">
-        <article class="card"></article>
-        <article class="card"></article>
-        <article class="card"></article>
-        <article class="card"></article>
-    </section>
+
+    <div id="block">
+        <div id="text1">
+            <h4>BECLAL</h4>
+            <p>
+                Envie d’évasion ? Découvrez nos offres dès <br>
+                maintenant et trouvez rapidement votre prochaine <br>
+                destination de rêve.
+            </p>
+        </div>
+
+        <div id="voyage1">
+            <img src="{{asset('images/voyage1.png')}}">
+        </div>
+    </div>
+
+    <div id="block2">
+        <div id="voyage2">
+            <img src="{{asset('images/voyage2.png')}}">
+        </div>
+
+        <div id="text2">
+            <p>
+                Des voyages sans vous ruiner.<br>
+                Avec BECLAL, vous voyagez en profitant d’un tarif imbattable grâce à nos partenaires.<br><br>
+
+                Sans coûts suppémentaires, sans frais cachés.
+            </p>
+            <div class="liens">
+                <a href="{{ path('app_default') }}">Place à la découverte</a>
+            </div>
+        </div>
+    </div>
+
+    </div>
 
 
 
