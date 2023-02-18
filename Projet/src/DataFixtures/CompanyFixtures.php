@@ -17,6 +17,7 @@ class CompanyFixtures extends Fixture
             $object = (new Company())
                 ->setName($faker->company)
                 ->setSiren(123456789)
+                ->setCode("676GSGU8")
             ;
             $manager->persist($object);
         }

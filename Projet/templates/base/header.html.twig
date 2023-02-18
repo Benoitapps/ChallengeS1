@@ -17,10 +17,10 @@
         <div class="menu">
             <a href="{{ path('app_annonce_index') }}">Mes reservations</a></div>
         <div class="menu">
-            <a href="{{ path('app_company_index') }}">Contact</a></div>
+            <a href="{{ path('app_default_contact') }}">Contact</a></div>
         {% if is_granted("ROLE_ADMIN") %}
             <div class="menu">
-                <a href="{{ path('app_company_request') }}">Demande de company</a></div>
+                <a href="{{ path('app_request_index') }}">Demande de company</a></div>
         {% endif %}
         </td>
 
