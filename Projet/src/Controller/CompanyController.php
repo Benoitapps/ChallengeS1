@@ -46,6 +46,27 @@ class CompanyController extends AbstractController
         ]);
     }
 
+    #[Route('/add/{id}', name: 'app_company_add', methods: ['GET', 'POST'])]
+    public function add(Request $request,int $id, RequestCompanyRepository $requestCompanyRepository, CompanyRepository $companyRepository, UserRepository $userRepository): Response
+    {
+
+        $requestCompany = $requestCompanyRepository->find($id);
+
+        $company = new Company();
+        $company->setName($requestCompany->getName());
+        $company->setSiren($requestCompany->getSiren());
+
+        $companyRepository->save($company, true);
+        $requestor = $requestCompany->getRequestor();
+        $requestor->setCompany($company);
+        $requestor->setIsOwner(1);
+        $userRepository->save($requestor, true);
+
+        dd($requestor);
+
+
+    }
+
     #[Route('/joinId/{id}', name: 'app_company_join_by_id', methods: ['POST'])]
     public function joinById(Request $request, Company $company, UserRepository $userRepository): Response
     {
