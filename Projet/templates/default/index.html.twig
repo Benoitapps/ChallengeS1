@@ -8,12 +8,12 @@
         {{ encore_entry_link_tags('accueil') }}
     {% endblock %}
 
-<div class="top-bar">
+    <div class="top-bar">
 
         <div id="logo">
             <img id="imglogo" src={{asset('images/logo.png')}}>
         </div>
-    <div id="contains">
+        <div id="contains">
 
 
             </td>
@@ -24,40 +24,37 @@
                 <div class="menu">
                     <a href="{{ path('app_annonce_index') }}">Mes reservations</a></div>
                 <div class="menu">
-                    <a href="{{ path('app_compagny_index') }}">Contact</a></div>
+                    <a href="{{ path('app_company_index') }}">Contact</a></div>
             </td>
 
     </div>
-    <div id="part2">
-        </td>
-        <div class="menu2">
-            <a href="{{ path('app_logout') }}">Logo</a></div>
-        <div class="menu2">
-            <a href="{{ path('app_annonce_index')}}">panier</a></div>
-        </td>
+        <div id="part2">
+            </td>
+            <div class="menu2">
+                <a href="{{ path('app_logout') }}">Logo</a></div>
+            <div class="menu2">
+                <a href="{{ path('app_annonce_index')}}">panier</a></div>
+            </td>
+        </div>
+
+
     </div>
-
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/srv/app/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/srv/app/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li>
-    </ul>
-
-    <div id="mail">
-        <a href="{{ path('app_sendmail') }}">Send mail !</a>
-    </div>
-
+    {% for flash in app.flashes('success') %}
+        <div class="alert alert-success">{{ flash }}</div>
+    {% endfor %}
+    {% for flash in app.flashes('error') %}
+        <div class="alert alert-danger">{{ flash }}</div>
+    {% endfor %}
     <div id="fond">
         <img id="aile" src={{asset('images/fondaccueil.png')}}>
     </div>
 
     <div id="bleu">
         <div id="title">
-       <p>Prenez un shot de voyage</p>
+            <p>Prenez un shot de voyage</p>
         </div>
         <div id="btn">
-        <a href="{{ path('app_annonce_index') }}">Consulter les deals du jour</a></div>
+            <a href="{{ path('app_annonce_index') }}">Consulter les deals du jour</a></div>
 
 
     </div>
