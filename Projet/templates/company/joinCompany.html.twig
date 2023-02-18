@@ -4,13 +4,15 @@
 
 {% block body %}
     <h1>Rejoindre une entreprise</h1>
-
     <table>
         <tr>
             <th>Nom de la company</th>
             <th>Action</th>
         </tr>
         {% for company in companies %}
+            {% if userCompany != null and userCompany.id == company.id %}
+                <h2>Vous faites parti de la company {{ company.name }}</h2>
+            {% endif %}
             <tr>
                 <td>
                     {{ company.name }}
@@ -18,7 +20,11 @@
                 <td>
                     <form method="post" action="{{ path('app_company_join_by_id', {'id': company.id}) }}">
                         <input type="hidden" name="_token" value="{{ csrf_token('joinById' ~ company.id) }}">
-                        <button class="btn">Rejoindre</button>
+                        {% if userCompany == null %}
+                            <button class="btn">Rejoindre</button>
+                        {% else %}
+                            <button disabled class="btn">Rejoindre</button>
+                        {% endif %}
                     </form>
                 </td>
             </tr>

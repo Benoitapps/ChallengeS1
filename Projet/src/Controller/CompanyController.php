@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Entity\User;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[Route('/company')]
 class CompanyController extends AbstractController
@@ -43,28 +45,31 @@ class CompanyController extends AbstractController
     }
 
     #[Route('/joinId/{id}', name: 'app_company_join_by_id', methods: ['POST'])]
-    public function joinById(Request $request, CompanyRepository $companyRepository, Company $company): Response
+    public function joinById(Request $request, Company $company, UserRepository $userRepository): Response
     {
+        $user = $this->getUser();
 
-
-        $utilisateur = $this->getUser();
-        $companies = $companyRepository->findAll();
-
-
-        return $this->render('company/joinCompany.html.twig', [
-            'companies' => $companyRepository->findAll(),
-        ]);
-
+        if ($this->isCsrfTokenValid('joinById'.$company->getId(), $request->request->get('_token'))) {
+            if($user->getCompany() == null) {
+                $user->setCompany($company);
+                $userRepository->save($user, true);
+            } else {
+                return $this->redirectToRoute('app_company_join', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+        return $this->redirectToRoute('app_company_join', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/join', name: 'app_company_join', methods: ['GET'])]
-    public function join(CompanyRepository $companyRepository): Response
+    public function join(CompanyRepository $companyRepository, UserRepository $userRepository): Response
     {
 
         $companies = $companyRepository->findAll();
+        $user = $this->getUser();
 
         return $this->render('company/joinCompany.html.twig', [
             'companies' => $companies,
+            'userCompany' => $user->getCompany(),
         ]);
 
     }

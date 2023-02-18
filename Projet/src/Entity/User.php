@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -62,6 +63,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->annoncesBuyer = new ArrayCollection();
         $this->placesUser = new ArrayCollection();
     }
+
+    /**
+     * @return int|null
+     */
+    public function getCompanyId(): ?int
+    {
+        return $this->company_id;
+    }
+
+    // /**
+    // * @param int|null $company_id
+    // */
+    // public function setCompanyId(?int $company_id): void
+    // {
+    //  $this->company_id = $company_id;
+    // }
+
 
     public function getId(): ?int
     {
