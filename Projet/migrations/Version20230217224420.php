@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230215153658 extends AbstractMigration
+final class Version20230217224420 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -41,7 +41,7 @@ final class Version20230215153658 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_F65593E519EB6921 ON annonce (client_id)');
         $this->addSql('CREATE TABLE city (id INT NOT NULL, country_id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_2D5B0234F92F3E70 ON city (country_id)');
-        $this->addSql('CREATE TABLE company (id INT NOT NULL, name VARCHAR(255) NOT NULL, siren INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE company (id INT NOT NULL, name VARCHAR(255) NOT NULL, siren INT NOT NULL, code VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE composition (id INT NOT NULL, nb_adult INT DEFAULT NULL, nb_child INT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE country (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE date (id INT NOT NULL, date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');

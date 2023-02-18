@@ -9,6 +9,9 @@ use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use App\Repository\RequestCompanyRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,26 +53,45 @@ class CompanyController extends AbstractController
     }
 
 
+    /**
+     * @throws \Exception
+     */
     #[Route('/add/{id}', name: 'app_company_add', methods: ['GET', 'POST'])]
-    public function add(Request $request,int $id, RequestCompanyRepository $requestCompanyRepository, CompanyRepository $companyRepository, UserRepository $userRepository): Response
+    public function add(Request $request,int $id, RequestCompanyRepository $requestCompanyRepository, CompanyRepository $companyRepository, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
+
+
+
+
 
         $requestCompany = $requestCompanyRepository->find($id);
 
         $company = new Company();
         $company->setName($requestCompany->getName());
         $company->setSiren($requestCompany->getSiren());
-
+        $company->setCode(password_hash($this->generateRandomToken(), PASSWORD_DEFAULT));
         $companyRepository->save($company, true);
         $requestor = $requestCompany->getRequestor();
         $requestor->setCompany($company);
         $requestor->setIsOwner(1);
         $userRepository->save($requestor, true);
-
-        dd($requestor);
-
+        $requestCompanyRepository->remove($requestCompany, true);
+        return $this->redirectToRoute('app_request_index', [], Response::HTTP_SEE_OTHER);
 
     }
+
+    /**
+     * @throws \Exception
+     */
+    private function generateRandomToken() {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $token = '';
+        for ($i = 0; $i < 8; $i++) {
+            $token .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+        return $token;
+    }
+
 
 
     #[Route('/joinId/{id}', name: 'app_company_join_by_id', methods: ['POST'])]
@@ -88,7 +110,7 @@ class CompanyController extends AbstractController
         return $this->redirectToRoute('app_company_join', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/join', name: 'app_company_join', methods: ['GET'])]
+    #[Route('/join/{code}', name: 'app_company_join', methods: ['GET'])]
     public function join(CompanyRepository $companyRepository, UserRepository $userRepository): Response
     {
 

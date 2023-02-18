@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RequestCompanyController extends AbstractController
 {
-    #[Route('/request', name: 'app_company_request', methods: ['GET'])]
+    #[Route('/request', name: 'app_request_index', methods: ['GET'])]
     public function index(RequestCompanyRepository $requestCompanyRepository): Response
     {
 

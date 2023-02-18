@@ -19,7 +19,7 @@ class RequestCompany
     #[ORM\Column]
     private ?int $siren = null;
 
-    #[ORM\OneToOne(inversedBy: 'requestCompany', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'requestCompany')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $requestor = null;
 
