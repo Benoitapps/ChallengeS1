@@ -11,21 +11,20 @@
         </thead>
         <tbody>
         {% for user in users %}
-            {% if user.isVerified == "Yes" and user.company.company_verified == "1" %}
-
             <tr>
 
                 <td>{{ user.email }}</td>
-                <td>{{ user.company.company_verified }}</td>
-                <td> souhaite faire valider son entreprise : </td>
+
+                {% if user.company != null %}
                 <td>{{ user.company.name }}</td>
+                {% endif %}
                 <td>
-                    <a href="{{ path('app_user_join', {'id': user.id}) }}">Join</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Refuser</a>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}">Detail</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
                 </td>
             </tr>
 
-            {% endif %}
+
         {% else %}
             <tr>
                 <td colspan="6">no records found</td>

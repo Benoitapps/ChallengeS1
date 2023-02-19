@@ -18,21 +18,24 @@
 
             </td>
             <div class="menu">
-                <a href="{{ path('app_default') }}">Accueil</a></div>
+                <a href="{{ path('app_user_index') }}">Gerer USER</a></div>
             <div class="menu">
-                <a href="{{ path('app_annonce_index') }}">Toutes les destinations</a></div>
+                <a href="{{ path('app_annonce_index') }}">Gerer Annonces</a></div>
             <div class="menu">
-                <a href="{{ path('app_annonce_perso') }}">Mes reservations</a></div>
+                <a href="{{ path('app_airport_index') }}">Gerer airport</a></div>
             <div class="menu">
-                <a href="{{ path('app_company_index') }}">Contact</a></div>
+                <a href="{{ path('app_city_index') }}">Gerer City</a></div>
+            <div class="menu">
+                <a href="{{ path('app_country_index') }}">Gerer Country</a></div>
+
             </td>
 
         </div>
         <div id="part2">
             </td>
             {% if is_granted('ROLE_ADMIN') %}
-            <div class="menu2">
-                <a href="{{ path('app_admin') }}">Mode Admin</a></div>
+                <div class="menu2">
+                    <a href="{{ path('app_default') }}">Mode Normal</a></div>
             {% endif %}
             <div class="menu2">
                 <a href="{{ path('app_logout') }}">Logo</a></div>
@@ -58,7 +61,7 @@
     </div>
 
 
-<div id="block">
+    <div id="block">
         <div id="text1">
             <h4>BECLAL</h4>
             <p>

@@ -40,7 +40,7 @@ class UserController extends AbstractController
 
     }*/
 
-    /*#[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserRepository $userRepository): Response
     {
         $user = new User();
@@ -57,9 +57,9 @@ class UserController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
-    }*/
+    }
 
-    /*#[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', [
@@ -83,7 +83,7 @@ class UserController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
-    }*/
+    }
 
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
