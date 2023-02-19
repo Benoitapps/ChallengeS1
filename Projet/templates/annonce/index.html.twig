@@ -54,9 +54,29 @@
     <div id="timer">
 
     </div>
+    <!--<form method="get" >
+        <div class="form-group">
+            <label for="search_query">Recherche :</label>
+            <input type="text" id="search_query" name="q" class="form-control" placeholder="Entrez votre recherche...">
+        </div>
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>*-->
 
-
-
+    <form method="GET">
+        <select name="airport">
+            <option value="">Tous les ans</option>
+            {% for airport in airports %}
+                <option value="{{ airport.id }}" {% if airport.id == app.request.query.get('airport') %}selected{% endif %}>{{ airport.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="limit">
+            <option value="">Tous les hackathons</option>
+            <option value="5" {% if app.request.query.get('limit') == 5 %}selected{% endif %}>5</option>
+            <option value="10" {% if app.request.query.get('limit') == 10 %}selected{% endif %}>10</option>
+            <option value="15" {% if app.request.query.get('limit') == 15 %}selected{% endif %}>15</option>
+        </select>
+        <button type="submit">Rechercher!</button>
+    </form>
 
     <table class="table">
 

@@ -9,6 +9,7 @@ use App\Entity\Place;
 use App\Form\AnnonceType;
 use App\Form\PaymentType;
 use App\Form\PlaceType;
+use App\Repository\AirportRepository;
 use App\Repository\AnnonceRepository;
 use App\Repository\PaymentRepository;
 use App\Repository\PlaceRepository;
@@ -19,8 +20,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\FormTypeInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 
@@ -28,14 +27,20 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class AnnonceController extends AbstractController
 {
 
-    #[Route('/', name: 'app_annonce_index', methods: ['GET'])]
-    public function index(AnnonceRepository $annonceRepository): Response
+    #[Route('/', name: 'app_annonce_index', methods: ['GET', 'POST'])]
+    public function index(AnnonceRepository $annonceRepository,Request $request, AirportRepository $airportRepository): Response
     {
 
         return $this->render('annonce/index.html.twig', [
-            'annonces' => $annonceRepository->findAll(),
+            //'annonces' => $annonceRepository->search($request,$request->query->get('q'))
+            'airports' => $airportRepository->findAll(),
+            'annonces' => $annonceRepository->search($request, $request->query->getInt('limit', 10)),
+
         ]);
     }
+
+
+
     #[Security("is_granted('ROLE_COMPANY')")]
     #[Route('/new', name: 'app_annonce_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_COMPANY')]
