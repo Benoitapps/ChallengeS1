@@ -13,7 +13,6 @@ class CompanyType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('countrys')
         ;
     }
 

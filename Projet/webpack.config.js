@@ -24,6 +24,13 @@ Encore
     .addEntry('app', './assets/app.js')
     .addStyleEntry('login', './assets/styles/login.css')
     .addStyleEntry('register', './assets/styles/register.css')
+    .addStyleEntry('annonce', './assets/styles/annonce.css')
+    .addStyleEntry('accueil', './assets/styles/accueil.css')
+    .addStyleEntry('payment', './assets/styles/payment.css')
+    .addStyleEntry('companyHome', './assets/styles/companyHome.css')
+
+    .addEntry('annoncejs','./assets/annonce.js')
+
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     //.enableStimulusBridge('./assets/controllers.json')

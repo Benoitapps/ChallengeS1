@@ -16,18 +16,27 @@ class Date
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $start_date = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $end_date = null;
+    #[ORM\OneToMany(mappedBy: 'dateDepartAller', targetEntity: Annonce::class)]
+    private Collection $annoncesDepartAller;
 
-    #[ORM\ManyToMany(targetEntity: Reservation::class, inversedBy: 'dates')]
-    private Collection $reserv;
+    #[ORM\OneToMany(mappedBy: 'dateDepartArriver', targetEntity: Annonce::class)]
+    private Collection $annonceDepartArriver;
+
+    #[ORM\OneToMany(mappedBy: 'dateRetourAller', targetEntity: Annonce::class)]
+    private Collection $annoncesDateRetourAller;
+
+    #[ORM\OneToMany(mappedBy: 'dateRetourArriver', targetEntity: Annonce::class)]
+    private Collection $annoncesDateRetourArriver;
 
     public function __construct()
     {
-        $this->reserv = new ArrayCollection();
+        $this->annoncesDepartAller = new ArrayCollection();
+        $this->annonceDepartArriver = new ArrayCollection();
+        $this->annoncesDateRetourAller = new ArrayCollection();
+        $this->annoncesDateRetourArriver = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -35,50 +44,134 @@ class Date
         return $this->id;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->start_date;
+        return $this->date;
     }
 
-    public function setStartDate(\DateTimeInterface $start_date): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->start_date = $start_date;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTimeInterface
-    {
-        return $this->end_date;
-    }
-
-    public function setEndDate(\DateTimeInterface $end_date): self
-    {
-        $this->end_date = $end_date;
+        $this->date = $date;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Reservation>
+     * @return Collection<int, Annonce>
      */
-    public function getReserv(): Collection
+    public function getAnnoncesDepartAller(): Collection
     {
-        return $this->reserv;
+        return $this->annoncesDepartAller;
     }
 
-    public function addReserv(Reservation $reserv): self
+    public function addAnnoncesDepartAller(Annonce $annoncesDepartAller): self
     {
-        if (!$this->reserv->contains($reserv)) {
-            $this->reserv->add($reserv);
+        if (!$this->annoncesDepartAller->contains($annoncesDepartAller)) {
+            $this->annoncesDepartAller->add($annoncesDepartAller);
+            $annoncesDepartAller->setDateDepartAller($this);
         }
 
         return $this;
     }
 
-    public function removeReserv(Reservation $reserv): self
+    public function removeAnnoncesDepartAller(Annonce $annoncesDepartAller): self
     {
-        $this->reserv->removeElement($reserv);
+        if ($this->annoncesDepartAller->removeElement($annoncesDepartAller)) {
+            // set the owning side to null (unless already changed)
+            if ($annoncesDepartAller->getDateDepartAller() === $this) {
+                $annoncesDepartAller->setDateDepartAller(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Annonce>
+     */
+    public function getAnnonceDepartArriver(): Collection
+    {
+        return $this->annonceDepartArriver;
+    }
+
+    public function addAnnonceDepartArriver(Annonce $annonceDepartArriver): self
+    {
+        if (!$this->annonceDepartArriver->contains($annonceDepartArriver)) {
+            $this->annonceDepartArriver->add($annonceDepartArriver);
+            $annonceDepartArriver->setDateDepartArriver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnonceDepartArriver(Annonce $annonceDepartArriver): self
+    {
+        if ($this->annonceDepartArriver->removeElement($annonceDepartArriver)) {
+            // set the owning side to null (unless already changed)
+            if ($annonceDepartArriver->getDateDepartArriver() === $this) {
+                $annonceDepartArriver->setDateDepartArriver(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Annonce>
+     */
+    public function getAnnoncesDateRetourAller(): Collection
+    {
+        return $this->annoncesDateRetourAller;
+    }
+
+    public function addAnnoncesDateRetourAller(Annonce $annoncesDateRetourAller): self
+    {
+        if (!$this->annoncesDateRetourAller->contains($annoncesDateRetourAller)) {
+            $this->annoncesDateRetourAller->add($annoncesDateRetourAller);
+            $annoncesDateRetourAller->setDateRetourAller($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnoncesDateRetourAller(Annonce $annoncesDateRetourAller): self
+    {
+        if ($this->annoncesDateRetourAller->removeElement($annoncesDateRetourAller)) {
+            // set the owning side to null (unless already changed)
+            if ($annoncesDateRetourAller->getDateRetourAller() === $this) {
+                $annoncesDateRetourAller->setDateRetourAller(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Annonce>
+     */
+    public function getAnnoncesDateRetourArriver(): Collection
+    {
+        return $this->annoncesDateRetourArriver;
+    }
+
+    public function addAnnoncesDateRetourArriver(Annonce $annoncesDateRetourArriver): self
+    {
+        if (!$this->annoncesDateRetourArriver->contains($annoncesDateRetourArriver)) {
+            $this->annoncesDateRetourArriver->add($annoncesDateRetourArriver);
+            $annoncesDateRetourArriver->setDateRetourArriver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnoncesDateRetourArriver(Annonce $annoncesDateRetourArriver): self
+    {
+        if ($this->annoncesDateRetourArriver->removeElement($annoncesDateRetourArriver)) {
+            // set the owning side to null (unless already changed)
+            if ($annoncesDateRetourArriver->getDateRetourArriver() === $this) {
+                $annoncesDateRetourArriver->setDateRetourArriver(null);
+            }
+        }
 
         return $this;
     }

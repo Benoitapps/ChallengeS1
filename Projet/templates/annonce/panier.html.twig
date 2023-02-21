@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('annonce') }}
+    {% endblock %}
+
+    <div class="top-bar">
+
+        <div id="logo">
+            <img id="imglogo" src={{asset('images/logo.png')}}>
+        </div>
+        <div id="contains">
+
+
+            </td>
+            <div class="menu">
+                <a href="{{ path('app_default') }}">Accueil</a></div>
+            <div class="menu">
+                <a href="{{ path('app_annonce_index') }}">Toutes les destinations</a></div>
+            <div class="menu">
+                <a href="{{ path('app_annonce_perso') }}">Mes reservations</a></div>
+            <div class="menu">
+                <a href="{{ path('app_company_index') }}">Contact</a></div>
+            </td>
+
+        </div>
+        <div id="part2">
+            </td>
+            <div class="menu2">
+                <a href="{{ path('app_logout') }}">Logo</a></div>
+            <div class="menu2">
+                <a href="{{ path('app_annonce_panier')}}">panier</a></div>
+            </td>
+        </div>
+
+    </div>
+
+<div class="interieur">
+
+    <div id="ennoncer">
+        <p>Mon Panier:</p>
+    </div>
+
+
+    <table class="table">
+
+        <div class="allbillet">
+            {% for place in app.user.placesUser%}
+                {% if place.payer == false %}
+
+
+                {% if date() <= place.reservation.dateAnnonce %}
+                <div class="billet">
+
+                    <!--<td>{{ "annonce.id" }}</td>-->
+                    <!--<div id="mail">{{ "annonce" }}</div>-->
+
+                    <div id="datedepart">
+                        <div class="lieu">
+                            <div id="paysdepartAller">{{ place.reservation.airportDepartAller.city.country.name }}  --></div>
+                            <div id="villedepartAller">{{ place.reservation.airportDepartAller.city.name }}  --></div>
+                            <div id="airportdepartAller">{{ place.reservation.airportDepartAller.name }}</div>
+                        </div>
+
+                        <div id="datedepartAller">{{ place.reservation.dateDepartAller|format_datetime(locale='fr') }}</div>
+
+                        <div class="lieu">
+                            <div id="paysretoureAller">{{ place.reservation.airportRetourAller.city.country.name }}  --></div>
+                            <div id="villeetoureAller">{{ place.reservation.airportRetourAller.city.name }}  --></div>
+                            <div id="airportretourAller">{{ place.reservation.airportRetourAller.name }}</div>
+                        </div>
+                        <div id="dateretourAller">{{ place.reservation.dateRetourAller|format_datetime(locale='fr') }}</div>
+                    </div>
+
+                    <div class="divlogoAvion">
+                        <img class="logoAvion" alt="Impossible de charger l'image" src={{asset('images/logoAvion.png')}}>
+
+                        <img class="logoAvion" alt="Impossible de charger l'image" src={{asset('images/logoAvion.png')}}>
+                    </div>
+
+
+
+
+                    <div id="dateretour">
+                        <div class="lieu">
+                            <div id="paysdepartArriver">{{ place.reservation.airportDepartArriver.city.country.name }}  --></div>
+                            <div id="villedepartArriver">{{ place.reservation.airportDepartArriver.city.name }}  --></div>
+                            <div id="airportdepartArriver">{{ place.reservation.airportDepartArriver.name }}</div>
+                        </div>
+                        <div id="datedepartArriver">{{ place.reservation.dateDepartArriver|format_datetime(locale='fr') }}</div>
+
+                        <div class="lieu">
+                            <div id="paysretoureArriver">{{ place.reservation.airportRetourArriver.city.country.name}}  --></div>
+                            <div id="villeetoureArriver">{{ place.reservation.airportRetourArriver.city.name }}  --></div>
+                            <div id="airportretourArriver">{{ place.reservation.airportRetourArriver.name }}</div>
+                        </div>
+
+                        <div id="dateretourArriver">{{ place.reservation.dateRetourArriver|format_datetime(locale='fr') }}</div>
+                    </div>
+
+                    <div>{{ place.reservation.prix }}€</div>
+
+                </div>
+                 <div>
+
+                    <a href="{{ path('app_annonce_pay', {'id': place.reservation.id,'idplace': place.id}) }}">Payer</a>
+                 {% if is_granted('ROLE_COMPANY') %}
+                     <a href="{{ path('app_annonce_edit', {'id': place.reservation.id}) }}">Modifier</a>
+                 {% endif %}
+                </div>
+
+                {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+</tbody>
+    </table>
+{% endblock %}

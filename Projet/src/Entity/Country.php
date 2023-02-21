@@ -15,19 +15,15 @@ class Country
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(mappedBy: 'country', targetEntity: Reservation::class)]
-    private Collection $reserv;
-
-    #[ORM\ManyToMany(targetEntity: Company::class, mappedBy: 'countrys')]
-    private Collection $companies;
+    #[ORM\OneToMany(mappedBy: 'country', targetEntity: City::class)]
+    private Collection $cities;
 
     public function __construct()
     {
-        $this->reserv = new ArrayCollection();
-        $this->companies = new ArrayCollection();
+        $this->cities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -48,57 +44,30 @@ class Country
     }
 
     /**
-     * @return Collection<int, Reservation>
+     * @return Collection<int, City>
      */
-    public function getReserv(): Collection
+    public function getCities(): Collection
     {
-        return $this->reserv;
+        return $this->cities;
     }
 
-    public function addReserv(Reservation $reserv): self
+    public function addCity(City $city): self
     {
-        if (!$this->reserv->contains($reserv)) {
-            $this->reserv->add($reserv);
-            $reserv->setCountry($this);
+        if (!$this->cities->contains($city)) {
+            $this->cities->add($city);
+            $city->setCountry($this);
         }
 
         return $this;
     }
 
-    public function removeReserv(Reservation $reserv): self
+    public function removeCity(City $city): self
     {
-        if ($this->reserv->removeElement($reserv)) {
+        if ($this->cities->removeElement($city)) {
             // set the owning side to null (unless already changed)
-            if ($reserv->getCountry() === $this) {
-                $reserv->setCountry(null);
+            if ($city->getCountry() === $this) {
+                $city->setCountry(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Company>
-     */
-    public function getCompanies(): Collection
-    {
-        return $this->companies;
-    }
-
-    public function addCompany(Company $company): self
-    {
-        if (!$this->companies->contains($company)) {
-            $this->companies->add($company);
-            $company->addCountry($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCompany(Company $company): self
-    {
-        if ($this->companies->removeElement($company)) {
-            $company->removeCountry($this);
         }
 
         return $this;

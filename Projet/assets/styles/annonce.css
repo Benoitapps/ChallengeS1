@@ -1,0 +1,136 @@
+
+body{
+    margin: 0;
+    background-color: #79c0de;
+
+}
+
+
+.top-bar{
+
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5em;
+
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+
+#contains{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.menu{
+    margin-right: 7em;
+    font-weight: bold;
+}
+
+.menu2{
+    margin-right: 0.6em;
+    font-weight: bold;
+}
+
+#part2{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#logo{
+    display: flex;
+    justify-content: center;
+}
+
+#imglogo{
+    width: 3em;
+}
+
+#ennoncer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 2em;
+}
+
+#timer{
+    margin-bottom: 3em;
+    margin-top: -1em;
+}
+
+.billet{
+    background-color: white;
+    border: solid;
+    margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1em;
+}
+
+.interieur{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#datedepartAller{
+    color: red;
+    font-size: 2em;
+}
+
+#datedepartArriver{
+    color: blue;
+    font-size: 2em;
+}
+
+#dateretourAller{
+    color: red;
+    font-size: 2em;
+}
+
+#dateretourArriver{
+    color: blue;
+    font-size: 2em;
+}
+
+.divlogoAvion{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.logoAvion{
+    width: 3em;
+    margin-top: 10px;
+}
+
+.divlogoqrcode{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.logoqrcode{
+    margin-right: 1em;
+    width: 6em;
+    margin-top: 10px;
+}
+
+
+
+
+
+.lieu{
+    display: flex;
+    margin-left: 3em;
+}

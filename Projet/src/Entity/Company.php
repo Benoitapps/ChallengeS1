@@ -8,26 +8,29 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-class Company
+class Company//app.user.annoncesUser
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Reservation::class)]
-    private Collection $reserv;
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
+    private Collection $users;
 
-    #[ORM\ManyToMany(targetEntity: Country::class, inversedBy: 'companies')]
-    private Collection $countrys;
+    #[ORM\Column(nullable: true)]
+    private ?bool $companyVerified = null;
+
+    #[ORM\OneToMany(mappedBy: 'companyUser', targetEntity: User::class)]
+    private Collection $client;
 
     public function __construct()
     {
-        $this->reserv = new ArrayCollection();
-        $this->countrys = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->client = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -48,55 +51,80 @@ class Company
     }
 
     /**
-     * @return Collection<int, Reservation>
+     * @return Collection<int, User>
      */
-    public function getReserv(): Collection
+    public function getUsers(): Collection
     {
-        return $this->reserv;
+        return $this->users;
     }
 
-    public function addReserv(Reservation $reserv): self
+    public function addUser(User $user): self
     {
-        if (!$this->reserv->contains($reserv)) {
-            $this->reserv->add($reserv);
-            $reserv->setCompany($this);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setCompany($this);
         }
 
         return $this;
     }
 
-    public function removeReserv(Reservation $reserv): self
+    public function removeUser(User $user): self
     {
-        if ($this->reserv->removeElement($reserv)) {
+        if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($reserv->getCompany() === $this) {
-                $reserv->setCompany(null);
+            if ($user->getCompany() === $this) {
+                $user->setCompany(null);
             }
         }
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Country>
-     */
-    public function getCountrys(): Collection
+    public function isCompanyVerified(): ?bool
     {
-        return $this->countrys;
+        return $this->companyVerified;
     }
 
-    public function addCountry(Country $country): self
+    public function company_verified(): ?bool
     {
-        if (!$this->countrys->contains($country)) {
-            $this->countrys->add($country);
+        return $this->companyVerified;
+    }
+
+
+
+    public function setCompanyVerified(?bool $companyVerified): self
+    {
+        $this->companyVerified = $companyVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getClient(): Collection
+    {
+        return $this->client;
+    }
+
+    public function addClient(User $client): self
+    {
+        if (!$this->client->contains($client)) {
+            $this->client->add($client);
+            $client->setCompanyUser($this);
         }
 
         return $this;
     }
 
-    public function removeCountry(Country $country): self
+    public function removeClient(User $client): self
     {
-        $this->countrys->removeElement($country);
+        if ($this->client->removeElement($client)) {
+            // set the owning side to null (unless already changed)
+            if ($client->getCompanyUser() === $this) {
+                $client->setCompanyUser(null);
+            }
+        }
 
         return $this;
     }
