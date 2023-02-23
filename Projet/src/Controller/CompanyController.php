@@ -52,6 +52,7 @@ class CompanyController extends AbstractController
     /**
      * @throws \Exception
      */
+    #[Route('/add/{id}', name: 'app_company_add', methods: ['GET', 'POST'])]
     public function add(Request $request,int $id, RequestCompanyRepository $requestCompanyRepository, CompanyRepository $companyRepository, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
 
