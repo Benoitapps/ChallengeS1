@@ -10,7 +10,7 @@ body{
 }
 
 
-#ajoutDestination, #mesDestinations, #title {
+#ajoutDestination, #mesDestinations, #title ,#invitation{
     position: absolute;
     z-index: 1;
 }
@@ -45,6 +45,26 @@ body{
     align-items: center;
     justify-content: center;
     margin-top: 5%;
+}
+
+#invitation {
+    top: 100%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+}
+
+#invitation{
+    background-color: white;
+    height: 7em;
+    width: 35%;
+    text-align: center;
+    margin-left: 30%;
+    border-radius: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*margin-top: 5%;*/
+    flex-direction: column;
 }
 
 
