@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Country;
 use App\Form\CountryType;
 use App\Repository\CountryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +22,8 @@ class CountryController extends AbstractController
             'countries' => $countryRepository->findBy([], ['name' => 'ASC']),
         ]);
     }
-
-    #[Route('/new', name: 'app_country_new', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Route('/admin/new', name: 'app_country_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CountryRepository $countryRepository): Response
     {
         $country = new Country();
@@ -48,8 +49,8 @@ class CountryController extends AbstractController
             'country' => $country,
         ]);
     }
-
-    #[Route('/{id}/edit', name: 'app_country_edit', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Route('/admin/{id}/edit', name: 'app_country_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Country $country, CountryRepository $countryRepository): Response
     {
         $form = $this->createForm(CountryType::class, $country);
@@ -66,8 +67,8 @@ class CountryController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/{id}', name: 'app_country_delete', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Route('/admin/{id}', name: 'app_country_delete', methods: ['POST'])]
     public function delete(Request $request, Country $country, CountryRepository $countryRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$country->getId(), $request->request->get('_token'))) {

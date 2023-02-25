@@ -34,7 +34,7 @@ class AnnonceController extends AbstractController
         return $this->render('annonce/index.html.twig', [
             //'annonces' => $annonceRepository->search($request,$request->query->get('q'))
             'airports' => $airportRepository->findAll(),
-            'annonces' => $annonceRepository->search($request, $request->query->getInt('limit', 10)),
+            'annonces' => $annonceRepository->search($request, $request->query->getInt('limit', 100)),
 
         ]);
     }
@@ -42,7 +42,7 @@ class AnnonceController extends AbstractController
 
 
     #[Security("is_granted('ROLE_COMPANY')")]
-    #[Route('/new', name: 'app_annonce_new', methods: ['GET', 'POST'])]
+    #[Route('/company/new', name: 'app_annonce_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_COMPANY')]
     public function new(Request $request, AnnonceRepository $annonceRepository, PaymentRepository $paymentRepository): Response
     {
@@ -69,7 +69,7 @@ class AnnonceController extends AbstractController
     }
 
     //redirection perso
-
+    #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/perso', name: 'app_annonce_perso', methods: ['GET', 'POST'])]
     public function perso(Request $request, AnnonceRepository $annonceRepository): Response
     {
@@ -81,6 +81,7 @@ class AnnonceController extends AbstractController
     }
 
     //redirection panier
+    #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/panier', name: 'app_annonce_panier', methods: ['GET', 'POST'])]
     public function panier(Request $request, AnnonceRepository $annonceRepository, PaymentRepository $paymentRepository): Response
       {
@@ -105,6 +106,7 @@ class AnnonceController extends AbstractController
       }
 
     //redirection payer
+    #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/pay/{id}', name: 'app_annonce_pay', methods: ['GET', 'POST'])]
     public function pay(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, PaymentRepository $paymentRepository, PlaceRepository $placeRepository): Response
         {
@@ -154,6 +156,7 @@ class AnnonceController extends AbstractController
 
 
     //ajouter au panier
+    #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/ajouter/{id}', name: 'app_annonce_ajouter', methods: ['GET', 'POST'])]
     public function ajouter(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, PlaceRepository $placeRepository): Response
     {
@@ -171,6 +174,7 @@ class AnnonceController extends AbstractController
     }
 
     //Paiement
+    #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/paiment/{id}', name: 'app_annonce_paiment', methods: ['GET', 'POST'])]
     public function paiment(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce): Response
     {
@@ -186,7 +190,7 @@ class AnnonceController extends AbstractController
 
 
     //enlever de panier
-
+    #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/annuler/{id}', name: 'app_annonce_annuler', methods: ['GET', 'POST'])]
     public function annuler(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce): Response
     {
@@ -199,7 +203,7 @@ class AnnonceController extends AbstractController
 
 
     //afficher
-
+    #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/{id}', name: 'app_annonce_show', methods: ['GET'])]
     public function show(Annonce $annonce): Response
     {
@@ -213,7 +217,7 @@ class AnnonceController extends AbstractController
     //Modifier
 
     #[Security("(is_granted('ROLE_COMPANY') and user === annonce.getClient()) or is_granted('ROLE_ADMIN')")]
-    #[Route('/{id}/edit', name: 'app_annonce_edit', methods: ['GET', 'POST'])]
+    #[Route('/company/{id}/edit', name: 'app_annonce_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Annonce $annonce, AnnonceRepository $annonceRepository): Response
     {
         $form = $this->createForm(AnnonceType::class, $annonce);
@@ -234,8 +238,8 @@ class AnnonceController extends AbstractController
 
     //Supprimer
 
-    #[Security("is_granted('ROLE_COMPANY') and user === annonce.getClient()")]
-    #[Route('/{id}', name: 'app_annonce_delete', methods: ['POST'])]
+    #[Security("(is_granted('ROLE_COMPANY') and user === annonce.getClient()) or is_granted('ROLE_ADMIN')")]
+    #[Route('/company/{id}', name: 'app_annonce_delete', methods: ['POST'])]
     public function delete(Request $request, Annonce $annonce, AnnonceRepository $annonceRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$annonce->getId(), $request->request->get('_token'))) {

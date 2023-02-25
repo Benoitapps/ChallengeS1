@@ -50,7 +50,7 @@
         {% for annonce in annonces %}
             {% if annonce.place != 0 %}
 
-            {% if date() <= annonce.dateAnnonce %}
+            {% if date() < annonce.dateAnnonce %}
 
     {% include 'annonce/annonce_type.html.twig' %}
                 <div id="boutonmodif">

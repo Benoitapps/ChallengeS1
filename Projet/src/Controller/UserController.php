@@ -6,14 +6,17 @@ use App\Entity\Company;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Security("is_granted('ROLE_ADMIN')")]
 #[Route('/user')]
 class UserController extends AbstractController
 {
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
@@ -39,8 +42,8 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index');
 
     }*/
-
-    #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/admin/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserRepository $userRepository): Response
     {
         $user = new User();
@@ -58,16 +61,16 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/admin/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
     }
-
-    #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/admin/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -88,8 +91,8 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/admin/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {

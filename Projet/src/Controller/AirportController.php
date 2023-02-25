@@ -7,6 +7,7 @@ use App\Form\AirportType;
 use App\Repository\AirportRepository;
 use App\Repository\CityRepository;
 use App\Repository\CountryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,8 +25,8 @@ class AirportController extends AbstractController
 
         ]);
     }
-
-    #[Route('/new', name: 'app_airport_new', methods: ['GET', 'POST'])]
+    #[Security("(is_granted('ROLE_COMPANY'))")]
+    #[Route('/admin/new', name: 'app_airport_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AirportRepository $airportRepository): Response
     {
         $airport = new Airport();
@@ -51,8 +52,8 @@ class AirportController extends AbstractController
             'airport' => $airport,
         ]);
     }
-
-    #[Route('/{id}/edit', name: 'app_airport_edit', methods: ['GET', 'POST'])]
+    #[Security("(is_granted('ROLE_COMPANY'))")]
+    #[Route('/admin/{id}/edit', name: 'app_airport_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Airport $airport, AirportRepository $airportRepository): Response
     {
         $form = $this->createForm(AirportType::class, $airport);
@@ -69,8 +70,8 @@ class AirportController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/{id}', name: 'app_airport_delete', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Route('/admin/{id}', name: 'app_airport_delete', methods: ['POST'])]
     public function delete(Request $request, Airport $airport, AirportRepository $airportRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$airport->getId(), $request->request->get('_token'))) {

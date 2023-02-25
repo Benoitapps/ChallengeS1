@@ -6,6 +6,7 @@ use App\Entity\City;
 use App\Form\CityType;
 use App\Repository\CityRepository;
 use App\Repository\CountryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,8 +23,8 @@ class CityController extends AbstractController
             'cities' => $cityRepository->search($request, $request->query->getInt('limit', 10)),
         ]);
     }
-
-    #[Route('/new', name: 'app_city_new', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Route('/admin/new', name: 'app_city_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CityRepository $cityRepository): Response
     {
         $city = new City();
@@ -49,8 +50,8 @@ class CityController extends AbstractController
             'city' => $city,
         ]);
     }
-
-    #[Route('/{id}/edit', name: 'app_city_edit', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Route('/admin/{id}/edit', name: 'app_city_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, City $city, CityRepository $cityRepository): Response
     {
         $form = $this->createForm(CityType::class, $city);
@@ -67,8 +68,8 @@ class CityController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/{id}', name: 'app_city_delete', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Route('/admin/{id}', name: 'app_city_delete', methods: ['POST'])]
     public function delete(Request $request, City $city, CityRepository $cityRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$city->getId(), $request->request->get('_token'))) {
