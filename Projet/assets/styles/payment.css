@@ -1,117 +1,9 @@
 
 body{
     margin: 0;
-    background-color: #79c0de;
+    background: linear-gradient(45deg, #6495ED, #B0E0E6);
+    height: 100vh;
 
-}
-
-
-.top-bar{
-
-    background-color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.5em;
-
-}
-a{
-    color: black;
-    text-decoration: none;
-}
-
-#contains{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-
-}
-
-.menu{
-    margin-right: 7em;
-    font-weight: bold;
-}
-
-.menu2{
-    margin-right: 0.6em;
-    font-weight: bold;
-}
-
-#part2{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-#logo{
-    display: flex;
-    justify-content: center;
-}
-
-#imglogo{
-    width: 3em;
-}
-
-#ennoncer{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 2em;
-}
-
-#timer{
-    margin-bottom: 3em;
-    margin-top: -1em;
-}
-
-.billet{
-    background-color: white;
-    border: solid;
-    margin-bottom: 1em;
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    width: 100%;
-    padding: 1em;
-}
-
-.interieur{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#datedepartAller{
-    color: red;
-    font-size: 2em;
-}
-
-#datedepartArriver{
-    color: blue;
-    font-size: 2em;
-}
-
-#dateretourAller{
-    color: red;
-    font-size: 2em;
-}
-
-#dateretourArriver{
-    color: blue;
-    font-size: 2em;
-}
-
-.divlogoAvion{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.logoAvion{
-    width: 3em;
-    margin-top: 10px;
 }
 
 .divlogoqrcode{
@@ -126,11 +18,55 @@ a{
     margin-top: 10px;
 }
 
-
-
-
-
-.lieu{
+#formpay{
+    background-color: #ddddff;
+    padding: 3em;
+    border-radius: 15px;
+    color: white;
+    margin-top: 3em;
     display: flex;
-    margin-left: 3em;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 14em;
+    height: 22em;
+}
+#place{
+    background-color: #0e5dfc;
+    padding: 1em;
+    border-radius: 10px;
+}
+
+#place_nb{
+
+}
+
+#payment{
+    background-color: #767460ba;
+    padding: 1em;
+    border-radius: 10px;
+}
+
+#buttonval {
+    margin-top: 10px;
+    background-color: #0e5dfc;
+    border: solid;
+    border-color: white;
+    border-radius: 30px;
+    padding: 3%;
+    color: white;
+}
+
+#titrepay{
+    color: black;
+    font-size: 30px;
+}
+
+#prix{
+    color: black;
+}
+
+#prixtotal{
+    color: black;
+    display: flex;
 }

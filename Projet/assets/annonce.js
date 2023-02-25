@@ -41,7 +41,7 @@ function minuteurminuit(){
         const minutes = Math.floor(difference / 1000 / 60) % 60;
         const seconds = Math.floor(difference / 1000) % 60;
 
-        timer.innerHTML = `${hours} heures ${minutes} minutes et ${seconds} secondes restantes avant les nouvelles offres.`;
+        timer.innerHTML = `Certaine offres disparaitront dans ${hours} heures ${minutes} minutes et ${seconds} secondes.`;
     }, 1000);
 }
 

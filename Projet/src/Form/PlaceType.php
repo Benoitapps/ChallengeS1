@@ -18,10 +18,14 @@ class PlaceType extends AbstractType
         $maxplace = $options['variable'];
 
         $builder
-            ->add('nb',IntegerType::class,[
+            ->add('nb', IntegerType::class, [
                 'constraints' => [
                     new Range(['max' => $maxplace])
-                ]
+                ],
+                'attr' => [
+                    'id' => 'laplace'
+                ],
+                'label' => 'Nombre de place'
             ])
         ;
     }

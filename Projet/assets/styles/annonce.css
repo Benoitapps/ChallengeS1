@@ -1,56 +1,10 @@
 
-body{
+
+body {
     margin: 0;
-    background-color: #79c0de;
+    background: linear-gradient(45deg, #6495ED, #B0E0E6);
+    height: 100vh;
 
-}
-
-
-.top-bar{
-
-    background-color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.5em;
-
-}
-a{
-    color: black;
-    text-decoration: none;
-}
-
-#contains{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-
-}
-
-.menu{
-    margin-right: 7em;
-    font-weight: bold;
-}
-
-.menu2{
-    margin-right: 0.6em;
-    font-weight: bold;
-}
-
-#part2{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-#logo{
-    display: flex;
-    justify-content: center;
-}
-
-#imglogo{
-    width: 3em;
 }
 
 #ennoncer{
@@ -64,18 +18,41 @@ a{
     margin-bottom: 3em;
     margin-top: -1em;
 }
+.btnsearch{
+    background-color: blue;
+    color: white;
+    padding: 2%;
+}
+
+.selectchoix{
+    height: 3em;
+    background-color: white;
+    border: solid;
+    border-color: blue;
+    font-weight: bold;
+}
+
+.reservation{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .billet{
     background-color: white;
     border: solid;
-    margin-bottom: 1em;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
     justify-content: space-between;
     width: 100%;
-    padding: 1em;
+    padding: 1.7em;
+    transition: transform .1s;
+    box-shadow: 8px 8px 12px #000;
+    flex-wrap: wrap;
+
 }
+
 
 .interieur{
     display: flex;
@@ -83,35 +60,79 @@ a{
     align-items: center;
 }
 
+#selecteur{
+    margin-bottom: 3em;
+    width: 30em;
+}
+
+
+#datedepart{
+    display: flex;
+    flex-direction: row;
+    border-bottom: solid;
+}
+
+#dateretour{
+    display: flex;
+    flex-direction: row;
+}
+
 #datedepartAller{
-    color: red;
-    font-size: 2em;
+    color: #0200ff;
+    font-size: 1.7em;
+    padding: 2px;
+    margin: 8px;
 }
 
 #datedepartArriver{
-    color: blue;
-    font-size: 2em;
+    color: #0200ff;
+    font-size: 1.7em;
+    padding: 2px;
+    margin: 8px;
 }
 
 #dateretourAller{
-    color: red;
-    font-size: 2em;
+    color: #0200ff;
+    font-size: 1.7em;
+    padding: 2px;
+    margin: 8px;
 }
 
 #dateretourArriver{
-    color: blue;
-    font-size: 2em;
+    color: #0200ff;
+    font-size: 1.7em;
+    padding: 2px;
+    margin: 8px;
+
+}
+
+.airport{
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.ville{
+    font-family: "Times New Roman", Times, serif;
+    margin-right: 2px;
+
+}
+
+.pays{
+    font-family: "Times New Roman", Times, serif;
+    margin-right: 2px;
 }
 
 .divlogoAvion{
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    margin-left: 3em;
+    margin-right: 3em;
 }
 
 .logoAvion{
     width: 3em;
-    margin-top: 10px;
+    margin-top: 3em;
 }
 
 .divlogoqrcode{
@@ -126,11 +147,64 @@ a{
     margin-top: 10px;
 }
 
-
-
-
-
 .lieu{
     display: flex;
     margin-left: 3em;
 }
+
+#entreprise{
+    font-family: "Rockwell", sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 16px;
+    color: #c70d0d;
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+#boutonmodif{
+    display: flex;
+    flex-direction: row;
+    width: 20%;
+    margin-bottom: 5%;
+    margin-top: 10px;
+
+}
+
+.btnannonce{
+    background-color: #0e5dfc;
+    border: solid;
+    border-color: white;
+    border-radius: 30px;
+    padding: 3%;
+}
+
+#btnannonce:hover{
+    -ms-transform: scale(1.1); /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.1);
+
+}
+
+#create{
+    background-color: green !important;
+}
+
+.titrebillet{
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.infos{
+    display: flex;
+    width: 5em;
+    justify-content: center;
+    align-items: center;
+}
+
+#nombreplaceacheter{}
+

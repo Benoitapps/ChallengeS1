@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class PaymentType extends AbstractType
 {
@@ -21,7 +22,14 @@ class PaymentType extends AbstractType
                 'attr' => [
                     'id' => 'numcarte',
                     'maxlength' => 10,
-                    'minlength' => 10
+                    'minlength' => 10,
+                    'pattern' => '[0-9]*' // autoriser que les chiffres
+                ],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^\d+$/', // vérifier que le champ ne contient que des chiffres
+                        'message' => 'Le champ ne doit contenir que des chiffres.'
+                    ])
                 ]
             ])
             ->add('expiration', DateType::class,[
@@ -33,7 +41,15 @@ class PaymentType extends AbstractType
             ->add('cvv', TextType::class,[
                 'attr' => [
                     'id' => 'cvv',
-                    'maxlength' => 3
+                    'maxlength' => 3,
+                    'maxlength' => 3,
+                    'pattern' => '[0-9]*' // autoriser que les chiffres
+                ],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^\d+$/', // vérifier que le champ ne contient que des chiffres
+                        'message' => 'Le champ ne doit contenir que des chiffres.'
+                    ])
                 ]
             ])
 

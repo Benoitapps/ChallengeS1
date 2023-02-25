@@ -6,38 +6,15 @@
      {% block stylesheets %}
          {{ parent() }}
          {{ encore_entry_link_tags('payment') }}
+         {{ encore_entry_link_tags('annonce') }}
      {% endblock %}
-
-<div class="top-bar">
-
-    <div id="logo">
-        <img id="imglogo" src={{asset('images/logo.png')}}>
-    </div>
-    <div id="contains">
+    {% block javascripts %}
+        {{ parent() }}
+        {{ encore_entry_script_tags('prixjs') }}
+    {% endblock %}
 
 
-        </td>
-        <div class="menu">
-            <a href="{{ path('app_default') }}">Accueil</a></div>
-        <div class="menu">
-            <a href="{{ path('app_annonce_index') }}">Toutes les destinations</a></div>
-        <div class="menu">
-            <a href="{{ path('app_annonce_perso') }}">Mes reservations</a></div>
-        <div class="menu">
-            <a href="{{ path('app_company_index') }}">Contact</a></div>
-        </td>
-
-    </div>
-    <div id="part2">
-        </td>
-        <div class="menu2">
-            <a href="{{ path('app_logout') }}">Logo</a></div>
-        <div class="menu2">
-            <a href="{{ path('app_annonce_panier')}}">panier</a></div>
-        </td>
-    </div>
-
-</div>
+    <div>{% include 'barre.html.twig' %}</div>
 
 <div class="interieur">
 
@@ -50,69 +27,25 @@
 
         <div class="allbillet">
 
-                    <div class="billet">
-
-                        <!--<td>{{ "annonce.id" }}</td>-->
-                        <!--<div id="mail">{{ annonce.client.email }}</div>-->
-
-                        <div id="datedepart">
-                            <div class="lieu">
-                                <div id="paysdepartAller">{{ annonce.airportDepartAller.city.country.name }}  --></div>
-                                <div id="villedepartAller">{{ annonce.airportDepartAller.city.name }}  --></div>
-                                <div id="airportdepartAller">{{ annonce.airportDepartAller.name }}</div>
-                            </div>
-
-                            <div id="datedepartAller">{{ annonce.dateDepartAller|format_datetime(locale='fr') }}</div>
-
-                            <div class="lieu">
-                                <div id="paysretoureAller">{{ annonce.airportRetourAller.city.country.name }}  --></div>
-                                <div id="villeetoureAller">{{ annonce.airportRetourAller.city.name }}  --></div>
-                                <div id="airportretourAller">{{ annonce.airportRetourAller.name }}</div>
-                            </div>
-                            <div id="dateretourAller">{{ annonce.dateRetourAller|format_datetime(locale='fr') }}</div>
-                        </div>
-
-                        <div class="divlogoAvion">
-                            <img class="logoAvion" alt="Impossible de charger l'image" src={{asset('images/logoAvion.png')}}>
-
-                            <img class="logoAvion" alt="Impossible de charger l'image" src={{asset('images/logoAvion.png')}}>
-                        </div>
-
-
-
-
-                        <div id="dateretour">
-                            <div class="lieu">
-                                <div id="paysdepartArriver">{{ annonce.airportDepartArriver.city.country.name }}  --></div>
-                                <div id="villedepartArriver">{{ annonce.airportDepartArriver.city.name }}  --></div>
-                                <div id="airportdepartArriver">{{ annonce.airportDepartArriver.name }}</div>
-                            </div>
-                            <div id="datedepartArriver">{{ annonce.dateDepartArriver|format_datetime(locale='fr') }}</div>
-
-                            <div class="lieu">
-                                <div id="paysretoureArriver">{{ annonce.airportRetourArriver.city.country.name}}  --></div>
-                                <div id="villeetoureArriver">{{ annonce.airportRetourArriver.city.name }}  --></div>
-                                <div id="airportretourArriver">{{ annonce.airportRetourArriver.name }}</div>
-                            </div>
-
-                            <div id="dateretourArriver">{{ annonce.dateRetourArriver|format_datetime(locale='fr') }}</div>
-                        </div>
-
-                        <div>{{ annonce.prix }}€/place</div>
-
-                        <div>{{ annonce.place}}places</div>
-
-                    </div>
+            {% include 'annonce/annonce_type.html.twig' %}
         </div>
 
     <div id="formpay">
-        {{ form_start(formPay) }}
-        {{ form_rest(formPay) }}
+
+        <p id="titrepay">Paiement</p>
+
         {{ form_start(formPlace) }}
-        {{ form_rest(formPlace) }}
-        <input type="submit" value="Payer">
-        {{ form_end(formPlace) }}
+        {{ form_widget(formPlace ) }}
+        <div id="prixtotal">
+            <p id="prix">Prix = </p>
+            <p id="res"></p>
+        </div>
+        {{ form_start(formPay) }}
+        {{ form_widget(formPay) }}
+        <input id="buttonval" type="submit" value="Payer">
         {{ form_end(formPay) }}
+        {{ form_end(formPlace) }}
+
     </div>
 
         </tbody>

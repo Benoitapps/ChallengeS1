@@ -27,9 +27,10 @@ Encore
     .addStyleEntry('annonce', './assets/styles/annonce.css')
     .addStyleEntry('accueil', './assets/styles/accueil.css')
     .addStyleEntry('payment', './assets/styles/payment.css')
-    .addStyleEntry('companyHome', './assets/styles/companyHome.css')
+    .addStyleEntry('barre', './assets/styles/barre.css')
 
     .addEntry('annoncejs','./assets/annonce.js')
+    .addEntry('prixjs','./assets/prix.js')
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
