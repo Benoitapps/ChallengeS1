@@ -140,7 +140,7 @@ class AnnonceController extends AbstractController
                 $placeRepository->save($place, true);
                 $placeRepository->save($place, true);
 
-                return $this->redirectToRoute('app_annonce_panier', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_annonce_perso', [], Response::HTTP_SEE_OTHER);
             }
 
             return $this->render('annonce/pay.html.twig', [

@@ -1,35 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Country index{% endblock %}
+{% block title %}Pays{% endblock %}
 
 {% block body %}
-    <h1>Country index</h1>
 
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('country') }}
+    {% endblock %}
+
+    <div>{% include 'barreAdmin.html.twig' %}</div>
+
+    <div id="titrepays"><h1>Pays</h1></div>
+    <div id="page">
+        <div id="gauche">
+    <div id="toutpays">
     <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
+
         <tbody>
         {% for country in countries %}
-            <tr>
-                <td>{{ country.id }}</td>
-                <td>{{ country.name }}</td>
-                <td>
-                    <a href="{{ path('app_country_show', {'id': country.id}) }}">show</a>
-                    <a href="{{ path('app_country_edit', {'id': country.id}) }}">edit</a>
-                </td>
-            </tr>
+            <div id="indexpays">
+
+                <div>{{ country.name }}</div>
+                <div id="boutonmodif">
+                    <div class="btnannonce"><a href="{{ path('app_country_edit', {'id': country.id}) }}">Modifier</a></div>
+                </div>
+
+            </div>
         {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
+            <div>
+                <div colspan="3">Aucun pays</div>
+            </div>
+
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_country_new') }}">Create new</a>
+    </div>
+            <div class="btnannoncecreate" id="create"><a href="{{ path('app_country_new') }}">Ajouter un Pays</a></div>
+        </div>
+    <div id="cote">
+        <img id="monde" src={{asset('images/carte-du-monde-pays.png')}}>
+    </div>
+    </div>
+
 {% endblock %}

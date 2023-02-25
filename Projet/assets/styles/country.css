@@ -1,0 +1,129 @@
+body {
+    margin: 0;
+    background: linear-gradient(45deg, #6495ED, #B0E0E6);
+
+    height: 100vh;
+
+}
+
+
+#titrepays{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#gauche{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#indexpays {
+    display: flex;
+    background-color: white;
+    margin-bottom: 1em;
+    font-size: 19px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: stretch;
+    padding: 14px;
+    width: 20em;
+    height: 8%;
+    overflow: auto;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#toutpays{
+    background-color: #808080cc;
+    height: 53em;
+    overflow: auto;
+    border: solid;
+    margin-left: 1em;
+
+}
+
+
+#boutonmodif{
+    display: flex;
+    flex-direction: row;
+    width: 20%;
+    margin-bottom: 5%;
+    margin-top: 10px;
+
+}
+
+
+#cote{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#page {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#monde{
+    width: 80%;
+}
+
+
+.btnannonce{
+    background-color: #0e5dfc;
+    border: solid;
+    border-color: white;
+    border-radius: 30px;
+    padding: 8%;
+    font-size: 15px;
+}
+
+.btnannonce a{
+    color: white;
+    text-decoration: none;
+}
+
+.btnannonce:hover{
+    -ms-transform: scale(1.1); /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.1);
+
+}
+.btnannoncecreate {
+    border: solid;
+    border-color: white;
+    border-radius: 30px;
+    padding: 1%;
+    font-size: 15px;
+}
+.btnannoncecreate a{
+    color: white;
+    text-decoration: none;
+}
+
+
+#create{
+    width: 7em !important;
+    background-color: green !important;
+}
+
+#coteville{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#ville{
+    width: 60%;
+    border-radius:20px;
+}
+
+#vide{
+    width: 20em;
+}

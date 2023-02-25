@@ -1,35 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Airport index{% endblock %}
+{% block title %}Aeroport{% endblock %}
 
 {% block body %}
-    <h1>Airport index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for airport in airports %}
-            <tr>
-                <td>{{ airport.id }}</td>
-                <td>{{ airport.name }}</td>
-                <td>
-                    <a href="{{ path('app_airport_show', {'id': airport.id}) }}">show</a>
-                    <a href="{{ path('app_airport_edit', {'id': airport.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('country') }}
+    {% endblock %}
 
-    <a href="{{ path('app_airport_new') }}">Create new</a>
+    <div>{% include 'barreAdmin.html.twig' %}</div>
+
+    <div id="titrepays"><h1>Aeroport</h1></div>
+    <div id="page">
+        <div id="gauche">
+            <div id="selecteur">
+                <form method="GET">
+                    <select class="selectchoix" name="city">
+                        <option value="">Choisir une Ville</option>
+                        {% for city in cities %}
+                            <option value="{{ city.id }}" {% if city.id == app.request.query.get('city') %}selected{% endif %}>{{ city.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <button class="btnsearch" type="submit">Rechercher</button>
+                </form>
+            </div>
+            <div id="toutpays">
+                <table class="table">
+
+                    <tbody>
+                    {% for airport in airports %}
+                        <div id="indexpays">
+
+                            <div>{{ airport.name }}</div>
+                            <div id="boutonmodif">
+                                <div class="btnannonce"><a href="{{ path('app_airport_edit', {'id': airport.id}) }}">Modifier</a></div>
+                            </div>
+
+                        </div>
+                    {% else %}
+                        <div id="vide">
+                            <div id="vide" colspan="3">Aucun Aeroport</div>
+                        </div>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="btnannoncecreate" id="create"><a href="{{ path('app_airport_new') }}">Ajouter un Aeroport</a></div>
+        </div>
+        <div id="cote">
+            <img id="monde" src={{asset('images/aeroport.png')}}>
+        </div>
+    </div>
+
 {% endblock %}

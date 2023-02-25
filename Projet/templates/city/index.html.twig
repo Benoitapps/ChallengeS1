@@ -1,35 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}City index{% endblock %}
+{% block title %}Ville{% endblock %}
 
 {% block body %}
-    <h1>City index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for city in cities %}
-            <tr>
-                <td>{{ city.id }}</td>
-                <td>{{ city.name }}</td>
-                <td>
-                    <a href="{{ path('app_city_show', {'id': city.id}) }}">show</a>
-                    <a href="{{ path('app_city_edit', {'id': city.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('country') }}
+    {% endblock %}
 
-    <a href="{{ path('app_city_new') }}">Create new</a>
+    <div>{% include 'barreAdmin.html.twig' %}</div>
+
+    <div id="titrepays"><h1>Ville</h1></div>
+    <div id="page">
+        <div id="gauche">
+            <div id="selecteur">
+                <form method="GET">
+                    <select class="selectchoix" name="country">
+                        <option value="">Choisir un Pays</option>
+                        {% for country in countries %}
+                            <option value="{{ country.id }}" {% if country.id == app.request.query.get('country') %}selected{% endif %}>{{ country.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <button class="btnsearch" type="submit">Rechercher</button>
+                </form>
+            </div>
+            <div id="toutpays">
+
+
+
+                <table class="table">
+
+                    <tbody>
+                    {% for city in cities %}
+                        <div id="indexpays">
+
+                            <div>{{ city.name }}</div>
+                            <div id="boutonmodif">
+                                <div class="btnannonce"><a href="{{ path('app_city_edit', {'id': city.id}) }}">Modifier</a></div>
+                            </div>
+
+                        </div>
+                    {% else %}
+                        <div id="vide">
+                            <div id="vide" colspan="3">Aucune Ville</div>
+                        </div>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="btnannoncecreate" id="create"><a href="{{ path('app_country_new') }}">Ajouter une ville</a></div>
+        </div>
+        <div id="coteville">
+            <img id="ville"  src={{asset('images/villedessin.png')}}>
+        </div>
+    </div>
+
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Airport;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Airport>
@@ -37,6 +38,25 @@ class AirportRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @return Airport[] Returns an array of Annonce objects
+     */
+    public function search(Request $request, int $limit = 10): array
+    {
+        $queryBuilder = $this->createQueryBuilder('v')
+            ->orderBy('v.city', 'ASC')
+        ;
+
+        if ($airport = $request->query->get('city')) {
+            $queryBuilder
+                ->andWhere('v.city = :city')
+                ->setParameter('city', $airport)
+            ;
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
 //    /**

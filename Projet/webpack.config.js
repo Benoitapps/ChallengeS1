@@ -28,6 +28,9 @@ Encore
     .addStyleEntry('accueil', './assets/styles/accueil.css')
     .addStyleEntry('payment', './assets/styles/payment.css')
     .addStyleEntry('barre', './assets/styles/barre.css')
+    .addStyleEntry('country', './assets/styles/country.css')
+    .addStyleEntry('city', './assets/styles/city.css')
+    .addStyleEntry('airport', './assets/styles/airport.css')
 
     .addEntry('annoncejs','./assets/annonce.js')
     .addEntry('prixjs','./assets/prix.js')

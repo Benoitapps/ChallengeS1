@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Airport;
 use App\Form\AirportType;
 use App\Repository\AirportRepository;
+use App\Repository\CityRepository;
+use App\Repository\CountryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class AirportController extends AbstractController
 {
     #[Route('/', name: 'app_airport_index', methods: ['GET'])]
-    public function index(AirportRepository $airportRepository): Response
+    public function index(AirportRepository $airportRepository, Request $request, CityRepository $cityRepository): Response
     {
         return $this->render('airport/index.html.twig', [
-            'airports' => $airportRepository->findAll(),
+            'cities' => $cityRepository->findAll(),
+            'airports' => $airportRepository->search($request, $request->query->getInt('limit', 10)),
+
         ]);
     }
 

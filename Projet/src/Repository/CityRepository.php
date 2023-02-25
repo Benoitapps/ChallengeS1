@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\City;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<City>
@@ -39,6 +40,25 @@ class CityRepository extends ServiceEntityRepository
         }
     }
 
+
+    /**
+     * @return City[] Returns an array of Annonce objects
+     */
+    public function search(Request $request, int $limit = 10): array
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->orderBy('c.country', 'ASC')
+        ;
+
+        if ($city = $request->query->get('country')) {
+            $queryBuilder
+                ->andWhere('c.country = :country')
+                ->setParameter('country', $city)
+            ;
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 //    /**
 //     * @return City[] Returns an array of City objects
 //     */
