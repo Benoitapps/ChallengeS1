@@ -23,7 +23,7 @@ class CityController extends AbstractController
             'cities' => $cityRepository->search($request, $request->query->getInt('limit', 10)),
         ]);
     }
-    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin/new', name: 'app_city_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CityRepository $cityRepository): Response
     {
@@ -50,7 +50,7 @@ class CityController extends AbstractController
             'city' => $city,
         ]);
     }
-    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin/{id}/edit', name: 'app_city_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, City $city, CityRepository $cityRepository): Response
     {
@@ -68,7 +68,7 @@ class CityController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin/{id}', name: 'app_city_delete', methods: ['POST'])]
     public function delete(Request $request, City $city, CityRepository $cityRepository): Response
     {

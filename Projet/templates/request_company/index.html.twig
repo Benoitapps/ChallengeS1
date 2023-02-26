@@ -8,6 +8,7 @@
 {% block body %}
     <div>{% include 'barreAdmin.html.twig' %}</div>
     <div class="container">
+        <h3>Liste des demandes d'entreprise en attente</h3>
         <table>
             <tr>
                 <th>N° Demande</th>
@@ -23,9 +24,9 @@
                             <input type="hidden" name="_token">
                             <button class="btn">Accepter</button>
                         </form>
-                        <form method="post" action="{{ path('app_company_join_by_id', {'id': requestCompany.id}) }}">
+                        <form method="post" action="{{ path('app_company_request_join', {'id': requestCompany.id}) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('joinById' ~ requestCompany.id) }}">
-                            <button class="btn">Refuser</button>
+                            <button class="btn-refuser">Refuser</button>
                         </form>
                     </td>
                 </tr>

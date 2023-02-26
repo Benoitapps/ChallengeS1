@@ -10,8 +10,14 @@ body {
     width: 80%;
 }
 
+h3{
+    text-align: center;
+    margin-top: 5%;
+}
+
 table {
     border-collapse: collapse;
+    margin-top: 5%;
     width: 100%;
 }
 
@@ -25,7 +31,7 @@ th {
 td {
     border: 1px solid #ddd;
     padding: 8px;
-
+    width: 30%;
 }
 
 td form {
@@ -48,4 +54,21 @@ td form {
 
 .btn:hover {
     background-color: #3e8e41;
+}
+
+.btn-refuser {
+    background-color: red;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.btn-refuser:hover {
+    background-color: #DC143C;
 }
