@@ -1,37 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Users{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
 
-    <table class="table">
-        <thead>
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('country') }}
+    {% endblock %}
 
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
+    <div>{% include 'barreAdmin.html.twig' %}</div>
 
-                <td>{{ user.email }}</td>
+    <div id="titrepays"><h1>Users</h1></div>
+    <div id="page">
+        <div id="gauche">
+            <div id="toutpays">
+                <table class="table">
 
-                {% if user.company != null %}
-                <td>{{ user.company.name }}</td>
-                {% endif %}
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">Detail</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
-                </td>
-            </tr>
+                    <tbody>
+                    {% for user in users %}
+                        <div id="indexpays">
+
+                            <div>{{ user.email }}</div>
+                            {% if user.company %}
+                            <div>{{ user.company.name }}</div>
+                            {% endif %}
 
 
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                            <div id="boutonmodif">
+                                <div class="btnannonce"><a href="{{ path('app_user_annonce', {'id': user.id}) }}">Voir les Annonces</a></div>
+                            </div>
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
+                        </div>
+                    {% else %}
+                        <div>
+                            <div colspan="3">Aucun User</div>
+                        </div>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="btnannoncecreate" id="create"><a href="{{ path('app_user_new') }}">Cree un User</a></div>
+        </div>
+        <div id="cote">
+            <img id="monde" src={{asset('images/user.png')}}>
+        </div>
+    </div>
+
 {% endblock %}

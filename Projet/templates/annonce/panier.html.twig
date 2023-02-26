@@ -30,6 +30,7 @@
 
                      <div id="boutonmodif">
                          <div class="btnannonce"> <a href="{{ path('app_annonce_pay', {'id': place.reservation.id,'idplace': place.id}) }}">Payer</a></div>
+                         <div> {{ include('place/_delete_form.html.twig') }}</div>
                      </div>
 
 

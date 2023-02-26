@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\AnnonceRepository;
+use App\Repository\PlaceRepository;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +23,7 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $userRepository->findBy([], ['email' => 'ASC']),
         ]);
     }
 
@@ -51,6 +53,10 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Convertir la chaîne de caractères en tableau
+            $roles = explode(',', $form->get('roles')->getData());
+            $user->setRoles($roles);
+
             $userRepository->save($user, true);
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
@@ -69,6 +75,21 @@ class UserController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/admin/annonce/{id}', name: 'app_user_annonce', methods: ['GET'])]
+    public function anonce(User $user, PlaceRepository $placeRepository,int $id): Response
+    {
+        $places = $placeRepository->findBy(['acheteur' => $id]);
+
+
+        return $this->render('user/show.html.twig', [
+            'places' => $places,
+            'user' => $user,
+        ]);
+    }
+
+
     #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
@@ -76,7 +97,7 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() ) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $roles = explode(',', $form->get('roles')->getData());
             $user->setRoles($roles);
