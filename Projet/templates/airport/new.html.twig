@@ -2,10 +2,18 @@
 
 {% block title %}Nouvel aéroport{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('newAirport') }}
+
+{% endblock %}
 {% block body %}
+    <div>{% include 'barreAdmin.html.twig' %}</div>
+
+
     <h1>Créer un nouvel aéroport</h1>
 
     {{ include('airport/_form.html.twig') }}
 
-    <a href="{{ path('app_airport_index') }}">Retour à la liste</a>
+
 {% endblock %}

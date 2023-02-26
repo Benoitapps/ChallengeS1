@@ -37,6 +37,7 @@ Encore
     .addStyleEntry('city', './assets/styles/city.css')
     .addStyleEntry('airport', './assets/styles/airport.css')
     .addStyleEntry('companyJoin', './assets/styles/companyJoin.css')
+    .addStyleEntry('newAirport', './assets/styles/newAirport.css')
     .addEntry('annoncejs','./assets/annonce.js')
     .addEntry('prixjs','./assets/prix.js')
 

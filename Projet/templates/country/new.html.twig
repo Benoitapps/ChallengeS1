@@ -2,10 +2,16 @@
 
 {% block title %}Nouveau pays{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('newAirport') }}
+{% endblock %}
+
 {% block body %}
-    <h1>Créer un nouveau pays</h1>
+    <div>{% include 'barreAdmin.html.twig' %}</div>
+
 
     {{ include('country/_form.html.twig') }}
 
-    <a href="{{ path('app_country_index') }}">Retour à la liste</a>
+
 {% endblock %}

@@ -2,10 +2,17 @@
 
 {% block title %}Nouvelle ville{% endblock %}
 
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('newAirport') }}
+
+{% endblock %}
 {% block body %}
-    <h1>Créer une nouvelle ville/h1>
+
+    <div>{% include 'barre.html.twig' %}</div>
 
     {{ include('city/_form.html.twig') }}
 
-    <a href="{{ path('app_city_index') }}">Retour à la liste</a>
+
 {% endblock %}
