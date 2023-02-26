@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Payment index{% endblock %}
+{% block title %}Paiements{% endblock %}
 
 {% block body %}
     <h1>Payment index</h1>
@@ -8,11 +8,11 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>NumCarte</th>
+                <th>N°</th>
+                <th>N° Carte</th>
                 <th>Expiration</th>
-                <th>Cvv</th>
-                <th>actions</th>
+                <th>CVV</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,17 +23,17 @@
                 <td>{{ payment.expiration ? payment.expiration|date('Y-m-d') : '' }}</td>
                 <td>{{ payment.cvv }}</td>
                 <td>
-                    <a href="{{ path('app_payment_show', {'id': payment.id}) }}">show</a>
-                    <a href="{{ path('app_payment_edit', {'id': payment.id}) }}">edit</a>
+                    <a href="{{ path('app_payment_show', {'id': payment.id}) }}">Voir</a>
+                    <a href="{{ path('app_payment_edit', {'id': payment.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Aucun paiement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_payment_new') }}">Create new</a>
+    <a href="{{ path('app_payment_new') }}">Créer nouveau</a>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Company index{% endblock %}
+{% block title %}Espace partenaire{% endblock %}
 
 {% block body %}
 
@@ -41,17 +41,11 @@
     {% if is_granted("ROLE_COMPANY") and app.user.isOwner %}
         <div id="invitation">
              <div class="liens">
-            <a href="{{ path('app_company_resend_invite') }}">Générer nouveau code d'invitation</a>
+            <a href="{{ path('app_company_resend_invite') }}">Générer un nouveau code d'invitation</a>
              </div>
             <p>Attention, le code actuel ne sera plus valide.</p>
         </div>
     {% endif %}
 
     </div>
-
-
-
-
-
-
 {% endblock %}

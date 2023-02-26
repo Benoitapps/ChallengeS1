@@ -21,6 +21,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
+    #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/contact', name: 'app_default_contact')]
     public function contact(): Response
     {
