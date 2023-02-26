@@ -22,7 +22,7 @@ class CountryController extends AbstractController
             'countries' => $countryRepository->findBy([], ['name' => 'ASC']),
         ]);
     }
-    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin/new', name: 'app_country_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CountryRepository $countryRepository): Response
     {
@@ -49,7 +49,7 @@ class CountryController extends AbstractController
             'country' => $country,
         ]);
     }
-    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin/{id}/edit', name: 'app_country_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Country $country, CountryRepository $countryRepository): Response
     {
@@ -67,7 +67,7 @@ class CountryController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[Security("is_granted('ROLE_ADMIN'))")]
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin/{id}', name: 'app_country_delete', methods: ['POST'])]
     public function delete(Request $request, Country $country, CountryRepository $countryRepository): Response
     {
