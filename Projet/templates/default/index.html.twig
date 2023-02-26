@@ -7,12 +7,6 @@
         {{ parent() }}
         {{ encore_entry_link_tags('accueil') }}
     {% endblock %}
-    {% for flash in app.flashes('success') %}
-        <div class="alert alert-success">{{ flash }}</div>
-    {% endfor %}
-    {% for flash in app.flashes('error') %}
-        <div class="alert alert-danger">{{ flash }}</div>
-    {% endfor %}
 
    {% include 'barre.html.twig' %}
 

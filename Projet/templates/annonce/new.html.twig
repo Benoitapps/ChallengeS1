@@ -2,8 +2,15 @@
 
 {% block title %}New Annonce{% endblock %}
 
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('newAnnonce') }}
+
+{% endblock %}
 {% block body %}
     <h1>Create new Annonce</h1>
+
 
     {{ form_start(form) }}
     {{ form_rest(form) }}

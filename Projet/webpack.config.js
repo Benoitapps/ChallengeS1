@@ -30,6 +30,7 @@ Encore
     .addStyleEntry('header', './assets/styles/header.css')
     .addStyleEntry('contact', './assets/styles/contact.css')
     .addStyleEntry('newCompany', './assets/styles/newCompany.css')
+    .addStyleEntry('newAnnonce', './assets/styles/newAnnonce.css')
     .addStyleEntry('payment', './assets/styles/payment.css')
     .addStyleEntry('barre', './assets/styles/barre.css')
     .addStyleEntry('country', './assets/styles/country.css')
