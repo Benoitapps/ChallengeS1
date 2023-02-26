@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream:Projet/migrations/Version20230226194025.php
 <?php
 
 declare(strict_types=1);
@@ -144,3 +145,5 @@ final class Version20230226194025 extends AbstractMigration
         $this->addSql('DROP TABLE messenger_messages');
     }
 }
+=======
+>>>>>>> Stashed changes:Projet/migrations/Version20230226173210.php
