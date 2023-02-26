@@ -38,6 +38,18 @@ class AnnonceController extends AbstractController
 
         ]);
     }
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/admin/annonce', name: 'app_annonce_adminindex', methods: ['GET', 'POST'])]
+    public function indexadmin(AnnonceRepository $annonceRepository,Request $request, AirportRepository $airportRepository): Response
+    {
+
+        return $this->render('annonce/indexadmin.html.twig', [
+            //'annonces' => $annonceRepository->search($request,$request->query->get('q'))
+            'airports' => $airportRepository->findAll(),
+            'annonces' => $annonceRepository->search($request, $request->query->getInt('limit', 100)),
+
+        ]);
+    }
 
 
 
@@ -84,74 +96,74 @@ class AnnonceController extends AbstractController
     #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/panier', name: 'app_annonce_panier', methods: ['GET', 'POST'])]
     public function panier(Request $request, AnnonceRepository $annonceRepository, PaymentRepository $paymentRepository): Response
-      {
-          $place = new Place();
-          $payment = new Payment();
-          $utilisateur = $this->getUser();
-          $payment->setPayeur($utilisateur);
-          $formPay = $this->createForm(PaymentType::class,$payment);
-          $formPay->handleRequest($request);
+    {
+        $place = new Place();
+        $payment = new Payment();
+        $utilisateur = $this->getUser();
+        $payment->setPayeur($utilisateur);
+        $formPay = $this->createForm(PaymentType::class,$payment);
+        $formPay->handleRequest($request);
 
-          if ($formPay->isSubmitted() && $formPay->isValid())  {
-              $paymentRepository->save($payment, true);
+        if ($formPay->isSubmitted() && $formPay->isValid())  {
+            $paymentRepository->save($payment, true);
 
-              return $this->redirectToRoute('app_annonce_panier', [], Response::HTTP_SEE_OTHER);
-          }
+            return $this->redirectToRoute('app_annonce_panier', [], Response::HTTP_SEE_OTHER);
+        }
 
-          return $this->render('annonce/panier.html.twig', [
-              'annonces' => $annonceRepository->findAll(),
-              'formPay' => $formPay->createView(),
-              'place' => $place,
-          ]);
-      }
+        return $this->render('annonce/panier.html.twig', [
+            'annonces' => $annonceRepository->findAll(),
+            'formPay' => $formPay->createView(),
+            'place' => $place,
+        ]);
+    }
 
     //redirection payer
     #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/pay/{id}', name: 'app_annonce_pay', methods: ['GET', 'POST'])]
     public function pay(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, PaymentRepository $paymentRepository, PlaceRepository $placeRepository): Response
-        {
-            $utilisateur = $this->getUser();
+    {
+        $utilisateur = $this->getUser();
 
-            $payment = new Payment();
-            $payment->setPayeur($utilisateur);
-            $formPay = $this->createForm(PaymentType::class,$payment);
-            $formPay->handleRequest($request);
+        $payment = new Payment();
+        $payment->setPayeur($utilisateur);
+        $formPay = $this->createForm(PaymentType::class,$payment);
+        $formPay->handleRequest($request);
 
-            $idplace = $request->query->get('idplace');
-            $place = $placeRepository->find($idplace);
+        $idplace = $request->query->get('idplace');
+        $place = $placeRepository->find($idplace);
 
 
-            $place->setAcheteur($utilisateur);
-            $place->setReservation($annonce);
-            $place->setPayer(true);
-            $formPlace = $this->createForm(PlaceType::class,$place,array(
-                'variable' => $annonce->getPlace()
-            ));
-            $formPlace->handleRequest($request);
+        $place->setAcheteur($utilisateur);
+        $place->setReservation($annonce);
+        $place->setPayer(true);
+        $formPlace = $this->createForm(PlaceType::class,$place,array(
+            'variable' => $annonce->getPlace()
+        ));
+        $formPlace->handleRequest($request);
 
-            if ($formPay->isSubmitted() && $formPay->isValid() && $formPlace->isSubmitted() && $formPlace->isValid()) {
-                $annonce->setCreator($this->getUser());
+        if ($formPay->isSubmitted() && $formPay->isValid() && $formPlace->isSubmitted() && $formPlace->isValid()) {
+            $annonce->setCreator($this->getUser());
 
-                $placeacheter = $place->getNb();
-                $placetotal = $annonce->getPlace();
-                $placeres = $placetotal - $placeacheter;
+            $placeacheter = $place->getNb();
+            $placetotal = $annonce->getPlace();
+            $placeres = $placetotal - $placeacheter;
 
-                $annonce->setPlace($placeres);
+            $annonce->setPlace($placeres);
 
-                $annonceRepository->save($annonce, true);
-                $placeRepository->save($place, true);
-                $placeRepository->save($place, true);
+            $annonceRepository->save($annonce, true);
+            $placeRepository->save($place, true);
+            $placeRepository->save($place, true);
 
-                return $this->redirectToRoute('app_annonce_perso', [], Response::HTTP_SEE_OTHER);
-            }
-
-            return $this->render('annonce/pay.html.twig', [
-                'annonces' => $annonceRepository->findAll(),
-                'annonce' => $annonce,
-                'formPay' => $formPay->createView(),
-                'formPlace'=> $formPlace->createView(),
-            ]);
+            return $this->redirectToRoute('app_annonce_perso', [], Response::HTTP_SEE_OTHER);
         }
+
+        return $this->render('annonce/pay.html.twig', [
+            'annonces' => $annonceRepository->findAll(),
+            'annonce' => $annonce,
+            'formPay' => $formPay->createView(),
+            'formPlace'=> $formPlace->createView(),
+        ]);
+    }
 
 
 

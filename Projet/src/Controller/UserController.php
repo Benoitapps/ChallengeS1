@@ -33,7 +33,6 @@ class UserController extends AbstractController
         $user->getCompany()->setCompanyVerified(true);
         $userRepository->save($user);
         return $this->redirectToRoute('app_user_index');
-
     }*/
 
     /*#[Route('/join/{id}', name: 'app_user_join', methods: ['GET'])]
@@ -42,7 +41,6 @@ class UserController extends AbstractController
         $user->setCompany(Company::)
 ;        $userRepository->save($user);
         return $this->redirectToRoute('app_user_index');
-
     }*/
     #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin/new', name: 'app_user_new', methods: ['GET', 'POST'])]

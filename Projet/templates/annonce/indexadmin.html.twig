@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonce index{% endblock %}
+
+{% block body %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('annoncejs') }}
+    {% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        {{ encore_entry_script_tags('annoncejs') }}
+    {% endblock %}
+
+    <div>{% include 'barreAdmin.html.twig' %}</div>
+
+<div class="interieur">
+
+    <div id="ennoncer">
+        <p>Deals du : </p>
+        <a id="dateheur">.</a>
+    </div>
+
+    <div id="timer">
+
+    </div>
+
+    <div id="selecteur">
+    <form method="GET">
+        <select class="selectchoix" name="airport">
+            <option value="">Tous les Depart</option>
+            {% for airport in airports %}
+                <option value="{{ airport.id }}" {% if airport.id == app.request.query.get('airport') %}selected{% endif %}>{{ airport.name }}</option>
+            {% endfor %}
+        </select>
+        <button class="btnsearch" type="submit">Rechercher</button>
+    </form>
+    </div>
+
+    <table class="table">
+
+        <div class="allbillet">
+        {% for annonce in annonces %}
+            {% if annonce.place != 0 %}
+
+            {% if date() < annonce.dateAnnonce %}
+
+    {% include 'annonce/annonce_type.html.twig' %}
+                <div id="boutonmodif">
+                    {% if is_granted('ROLE_COMPANY') %}
+                        <div class="btnannonce"><a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">Modifier</a></div>
+                    {% endif %}
+                </div>
+
+
+            {% endif %}
+            {% endif %}
+        {% endfor %}
+            </div>
+
+
+    </table>
+
+    {% if is_granted('ROLE_COMPANY') %}
+    <div class="btnannonce" id="create"><a href="{{ path('app_annonce_new') }}">Create new</a></div>
+    {% endif %}
+</div>
+{% endblock %}
