@@ -4,10 +4,11 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('newCompany') }}
+    {{ encore_entry_link_tags('companyJoin') }}
 
 {% endblock %}
 {% block body %}
+    <div>{% include 'barre.html.twig' %}</div>
 
     <div class="block">
 
@@ -18,7 +19,7 @@
 
 
         <div class="image">
-            <img id="add" src="{{asset('images/addCompany.png')}}">
+            <img id="add" src="{{asset('images/joinCompany.png')}}">
         </div>
     </div>
 
