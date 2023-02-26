@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-class Company//app.user.annoncesUser
+class Company
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,16 +21,15 @@ class Company//app.user.annoncesUser
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $companyVerified = null;
+    #[ORM\Column]
+    private ?int $siren = null;
 
-    #[ORM\OneToMany(mappedBy: 'companyUser', targetEntity: User::class)]
-    private Collection $client;
+    #[ORM\Column(length: 255)]
+    private ?string $code = null;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->client = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,51 +79,26 @@ class Company//app.user.annoncesUser
         return $this;
     }
 
-    public function isCompanyVerified(): ?bool
+    public function getSiren(): ?int
     {
-        return $this->companyVerified;
+        return $this->siren;
     }
 
-    public function company_verified(): ?bool
+    public function setSiren(int $siren): self
     {
-        return $this->companyVerified;
-    }
-
-
-
-    public function setCompanyVerified(?bool $companyVerified): self
-    {
-        $this->companyVerified = $companyVerified;
+        $this->siren = $siren;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getClient(): Collection
+    public function getCode(): ?string
     {
-        return $this->client;
+        return $this->code;
     }
 
-    public function addClient(User $client): self
+    public function setCode(string $code): self
     {
-        if (!$this->client->contains($client)) {
-            $this->client->add($client);
-            $client->setCompanyUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClient(User $client): self
-    {
-        if ($this->client->removeElement($client)) {
-            // set the owning side to null (unless already changed)
-            if ($client->getCompanyUser() === $this) {
-                $client->setCompanyUser(null);
-            }
-        }
+        $this->code = $code;
 
         return $this;
     }

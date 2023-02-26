@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use SendinBlue\Client\Model\SendSmtpEmail;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,10 +18,13 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
+use SendinBlue;
+use GuzzleHttp;
 
 #[Route('/reset-password')]
 class ResetPasswordController extends AbstractController
@@ -27,7 +33,8 @@ class ResetPasswordController extends AbstractController
 
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private UrlGeneratorInterface $urlGenerator
     ) {
     }
 
@@ -35,7 +42,7 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
     #[Route('', name: 'app_forgot_password_request')]
-    public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
+    public function request(Request $request, TranslatorInterface $translator, EmailService $emailService): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
@@ -43,8 +50,8 @@ class ResetPasswordController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->processSendingPasswordResetEmail(
                 $form->get('email')->getData(),
-                $mailer,
-                $translator
+                $translator,
+                $emailService
             );
         }
 
@@ -129,7 +136,7 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
+    private function processSendingPasswordResetEmail(string $emailFormData, TranslatorInterface $translator, EmailService $emailService): RedirectResponse
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email' => $emailFormData,
@@ -156,17 +163,22 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $email = (new TemplatedEmail())
-            ->from(new Address('passwordforget@beclal.com', 'Beclal Mail Bot'))
-            ->to($user->getEmail())
-            ->subject('Your password reset request')
-            ->htmlTemplate('reset_password/email.html.twig')
-            ->context([
-                'resetToken' => $resetToken,
-            ])
-        ;
+        $expirationMessageKey = $resetToken->getExpirationMessageKey();
+        $expirationMessageData = $resetToken->getExpirationMessageData();
+        $domain = 'ResetPasswordBundle';
+        $expirationMessage = $translator->trans($expirationMessageKey, $expirationMessageData, $domain);
 
-        $mailer->send($email);
+        $token = $resetToken->getToken();
+        $url = $this->urlGenerator->generate('app_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $userEmail = $user->getEmail();
+        $templateId = 4; //TemplateId = 4 pour reset password
+        $params = array('name'=>'BECLAL', 'USER'=>$user->getEmail(),'URL'=>$url, 'EXPIRES'=>$expirationMessage);
+        try {
+            $emailService->sendTransactionalEmail($userEmail, $templateId, $params);
+        } catch (Exception $e) {
+            $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de l\'e-mail : ' . $e->getMessage());
+        }
 
         // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('contact') }}
+    {% endblock %}
+
+
+    <div id="block">
+        <div id="text1">
+            <p>
+                Vous êtes résponsable d'une companie aérienne et souhaitez partager <br>
+                vos offres, n'hésitez pas et ajouter votre compagnie sur BECLAL ! <br>
+            </p>
+            <div class="liens">
+                <a href="{{ path('app_company_request_new') }}">Ajouter mon entreprise</a>
+            </div>
+        </div>
+
+        <div id="text2">
+            <p>
+                Rejoignez la companie pour laquelle vous travailler <br>
+                avec votre code d'invitation !
+            </p>
+            <div class="liens">
+                <a href="{{ path('app_company_request_join') }}">Rejoindre mon entreprise</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="block2">
+        <div id="voyage2">
+            <img id="aircraft" src="{{asset('images/aircraft.png')}}">
+        </div>
+
+        <div id="voyage1">
+            <img id ="working" src="{{asset('images/working.png')}}">
+        </div>
+
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+<h3>Rejoindre votre entreprise </h3>
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Rejoindre') }}</button>
+    <button class="btn-annuler"><a id="annuler" href="{{ path('app_default_contact') }}">Annuler</a></button>
+{{ form_end(form) }}
+

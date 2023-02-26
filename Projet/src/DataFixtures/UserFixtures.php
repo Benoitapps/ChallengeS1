@@ -23,8 +23,8 @@ class UserFixtures extends Fixture
         $object = (new User())
             ->setEmail('user@user.fr')
             ->setPassword($pwd)
-            ->setRoles([])
-            ->setIsVerified(0)
+            ->setRoles(["ROLE_CUSTOMER"])
+            ->setIsVerified(1)
         ;
         $manager->persist($object);
 
@@ -32,7 +32,7 @@ class UserFixtures extends Fixture
             ->setEmail('admin@user.fr')
             ->setPassword($pwd)
             ->setRoles(["ROLE_ADMIN"])
-            ->setIsVerified(0)
+            ->setIsVerified(1)
         ;
         $manager->persist($object);
 
@@ -40,7 +40,7 @@ class UserFixtures extends Fixture
             ->setEmail('company@user.fr')
             ->setPassword($pwd)
             ->setRoles(["ROLE_COMPANY"])
-            ->setIsVerified(0)
+            ->setIsVerified(1)
             ->setCompany($faker->randomElement($companies))
         ;
         $manager->persist($object);

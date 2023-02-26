@@ -3,12 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Entity\User;
+use App\Entity\RequestCompany;
 use App\Form\CompanyType;
+use App\Service\EmailService;
 use App\Repository\CompanyRepository;
+use App\Repository\UserRepository;
+use App\Repository\RequestCompanyRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Array_;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[Route('/company')]
 class CompanyController extends AbstractController
@@ -39,6 +49,112 @@ class CompanyController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    /**
+     * @throws \Exception
+     */
+    #[Route('/add/{id}', name: 'app_company_add', methods: ['GET', 'POST'])]
+    public function add(Request $request,int $id, RequestCompanyRepository $requestCompanyRepository, CompanyRepository $companyRepository, UserRepository $userRepository, EntityManagerInterface $entityManager, EmailService $emailService): Response
+    {
+
+        $requestCompany = $requestCompanyRepository->find($id);
+
+        $company = new Company();
+        $company->setName($requestCompany->getName());
+        $company->setSiren($requestCompany->getSiren());
+        $randomToken = $this->generateRandomToken();
+        $company->setCode(password_hash($randomToken, PASSWORD_DEFAULT));
+        $companyRepository->save($company, true);
+        $requestor = $requestCompany->getRequestor();
+        $requestor->setCompany($company);
+        $requestor->setIsOwner(1);
+        $requestor->setRoles(["ROLE_COMPANY"]);
+        $userRepository->save($requestor, true);
+        $requestCompanyRepository->remove($requestCompany, true);
+
+        $userEmail = $requestor->getEmail();
+        $templateId = 5; //TemplateId = 5 pour acceptation partenaire avec code
+        $params = array('name'=>'BECLAL', 'USER'=>$userEmail,'COMPANY'=>$company->getName(), 'CODE'=>$randomToken);
+        try {
+            $emailService->sendTransactionalEmail($userEmail, $templateId, $params);
+        } catch (Exception $e) {
+            $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de l\'e-mail : ' . $e->getMessage());
+        }
+
+        return $this->redirectToRoute('app_request_index', [], Response::HTTP_SEE_OTHER);
+
+
+    }
+
+    #[Route('/resend/invite', name: 'app_company_resend_invite', methods: ['GET', 'POST'])]
+    public function sendInvite(Request $request, RequestCompanyRepository $requestCompanyRepository, CompanyRepository $companyRepository, UserRepository $userRepository, EntityManagerInterface $entityManager, EmailService $emailService): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $company = $user->getCompany();
+
+        $randomToken = $this->generateRandomToken();
+        $company->setCode(password_hash($randomToken, PASSWORD_DEFAULT));
+        $companyRepository->save($company, true);
+
+        $userEmail = $user->getEmail();
+        $templateId = 6; //TemplateId = 6 pour générer un nouveau code
+        $params = array('name'=>'BECLAL', 'USER'=>$userEmail, 'CODE'=>$randomToken);
+        try {
+            $emailService->sendTransactionalEmail($userEmail, $templateId, $params);
+            $this->addFlash('success', 'Nouveau code d\'invitation envoyé');
+        } catch (Exception $e) {
+            $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de l\'e-mail : ' . $e->getMessage());
+        }
+
+        return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+
+
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function generateRandomToken() {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $token = '';
+        for ($i = 0; $i < 8; $i++) {
+            $token .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+        return $token;
+    }
+
+    #[Route('/joinId/{id}', name: 'app_company_join_by_id', methods: ['POST'])]
+    public function joinById(Request $request, Company $company, UserRepository $userRepository): Response
+    {
+        $user = $this->getUser();
+
+        if ($this->isCsrfTokenValid('joinById'.$company->getId(), $request->request->get('_token'))) {
+            if($user->getCompany() == null) {
+                $user->setCompany($company);
+                $userRepository->save($user, true);
+            } else {
+                return $this->redirectToRoute('app_company_join', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+        return $this->redirectToRoute('app_company_join', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /*#[Route('/join/{code}', name: 'app_company_join', methods: ['GET', 'POST'])]
+    public function join(CompanyRepository $companyRepository, UserRepository $userRepository): Response
+    {
+
+        $companies = $companyRepository->findAll();
+        $user = $this->getUser();
+
+        return $this->render('company/joinCompany.html.twig', [
+            'companies' => $companies,
+            'userCompany' => $user->getCompany(),
+        ]);
+
+    }*/
+
+
 
     #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
     public function show(Company $company): Response
