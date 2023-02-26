@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\UuidV6 as Uuid;
 
 #[Security("is_granted('ROLE_ADMIN')")]
 #[Route('/user')]
@@ -76,7 +77,7 @@ class UserController extends AbstractController
 
     #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin/annonce/{id}', name: 'app_user_annonce', methods: ['GET'])]
-    public function anonce(User $user, PlaceRepository $placeRepository,int $id): Response
+    public function anonce(User $user, PlaceRepository $placeRepository,Uuid $id): Response
     {
         $places = $placeRepository->findBy(['acheteur' => $id]);
 

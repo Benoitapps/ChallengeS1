@@ -34,7 +34,7 @@ class AnnonceController extends AbstractController
         return $this->render('annonce/index.html.twig', [
             //'annonces' => $annonceRepository->search($request,$request->query->get('q'))
             'airports' => $airportRepository->findAll(),
-            'annonces' => $annonceRepository->search($request, $request->query->getInt('limit', 100)),
+            'annonces' => $annonceRepository->search($request, $request->query->getInt('limit', 100)),//le nombre de requetes
 
         ]);
     }
