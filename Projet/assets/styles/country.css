@@ -22,14 +22,14 @@ body {
 #indexpays {
     display: flex;
     background-color: white;
-    margin-bottom: 1em;
+    margin-bottom: 1vh;
     font-size: 19px;
     flex-wrap: wrap;
     flex-direction: row;
     align-content: stretch;
     padding: 14px;
     width: 20em;
-    height: 8%;
+    height: 7vh;
     overflow: auto;
     align-items: center;
     justify-content: space-between;
@@ -37,10 +37,16 @@ body {
 
 #toutpays{
     background-color: #808080cc;
-    height: 53em;
+    height: 70vh;
     overflow: auto;
     border: solid;
     margin-left: 1em;
+    background-color: #808080cc;
+    height: 70vh;
+    overflow: auto;
+    border: solid;
+    margin-left: 1em;
+    border-radius: 10px;
 
 }
 
@@ -150,4 +156,8 @@ select {
 
 .btnsearch:hover {
     color: lightskyblue;
+}
+
+#devtout{
+    display: flex;
 }

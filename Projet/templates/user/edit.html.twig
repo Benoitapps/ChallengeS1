@@ -3,6 +3,13 @@
 {% block title %}Modifier utilisateur{% endblock %}
 
 {% block body %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('country') }}
+    {% endblock %}
+
+    <div>{% include 'barre.html.twig' %}</div>
     <h1>Modifier utilisateur</h1>
 
     {{ include('user/_form.html.twig', {'button_label': 'Modifier'}) }}
