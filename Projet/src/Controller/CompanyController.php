@@ -12,14 +12,17 @@ use App\Repository\UserRepository;
 use App\Repository\RequestCompanyRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Integer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+#[Security("(is_granted('ROLE_COMPANY'))")]
 #[Route('/company')]
 class CompanyController extends AbstractController
 {
@@ -31,6 +34,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
+    #[Security("(is_granted('ROLE_COMPANY'))")]
     #[Route('/new', name: 'app_company_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CompanyRepository $companyRepository): Response
     {
@@ -53,6 +57,7 @@ class CompanyController extends AbstractController
     /**
      * @throws \Exception
      */
+    #[Security("(is_granted('ROLE_COMPANY'))")]
     #[Route('/add/{id}', name: 'app_company_add', methods: ['GET', 'POST'])]
     public function add(Request $request,int $id, RequestCompanyRepository $requestCompanyRepository, CompanyRepository $companyRepository, UserRepository $userRepository, EntityManagerInterface $entityManager, EmailService $emailService): Response
     {
@@ -86,6 +91,7 @@ class CompanyController extends AbstractController
 
     }
 
+    #[Security("(is_granted('ROLE_COMPANY'))")]
     #[Route('/resend/invite', name: 'app_company_resend_invite', methods: ['GET', 'POST'])]
     public function sendInvite(Request $request, RequestCompanyRepository $requestCompanyRepository, CompanyRepository $companyRepository, UserRepository $userRepository, EntityManagerInterface $entityManager, EmailService $emailService): Response
     {
@@ -124,38 +130,7 @@ class CompanyController extends AbstractController
         return $token;
     }
 
-    #[Route('/joinId/{id}', name: 'app_company_join_by_id', methods: ['POST'])]
-    public function joinById(Request $request, Company $company, UserRepository $userRepository): Response
-    {
-        $user = $this->getUser();
-
-        if ($this->isCsrfTokenValid('joinById'.$company->getId(), $request->request->get('_token'))) {
-            if($user->getCompany() == null) {
-                $user->setCompany($company);
-                $userRepository->save($user, true);
-            } else {
-                return $this->redirectToRoute('app_company_join', [], Response::HTTP_SEE_OTHER);
-            }
-        }
-        return $this->redirectToRoute('app_company_join', [], Response::HTTP_SEE_OTHER);
-    }
-
-    /*#[Route('/join/{code}', name: 'app_company_join', methods: ['GET', 'POST'])]
-    public function join(CompanyRepository $companyRepository, UserRepository $userRepository): Response
-    {
-
-        $companies = $companyRepository->findAll();
-        $user = $this->getUser();
-
-        return $this->render('company/joinCompany.html.twig', [
-            'companies' => $companies,
-            'userCompany' => $user->getCompany(),
-        ]);
-
-    }*/
-
-
-
+    #[Security("(is_granted('ROLE_COMPANY'))")]
     #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
     public function show(Company $company): Response
     {
@@ -164,6 +139,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
+    #[Security("(is_granted('ROLE_COMPANY'))")]
     #[Route('/{id}/edit', name: 'app_company_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Company $company, CompanyRepository $companyRepository): Response
     {
@@ -182,6 +158,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
+    #[Security("(is_granted('ROLE_COMPANY'))")]
     #[Route('/{id}', name: 'app_company_delete', methods: ['POST'])]
     public function delete(Request $request, Company $company, CompanyRepository $companyRepository): Response
     {

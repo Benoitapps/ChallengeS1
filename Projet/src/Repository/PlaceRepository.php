@@ -39,6 +39,23 @@ class PlaceRepository extends ServiceEntityRepository
         }
     }
 
+    public function findPlacesToRemind(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT place.id, annonce.date_depart_aller, user.email
+            FROM App\Entity\Place place
+            JOIN place.reservation reservation
+            JOIN place.user user
+            WHERE annonce.date_depart_aller = DATE_ADD(CURRENT_DATE(), INTERVAL 1 DAY)
+            AND place.payer = true
+            GROUP BY user.email'
+        );
+
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Place[] Returns an array of Place objects
 //     */

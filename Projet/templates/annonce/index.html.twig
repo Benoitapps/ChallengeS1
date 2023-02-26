@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonce index{% endblock %}
+{% block title %}Annonces{% endblock %}
 
 {% block body %}
 
@@ -29,13 +29,13 @@
     <div id="selecteur">
     <form method="GET">
         <select class="selectchoix" name="airport">
-            <option value="">Tous les Depart</option>
+            <option value="">Tous les départs</option>
             {% for airport in airports %}
                 <option value="{{ airport.id }}" {% if airport.id == app.request.query.get('airport') %}selected{% endif %}>{{ airport.name }}</option>
             {% endfor %}
         </select>
         <select class="selectchoix" name="limit">
-            <option value="">Toutes les Annonces</option>
+            <option value="">Toutes les annonces</option>
             <option value="5" {% if app.request.query.get('limit') == 5 %}selected{% endif %}>5</option>
             <option value="10" {% if app.request.query.get('limit') == 10 %}selected{% endif %}>10</option>
             <option value="15" {% if app.request.query.get('limit') == 15 %}selected{% endif %}>15</option>
@@ -71,7 +71,7 @@
     </table>
 
     {% if is_granted('ROLE_COMPANY') %}
-    <div class="btnannonce" id="create"><a href="{{ path('app_annonce_new') }}">Create new</a></div>
+    <div class="btnannonce" id="create"><a href="{{ path('app_annonce_new') }}">Créer nouvelle</a></div>
     {% endif %}
 </div>
 {% endblock %}

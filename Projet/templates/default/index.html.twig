@@ -7,8 +7,8 @@
         {{ parent() }}
         {{ encore_entry_link_tags('accueil') }}
     {% endblock %}
-
-   {% include 'barre.html.twig' %}
+<div>
+   {% include 'barre.html.twig' %}</div>
 
 
     {% for flash in app.flashes('success') %}
@@ -60,7 +60,7 @@
                 Sans coûts suppémentaires, sans frais cachés.
             </p>
             <div class="liens">
-                <a href="{{ path('app_default') }}">Place à la découverte</a>
+                <a href="{{ path('app_annonce_index') }}">Place à la découverte</a>
             </div>
         </div>
     </div>

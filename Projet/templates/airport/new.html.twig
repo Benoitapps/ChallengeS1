@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Airport{% endblock %}
+{% block title %}Nouvel aéroport{% endblock %}
 
 {% block body %}
-    <h1>Create new Airport</h1>
+    <h1>Créer un nouvel aéroport</h1>
 
     {{ include('airport/_form.html.twig') }}
 
-    <a href="{{ path('app_airport_index') }}">back to list</a>
+    <a href="{{ path('app_airport_index') }}">Retour à la liste</a>
 {% endblock %}
