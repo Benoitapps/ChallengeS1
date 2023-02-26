@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('requestCompany') }}
+{% endblock %}
+
 {% block body %}
     <div>{% include 'barreAdmin.html.twig' %}</div>
     <div class="container">

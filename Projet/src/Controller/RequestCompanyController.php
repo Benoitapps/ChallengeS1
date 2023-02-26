@@ -11,6 +11,7 @@ use App\Form\RequestCompanyType;
 use App\Repository\CompanyRepository;
 use App\Repository\RequestCompanyRepository;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RequestCompanyController extends AbstractController
 {
-    #[Route('/request', name: 'app_request_index', methods: ['GET'])]
+    #[Security("(is_granted('ROLE_ADMIN'))")]
+    #[Route('/admin/request', name: 'app_request_index', methods: ['GET'])]
     public function index(RequestCompanyRepository $requestCompanyRepository): Response
     {
 

@@ -38,8 +38,10 @@ Encore
     .addStyleEntry('airport', './assets/styles/airport.css')
     .addStyleEntry('companyJoin', './assets/styles/companyJoin.css')
     .addStyleEntry('newAirport', './assets/styles/newAirport.css')
+    .addStyleEntry('requestCompany', './assets/styles/requestCompany.css')
     .addEntry('annoncejs','./assets/annonce.js')
     .addEntry('prixjs','./assets/prix.js')
+
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

@@ -16,7 +16,15 @@
     {{ form_start(form) }}
     <h3>Créer votre annonce</h3>
     {{ form_rest(form) }}
+
+    {% if is_granted("ROLE_ADMIN") %}
+    <button class="btn-annuler"><a id="annuler" href="{{ path('app_annonce_index') }}">Annuler</a></button>
+    {% endif %}
+
+    {% if is_granted("ROLE_COMPANY") %}
     <button class="btn-annuler"><a id="annuler" href="{{ path('app_company_index') }}">Annuler</a></button>
+    {% endif %}
+
     <button class="btn" type="submit" value="Créer">Créer</button>
     {{ form_end(form) }}
 
