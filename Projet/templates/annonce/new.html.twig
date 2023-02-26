@@ -10,8 +10,13 @@
 {% endblock %}
 {% block body %}
 
-
+    {% if is_granted('ROLE_ADMIN') %}
     <div>{% include 'barreAdmin.html.twig' %}</div>
+    {% endif %}
+
+    {% if is_granted('ROLE_COMPANY') %}
+    <div>{% include 'barre.html.twig' %}</div>
+    {% endif %}
 
     {{ form_start(form) }}
     <h3>Créer votre annonce</h3>
