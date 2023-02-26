@@ -8,6 +8,7 @@
         {{ parent() }}
         {{ encore_entry_link_tags('companyHome') }}
     {% endblock %}
+    <div>{% include 'barre.html.twig' %}</div>
     {% for flash in app.flashes('success') %}
         <div class="alert alert-success">{{ flash }}</div>
     {% endfor %}
@@ -27,14 +28,14 @@
         <div id="ajoutDestination">
             <p>Ajoutez une destination en renseignant ses informations et commencer à vendre sur BECLAL</p>
             <div class="liens">
-                <a href="{{ path('app_default') }}">Ajouter une destination</a>
+                <a href="{{ path('app_annonce_new') }}">Ajouter une annonce</a>
             </div>
         </div>
 
         <div id="mesDestinations">
             <p>Consultez vos destinations, modifiez-les ou bien supprimez-les</p>
             <div class="liens">
-                <a href="{{ path('app_default') }}">Mes destinations</a>
+                <a href="{{ path('app_default') }}">Mes annonces</a>
             </div>
         </div>
 

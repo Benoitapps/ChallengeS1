@@ -11,11 +11,14 @@
 {% block body %}
     <h1>Créer une nouvelle annonce</h1>
 
+    <div>{% include 'barre.html.twig' %}</div>
 
     {{ form_start(form) }}
+    <h3>Créer votre annonce</h3>
     {{ form_rest(form) }}
-    <input type="submit" value="Créer">
+    <button class="btn-annuler"><a id="annuler" href="{{ path('app_company_index') }}">Annuler</a></button>
+    <button class="btn" type="submit" value="Créer">Créer</button>
     {{ form_end(form) }}
 
-    <a href="{{ path('app_annonce_index') }}">Retour à la liste</a>
+
 {% endblock %}

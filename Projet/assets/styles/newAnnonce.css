@@ -1,14 +1,19 @@
 body{
     margin: 0;
     background: linear-gradient(45deg, #6495ED, #B0E0E6);
-    height: 100vh;
+    height: 180vh;
 
+}
+
+h3{
+
+    text-align: center;
 }
 
 form {
     max-width: 400px;
-    margin-left: 10%;
-    margin-top: 30%;
+    margin-left: 30%;
+    margin-top: 5%;
     background: rgba(255, 255, 255, .3);
     padding: 5em;
     border-radius: 20px;
@@ -30,6 +35,24 @@ input[type="text"] {
     box-sizing: border-box;
 }
 
+
+input[type="datetime-local"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
 
 input[type="number"] {
     padding: 10px;
@@ -72,12 +95,3 @@ input[type="number"] {
     background-color: #FF0000;
 }
 
-img{
-    margin-top: 17%;
-    width : 68%;
-    max-width : 100%;
-    height: auto;
-    margin-left: 15%;
-    border-radius: 20px;
-    box-shadow: 20px 20px 40px -6px rgba(0,0,0, .2);
-}
