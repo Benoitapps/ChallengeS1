@@ -13,9 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Security("(is_granted('ROLE_ADMIN'))")]
 #[Route('/airport')]
 class AirportController extends AbstractController
 {
+    #[Security("(is_granted('ADMIN'))")]
     #[Route('/', name: 'app_airport_index', methods: ['GET'])]
     public function index(AirportRepository $airportRepository, Request $request, CityRepository $cityRepository): Response
     {
@@ -25,7 +27,7 @@ class AirportController extends AbstractController
 
         ]);
     }
-    #[Security("(is_granted('ROLE_COMPANY'))")]
+    #[Security("(is_granted('ROLE_ADMIN'))")]
     #[Route('/admin/new', name: 'app_airport_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AirportRepository $airportRepository): Response
     {
@@ -45,6 +47,7 @@ class AirportController extends AbstractController
         ]);
     }
 
+    #[Security("(is_granted('ROLE_ADMIN'))")]
     #[Route('/{id}', name: 'app_airport_show', methods: ['GET'])]
     public function show(Airport $airport): Response
     {
@@ -52,7 +55,7 @@ class AirportController extends AbstractController
             'airport' => $airport,
         ]);
     }
-    #[Security("(is_granted('ROLE_COMPANY'))")]
+    #[Security("(is_granted('ROLE_ADMIN'))")]
     #[Route('/admin/{id}/edit', name: 'app_airport_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Airport $airport, AirportRepository $airportRepository): Response
     {

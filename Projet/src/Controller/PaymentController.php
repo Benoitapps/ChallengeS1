@@ -5,14 +5,17 @@ namespace App\Controller;
 use App\Entity\Payment;
 use App\Form\PaymentType;
 use App\Repository\PaymentRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Security("is_granted('ROLE_ADMIN'))")]
 #[Route('/payment')]
 class PaymentController extends AbstractController
 {
+    #[Security("is_granted('ROLE_ADMIN'))")]
     #[Route('/', name: 'app_payment_index', methods: ['GET'])]
     public function index(PaymentRepository $paymentRepository): Response
     {
@@ -21,6 +24,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN'))")]
     #[Route('/new', name: 'app_payment_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PaymentRepository $paymentRepository): Response
     {
@@ -42,6 +46,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN'))")]
     #[Route('/{id}', name: 'app_payment_show', methods: ['GET'])]
     public function show(Payment $payment): Response
     {
@@ -50,6 +55,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN'))")]
     #[Route('/{id}/edit', name: 'app_payment_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Payment $payment, PaymentRepository $paymentRepository): Response
     {
@@ -68,6 +74,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN'))")]
     #[Route('/{id}', name: 'app_payment_delete', methods: ['POST'])]
     public function delete(Request $request, Payment $payment, PaymentRepository $paymentRepository): Response
     {

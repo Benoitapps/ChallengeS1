@@ -22,10 +22,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-#[Security("(is_granted('ROLE_COMPANY'))")]
 #[Route('/company')]
 class CompanyController extends AbstractController
 {
+    #[Security("(is_granted('ROLE_COMPANY'))")]
     #[Route('/', name: 'app_company_index', methods: ['GET'])]
     public function index(CompanyRepository $companyRepository): Response
     {
@@ -34,7 +34,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
-    #[Security("(is_granted('ROLE_COMPANY'))")]
+    #[Security("(is_granted('ROLE_ADMIN'))")]
     #[Route('/new', name: 'app_company_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CompanyRepository $companyRepository): Response
     {
@@ -57,7 +57,7 @@ class CompanyController extends AbstractController
     /**
      * @throws \Exception
      */
-    #[Security("(is_granted('ROLE_COMPANY'))")]
+    #[Security("(is_granted('ROLE_ADMIN'))")]
     #[Route('/add/{id}', name: 'app_company_add', methods: ['GET', 'POST'])]
     public function add(Request $request,int $id, RequestCompanyRepository $requestCompanyRepository, CompanyRepository $companyRepository, UserRepository $userRepository, EntityManagerInterface $entityManager, EmailService $emailService): Response
     {
@@ -130,7 +130,7 @@ class CompanyController extends AbstractController
         return $token;
     }
 
-    #[Security("(is_granted('ROLE_COMPANY'))")]
+    #[Security("(is_granted('ROLE_ADMIN'))")]
     #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
     public function show(Company $company): Response
     {
@@ -139,7 +139,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
-    #[Security("(is_granted('ROLE_COMPANY'))")]
+    #[Security("(is_granted('ROLE_ADMIN'))")]
     #[Route('/{id}/edit', name: 'app_company_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Company $company, CompanyRepository $companyRepository): Response
     {
@@ -158,7 +158,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
-    #[Security("(is_granted('ROLE_COMPANY'))")]
+    #[Security("(is_granted('ROLE_ADMIN'))")]
     #[Route('/{id}', name: 'app_company_delete', methods: ['POST'])]
     public function delete(Request $request, Company $company, CompanyRepository $companyRepository): Response
     {

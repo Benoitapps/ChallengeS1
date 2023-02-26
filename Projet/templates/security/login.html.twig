@@ -33,11 +33,12 @@
         <input type="hidden" name="_csrf_token"
                value="{{ csrf_token('authenticate') }}">
         <button class="btn btn-lg btn-primary" id="button" type="submit">
-            Se connecter
+            Connexion
         </button>
     </div>
 </form>
         <p>Vous n'avez pas encore de compte ? <a href="{{ path('app_register') }}">S'inscrire</a>.</p>
+        <p><a href="{{ path('app_default') }}">Retour à l'accueil</a></p>
     </div>
 
     {#

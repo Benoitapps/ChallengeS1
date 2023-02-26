@@ -10,10 +10,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-#[Security("is_granted('ROLE_ADMIN')")]
+
 #[Route('/place')]
 class PlaceController extends AbstractController
 {
+    #[Security("is_granted('ROLE_ADMIN'))")]
     #[Route('/', name: 'app_place_index', methods: ['GET'])]
     public function index(PlaceRepository $placeRepository): Response
     {
@@ -22,7 +23,7 @@ class PlaceController extends AbstractController
             'places' => $placeRepository->findAll(),
         ]);
     }
-    #[Security("(is_granted('CUSTOMERS'))")]
+    #[Security("(is_granted('CUSTOMER'))")]
     #[Route('/new', name: 'app_place_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PlaceRepository $placeRepository): Response
     {
@@ -42,6 +43,7 @@ class PlaceController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN'))")]
     #[Route('/{id}', name: 'app_place_show', methods: ['GET'])]
     public function show(Place $place): Response
     {

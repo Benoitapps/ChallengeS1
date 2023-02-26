@@ -65,7 +65,6 @@ class AnnonceController extends AbstractController
 
     #[Security("is_granted('ROLE_COMPANY')")]
     #[Route('/company/new', name: 'app_annonce_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_COMPANY')]
     public function new(Request $request, AnnonceRepository $annonceRepository, PaymentRepository $paymentRepository): Response
     {
         $annonce = new Annonce();

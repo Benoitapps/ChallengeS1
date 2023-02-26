@@ -9,6 +9,12 @@
 {% endblock %}
 {% block body %}
     <div>{% include 'barre.html.twig' %}</div>
+    {% for flash in app.flashes('success') %}
+        <div class="alert alert-success">{{ flash }}</div>
+    {% endfor %}
+    {% for flash in app.flashes('error') %}
+        <div class="alert alert-danger">{{ flash }}</div>
+    {% endfor %}
 
     <div class="block">
 

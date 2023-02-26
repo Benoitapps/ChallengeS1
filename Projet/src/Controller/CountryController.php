@@ -11,9 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Security("is_granted('ROLE_ADMIN'))")]
 #[Route('/country')]
 class CountryController extends AbstractController
 {
+    #[Security("is_granted('ROLE_ADMIN'))")]
     #[Route('/', name: 'app_country_index', methods: ['GET'])]
     public function index(CountryRepository $countryRepository): Response
     {
@@ -42,6 +44,7 @@ class CountryController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN'))")]
     #[Route('/{id}', name: 'app_country_show', methods: ['GET'])]
     public function show(Country $country): Response
     {

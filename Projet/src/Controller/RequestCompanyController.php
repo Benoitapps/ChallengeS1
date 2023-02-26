@@ -57,6 +57,7 @@ class RequestCompanyController extends AbstractController
     }
 */
 
+    #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/request/new', name: 'app_company_request_new', methods: ['GET','POST'])]
     public function new(Request $request, RequestCompanyRepository $requestCompanyRepository): Response
     {
@@ -71,7 +72,7 @@ class RequestCompanyController extends AbstractController
             $requestCompany->setRequestor($requester);
             $requestCompanyRepository->save($requestCompany, true);
 
-            return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_default', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('company/new.html.twig', [
@@ -80,6 +81,7 @@ class RequestCompanyController extends AbstractController
         ]);
     }
 
+    #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/request/join', name: 'app_company_request_join', methods: ['GET', 'POST'])]
     public function join(Request $request, RequestCompanyRepository $requestCompanyRepository, CompanyRepository $companyRepository, UserRepository $userRepository): Response
     {

@@ -65,7 +65,7 @@ class RegistrationController extends AbstractController
             $params = array('name'=>'BECLAL', 'USER'=>$user->getEmail(), 'URL'=>$signatureComponents->getSignedUrl());
             try {
                 $emailService->sendTransactionalEmail($userEmail, $templateId, $params);
-                $this->addFlash('success', 'Un e-mail de confirmation a été envoyé à l\'adresse ' . $userEmail);
+                $this->addFlash('success', 'Un e-mail de confirmation a été envoyé à l\'adresse e-mail ' . $userEmail);
             } catch (Exception $e) {
                 $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de l\'e-mail de confirmation : ' . $e->getMessage());
             }
