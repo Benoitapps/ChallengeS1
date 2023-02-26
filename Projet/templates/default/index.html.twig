@@ -10,7 +10,13 @@
 
    {% include 'barre.html.twig' %}
 
-    </div>
+
+    {% for flash in app.flashes('success') %}
+        <div class="alert alert-success">{{ flash }}</div>
+    {% endfor %}
+    {% for flash in app.flashes('error') %}
+        <div class="alert alert-danger">{{ flash }}</div>
+    {% endfor %}
     <div id="fond">
         <img id="aile" src={{asset('images/fondaccueil.png')}}>
     </div>
@@ -57,8 +63,6 @@
                 <a href="{{ path('app_default') }}">Place à la découverte</a>
             </div>
         </div>
-    </div>
-
     </div>
 
 

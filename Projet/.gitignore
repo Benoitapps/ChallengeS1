@@ -1,4 +1,6 @@
 
+/.env
+.env
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -18,6 +20,10 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> symfony/vich-uploader-bundle ###
+/public/upload
+###< symfony/vich-uploader-bundle ###
 
 ###> MacOs gitignore ###
 .DS_Store

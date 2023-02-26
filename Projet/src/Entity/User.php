@@ -33,13 +33,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private bool $isVerified = false;
 
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Annonce::class)]
     private Collection $annoncesUser;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $is_owner = null;
+
+    #[ORM\OneToOne(mappedBy: 'requestor', cascade: ['persist', 'remove'])]
+    private ?RequestCompany $requestCompany = null;
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Annonce::class)]
     private Collection $annoncesCreator;
@@ -97,7 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        //$roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -133,6 +139,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * @return bool
+     */
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -182,6 +191,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $annoncesUser->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsOwner(): ?bool
+    {
+        return $this->is_owner;
+    }
+
+    public function setIsOwner(?bool $is_owner): self
+    {
+        $this->is_owner = $is_owner;
+
+        return $this;
+    }
+
+    public function getRequestCompany(): ?RequestCompany
+    {
+        return $this->requestCompany;
+    }
+
+    public function setRequestCompany(RequestCompany $requestCompany): self
+    {
+        // set the owning side of the relation if necessary
+        if ($requestCompany->getRequestor() !== $this) {
+            $requestCompany->setRequestor($this);
+        }
+
+        $this->requestCompany = $requestCompany;
 
         return $this;
     }
