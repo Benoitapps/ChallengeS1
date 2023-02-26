@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rejoindre Company{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('newCompany') }}
+
+{% endblock %}
+{% block body %}
+
+    <div class="block">
+
+        <div class="leForm">
+            {{ include('company/_formjoin.html.twig') }}
+        </div>
+
+
+
+        <div class="image">
+            <img id="add" src="{{asset('images/addCompany.png')}}">
+        </div>
+    </div>
+
+
+
+
+
+
+{% endblock %}

@@ -8,6 +8,12 @@
         {{ parent() }}
         {{ encore_entry_link_tags('companyHome') }}
     {% endblock %}
+    {% for flash in app.flashes('success') %}
+        <div class="alert alert-success">{{ flash }}</div>
+    {% endfor %}
+    {% for flash in app.flashes('error') %}
+        <div class="alert alert-danger">{{ flash }}</div>
+    {% endfor %}
 
 
     <div id="fond">
@@ -31,6 +37,17 @@
                 <a href="{{ path('app_default') }}">Mes destinations</a>
             </div>
         </div>
+
+    {% if is_granted("ROLE_COMPANY") and app.user.isOwner %}
+        <div id="invitation">
+             <div class="liens">
+            <a href="{{ path('app_company_resend_invite') }}">Générer nouveau code d'invitation</a>
+             </div>
+            <p>Attention, le code actuel ne sera plus valide.</p>
+        </div>
+    {% endif %}
+
+    </div>
 
 
 
