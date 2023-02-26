@@ -1,0 +1,38 @@
+{% block stylesheets %}
+    {{ encore_entry_link_tags('header') }}
+{% endblock %}
+<nav class="top-bar">
+
+    <div id="logo">
+        <img id="imglogo" src={{ asset('images/logo.png') }}>
+    </div>
+    <div id="contains">
+
+
+        </td>
+        <div class="menu">
+            <a href="{{ path('app_default') }}">Accueil</a></div>
+        <div class="menu">
+            <a href="{{ path('app_country_index') }}">Toutes les destinations</a></div>
+        <div class="menu">
+            <a href="{{ path('app_annonce_index') }}">Mes reservations</a></div>
+        <div class="menu">
+            <a href="{{ path('app_default_contact') }}">Contact</a></div>
+        {% if is_granted("ROLE_ADMIN") %}
+            <div class="menu">
+                <a href="{{ path('app_request_index') }}">Demande de company</a></div>
+        {% endif %}
+        </td>
+
+    </div>
+    <div id="part2">
+        </td>
+        <div class="menu2">
+            <a href="{{ path('app_logout') }}">Logo</a></div>
+        <div class="menu2">
+            <a href="{{ path('app_annonce_index') }}">panier</a></div>
+        </td>
+    </div>
+
+
+</nav>
