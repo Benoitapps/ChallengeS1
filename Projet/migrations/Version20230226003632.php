@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230219215421 extends AbstractMigration
+final class Version20230226003632 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,30 +21,42 @@ final class Version20230219215421 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SEQUENCE airport_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE annonce_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE city_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE company_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE composition_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE country_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE date_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE payment_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE request_company_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE reset_password_request_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE airport (id INT NOT NULL, city_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_7E91F7C28BAC62AF ON airport (city_id)');
-        $this->addSql('CREATE TABLE annonce (id INT NOT NULL, airport_depart_aller_id INT DEFAULT NULL, airport_depart_arriver_id INT DEFAULT NULL, airport_retour_aller_id INT DEFAULT NULL, airport_retour_arriver_id INT DEFAULT NULL, composition_id INT DEFAULT NULL, client_id INT DEFAULT NULL, prix DOUBLE PRECISION NOT NULL, date_depart_aller TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_depart_arriver TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_retour_aller TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_retour_arriver TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE annonce (id UUID NOT NULL, airport_depart_aller_id INT DEFAULT NULL, airport_depart_arriver_id INT DEFAULT NULL, airport_retour_aller_id INT DEFAULT NULL, airport_retour_arriver_id INT DEFAULT NULL, client_id INT DEFAULT NULL, creator_id INT DEFAULT NULL, prix DOUBLE PRECISION NOT NULL, date_depart_aller TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_depart_arriver TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_retour_aller TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_retour_arriver TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, place INT NOT NULL, date_annonce DATE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_F65593E5AF90A56A ON annonce (airport_depart_aller_id)');
         $this->addSql('CREATE INDEX IDX_F65593E59322F4DA ON annonce (airport_depart_arriver_id)');
         $this->addSql('CREATE INDEX IDX_F65593E5C4A5329B ON annonce (airport_retour_aller_id)');
         $this->addSql('CREATE INDEX IDX_F65593E5F0EE49F4 ON annonce (airport_retour_arriver_id)');
-        $this->addSql('CREATE INDEX IDX_F65593E587A2E12 ON annonce (composition_id)');
         $this->addSql('CREATE INDEX IDX_F65593E519EB6921 ON annonce (client_id)');
+        $this->addSql('CREATE INDEX IDX_F65593E561220EA6 ON annonce (creator_id)');
+        $this->addSql('COMMENT ON COLUMN annonce.id IS \'(DC2Type:uuid)\'');
+        $this->addSql('CREATE TABLE annonce_user (annonce_id UUID NOT NULL, user_id INT NOT NULL, PRIMARY KEY(annonce_id, user_id))');
+        $this->addSql('CREATE INDEX IDX_B7E60AD78805AB2F ON annonce_user (annonce_id)');
+        $this->addSql('CREATE INDEX IDX_B7E60AD7A76ED395 ON annonce_user (user_id)');
+        $this->addSql('COMMENT ON COLUMN annonce_user.annonce_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE city (id INT NOT NULL, country_id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_2D5B0234F92F3E70 ON city (country_id)');
         $this->addSql('CREATE TABLE company (id INT NOT NULL, name VARCHAR(255) NOT NULL, siren INT NOT NULL, code VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE composition (id INT NOT NULL, nb_adult INT DEFAULT NULL, nb_child INT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE country (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE date (id INT NOT NULL, date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE payment (id INT NOT NULL, payeur_id INT DEFAULT NULL, num_carte VARCHAR(10) NOT NULL, expiration DATE NOT NULL, cvv VARCHAR(3) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_6D28840D422667C5 ON payment (payeur_id)');
+        $this->addSql('CREATE TABLE place (id UUID NOT NULL, acheteur_id INT DEFAULT NULL, reservation_id UUID DEFAULT NULL, nb INT DEFAULT NULL, payer BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_741D53CD96A7BB5F ON place (acheteur_id)');
+        $this->addSql('CREATE INDEX IDX_741D53CDB83297E7 ON place (reservation_id)');
+        $this->addSql('COMMENT ON COLUMN place.id IS \'(DC2Type:uuid)\'');
+        $this->addSql('COMMENT ON COLUMN place.reservation_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE request_company (id INT NOT NULL, requestor_id INT NOT NULL, name VARCHAR(255) NOT NULL, siren INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_659B7B18A7F43455 ON request_company (requestor_id)');
         $this->addSql('CREATE TABLE reset_password_request (id INT NOT NULL, user_id INT NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, expires_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
@@ -71,9 +83,14 @@ final class Version20230219215421 extends AbstractMigration
         $this->addSql('ALTER TABLE annonce ADD CONSTRAINT FK_F65593E59322F4DA FOREIGN KEY (airport_depart_arriver_id) REFERENCES airport (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE annonce ADD CONSTRAINT FK_F65593E5C4A5329B FOREIGN KEY (airport_retour_aller_id) REFERENCES airport (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE annonce ADD CONSTRAINT FK_F65593E5F0EE49F4 FOREIGN KEY (airport_retour_arriver_id) REFERENCES airport (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE annonce ADD CONSTRAINT FK_F65593E587A2E12 FOREIGN KEY (composition_id) REFERENCES composition (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE annonce ADD CONSTRAINT FK_F65593E519EB6921 FOREIGN KEY (client_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE annonce ADD CONSTRAINT FK_F65593E561220EA6 FOREIGN KEY (creator_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE annonce_user ADD CONSTRAINT FK_B7E60AD78805AB2F FOREIGN KEY (annonce_id) REFERENCES annonce (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE annonce_user ADD CONSTRAINT FK_B7E60AD7A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE city ADD CONSTRAINT FK_2D5B0234F92F3E70 FOREIGN KEY (country_id) REFERENCES country (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE payment ADD CONSTRAINT FK_6D28840D422667C5 FOREIGN KEY (payeur_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE place ADD CONSTRAINT FK_741D53CD96A7BB5F FOREIGN KEY (acheteur_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE place ADD CONSTRAINT FK_741D53CDB83297E7 FOREIGN KEY (reservation_id) REFERENCES annonce (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE request_company ADD CONSTRAINT FK_659B7B18A7F43455 FOREIGN KEY (requestor_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE reset_password_request ADD CONSTRAINT FK_7CE748AA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE "user" ADD CONSTRAINT FK_8D93D649979B1AD6 FOREIGN KEY (company_id) REFERENCES company (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -84,12 +101,12 @@ final class Version20230219215421 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('DROP SEQUENCE airport_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE annonce_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE city_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE company_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE composition_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE country_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE date_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE payment_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE request_company_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE reset_password_request_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
@@ -98,19 +115,27 @@ final class Version20230219215421 extends AbstractMigration
         $this->addSql('ALTER TABLE annonce DROP CONSTRAINT FK_F65593E59322F4DA');
         $this->addSql('ALTER TABLE annonce DROP CONSTRAINT FK_F65593E5C4A5329B');
         $this->addSql('ALTER TABLE annonce DROP CONSTRAINT FK_F65593E5F0EE49F4');
-        $this->addSql('ALTER TABLE annonce DROP CONSTRAINT FK_F65593E587A2E12');
         $this->addSql('ALTER TABLE annonce DROP CONSTRAINT FK_F65593E519EB6921');
+        $this->addSql('ALTER TABLE annonce DROP CONSTRAINT FK_F65593E561220EA6');
+        $this->addSql('ALTER TABLE annonce_user DROP CONSTRAINT FK_B7E60AD78805AB2F');
+        $this->addSql('ALTER TABLE annonce_user DROP CONSTRAINT FK_B7E60AD7A76ED395');
         $this->addSql('ALTER TABLE city DROP CONSTRAINT FK_2D5B0234F92F3E70');
+        $this->addSql('ALTER TABLE payment DROP CONSTRAINT FK_6D28840D422667C5');
+        $this->addSql('ALTER TABLE place DROP CONSTRAINT FK_741D53CD96A7BB5F');
+        $this->addSql('ALTER TABLE place DROP CONSTRAINT FK_741D53CDB83297E7');
         $this->addSql('ALTER TABLE request_company DROP CONSTRAINT FK_659B7B18A7F43455');
         $this->addSql('ALTER TABLE reset_password_request DROP CONSTRAINT FK_7CE748AA76ED395');
         $this->addSql('ALTER TABLE "user" DROP CONSTRAINT FK_8D93D649979B1AD6');
         $this->addSql('DROP TABLE airport');
         $this->addSql('DROP TABLE annonce');
+        $this->addSql('DROP TABLE annonce_user');
         $this->addSql('DROP TABLE city');
         $this->addSql('DROP TABLE company');
         $this->addSql('DROP TABLE composition');
         $this->addSql('DROP TABLE country');
         $this->addSql('DROP TABLE date');
+        $this->addSql('DROP TABLE payment');
+        $this->addSql('DROP TABLE place');
         $this->addSql('DROP TABLE request_company');
         $this->addSql('DROP TABLE reset_password_request');
         $this->addSql('DROP TABLE "user"');
