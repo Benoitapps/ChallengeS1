@@ -6,6 +6,7 @@ use App\Entity\Annonce;
 
 use App\Entity\Payment;
 use App\Entity\Place;
+use App\Entity\User;
 use App\Form\AnnonceType;
 use App\Form\PaymentType;
 use App\Form\PlaceType;
@@ -13,19 +14,28 @@ use App\Repository\AirportRepository;
 use App\Repository\AnnonceRepository;
 use App\Repository\PaymentRepository;
 use App\Repository\PlaceRepository;
+use App\Service\EmailService;
 use DateTime;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 #[Route('/annonce')]
 class AnnonceController extends AbstractController
 {
+
+    private $urlGenerator;
+
+    public function __construct(UrlGeneratorInterface $urlGenerator)
+    {
+        $this->urlGenerator = $urlGenerator;
+    }
 
     #[Route('/', name: 'app_annonce_index', methods: ['GET', 'POST'])]
     public function index(AnnonceRepository $annonceRepository,Request $request, AirportRepository $airportRepository): Response
@@ -120,9 +130,10 @@ class AnnonceController extends AbstractController
     //redirection payer
     #[Security("(is_granted('ROLE_CUSTOMER'))")]
     #[Route('/pay/{id}', name: 'app_annonce_pay', methods: ['GET', 'POST'])]
-    public function pay(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, PaymentRepository $paymentRepository, PlaceRepository $placeRepository): Response
-    {
-        $utilisateur = $this->getUser();
+    public function pay(Request $request, AnnonceRepository $annonceRepository, Annonce $annonce, PaymentRepository $paymentRepository, PlaceRepository $placeRepository, EmailService $emailService): Response
+        {
+            /** @var User $utilisateur */
+            $utilisateur = $this->getUser();
 
         $payment = new Payment();
         $payment->setPayeur($utilisateur);
@@ -154,8 +165,25 @@ class AnnonceController extends AbstractController
             $placeRepository->save($place, true);
             $placeRepository->save($place, true);
 
-            return $this->redirectToRoute('app_annonce_perso', [], Response::HTTP_SEE_OTHER);
-        }
+                $url = $this->urlGenerator->generate('app_annonce_perso', [], UrlGeneratorInterface::ABSOLUTE_URL);
+                //$destination = $annonce->getAirportDepartArriver()->getName();
+                $destination = $annonce->getAirportDepartArriver()->getCity()->getCountry()->getName().' - '.$annonce->getAirportDepartArriver()->getCity()->getName().' - '.$annonce->getAirportDepartArriver()->getName();
+                //$lieudepart = $annonce->getAirportDepartAller()->getName();
+                $lieudepart = $annonce->getAirportDepartAller()->getCity()->getCountry()->getName().' - '.$annonce->getAirportDepartAller()->getCity()->getName().' - '.$annonce->getAirportDepartAller()->getName();
+                $horairedepart = $annonce->getDateDepartAller()->format('d/m/Y H:i');
+
+                $userEmail = $utilisateur->getEmail();
+                $templateId = 7; //TemplateId = 7 pour confirmation paiement
+                $params = array('name'=>'BECLAL', 'USER'=>$userEmail, 'URL'=>$url, 'DESTINATION'=>$destination, 'LIEUDEPART'=>$lieudepart,'HORAIREDEPART'=>$horairedepart,'PLACES'=>$placeacheter);
+
+                try {
+                    $emailService->sendTransactionalEmail($userEmail, $templateId, $params);
+                } catch (Exception $e) {
+                    $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de l\'e-mail : ' . $e->getMessage());
+                }
+
+                return $this->redirectToRoute('app_annonce_perso', [], Response::HTTP_SEE_OTHER);
+            }
 
         return $this->render('annonce/pay.html.twig', [
             'annonces' => $annonceRepository->findAll(),

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Payment{% endblock %}
+{% block title %}Paiement{% endblock %}
 
 {% block body %}
     <h1>Payment</h1>
@@ -8,11 +8,11 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>N°</th>
                 <td>{{ payment.id }}</td>
             </tr>
             <tr>
-                <th>NumCarte</th>
+                <th>N° Carte</th>
                 <td>{{ payment.NumCarte }}</td>
             </tr>
             <tr>
@@ -20,15 +20,15 @@
                 <td>{{ payment.expiration ? payment.expiration|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>Cvv</th>
+                <th>CVV</th>
                 <td>{{ payment.cvv }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_payment_index') }}">back to list</a>
+    <a href="{{ path('app_payment_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('app_payment_edit', {'id': payment.id}) }}">edit</a>
+    <a href="{{ path('app_payment_edit', {'id': payment.id}) }}">Modifier</a>
 
     {{ include('payment/_delete_form.html.twig') }}
 {% endblock %}

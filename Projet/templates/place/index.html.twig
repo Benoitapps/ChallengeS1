@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Place index{% endblock %}
+{% block title %}Places{% endblock %}
 
 {% block body %}
-    <h1>Place index</h1>
+    <h1>Places</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Nb</th>
-                <th>actions</th>
+                <th>N°</th>
+                <th>Nombre</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -19,17 +19,17 @@
                 <td>{{ place.id }}</td>
                 <td>{{ place.nb }}</td>
                 <td>
-                    <a href="{{ path('app_place_show', {'id': place.id}) }}">show</a>
-                    <a href="{{ path('app_place_edit', {'id': place.id}) }}">edit</a>
+                    <a href="{{ path('app_place_show', {'id': place.id}) }}">Voir</a>
+                    <a href="{{ path('app_place_edit', {'id': place.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucune place trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_place_new') }}">Create new</a>
+    <a href="{{ path('app_place_new') }}">Créer nouvelle</a>
 {% endblock %}

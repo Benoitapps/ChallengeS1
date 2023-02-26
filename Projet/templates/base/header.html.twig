@@ -15,12 +15,12 @@
         <div class="menu">
             <a href="{{ path('app_country_index') }}">Toutes les destinations</a></div>
         <div class="menu">
-            <a href="{{ path('app_annonce_index') }}">Mes reservations</a></div>
+            <a href="{{ path('app_annonce_index') }}">Mes réservations</a></div>
         <div class="menu">
             <a href="{{ path('app_default_contact') }}">Contact</a></div>
         {% if is_granted("ROLE_ADMIN") %}
             <div class="menu">
-                <a href="{{ path('app_request_index') }}">Demande de company</a></div>
+                <a href="{{ path('app_request_index') }}">Demandes d'entreprises</a></div>
         {% endif %}
 
 
@@ -30,7 +30,7 @@
         <div class="menu2">
             <a href="{{ path('app_logout') }}">Logo</a></div>
         <div class="menu2">
-            <a href="{{ path('app_annonce_index') }}">panier</a></div>
+            <a href="{{ path('app_annonce_index') }}">Panier</a></div>
 
     </div>
 

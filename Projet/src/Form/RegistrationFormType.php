@@ -24,6 +24,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Merci de saisir une adresse e-mail',
                     ]),
                 ],
+                'label' => 'E-mail',
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -32,6 +33,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Vous devez accepter nos conditions.',
                     ]),
                 ],
+                'label' => 'J\'accepte les conditions d\'utilisation',
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
