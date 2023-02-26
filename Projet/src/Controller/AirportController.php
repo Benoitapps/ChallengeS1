@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/airport')]
 class AirportController extends AbstractController
 {
-    #[Security("(is_granted('ADMIN'))")]
+    #[Security("(is_granted('ROLE_ADMIN'))")]
     #[Route('/', name: 'app_airport_index', methods: ['GET'])]
     public function index(AirportRepository $airportRepository, Request $request, CityRepository $cityRepository): Response
     {
