@@ -2,12 +2,18 @@
 
 {% block title %}Modifier pays{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    {{ encore_entry_link_tags('newAirport') }}
+{% endblock %}
+
 {% block body %}
-    <h1>Modifier pays</h1>
+    <div>{% include 'barreAdmin.html.twig' %}</div>
 
-    {{ include('country/_form.html.twig', {'button_label': 'Modifier'}) }}
+    {{ include('country/_formUpdate.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_country_index') }}">Retour à la liste</a>
+
 
     {{ include('country/_delete_form.html.twig') }}
 {% endblock %}

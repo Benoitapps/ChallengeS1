@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+<h3>Modifier les informations de l'annonce </h3>
+{{ form_widget(form) }}
+<button class="btn">{{ button_label|default('Save') }}</button>
+<button class="btn-annuler"><a id="annuler" href="{{ path('app_annonce_index') }}">Annuler</a></button>
+{{ form_end(form) }}

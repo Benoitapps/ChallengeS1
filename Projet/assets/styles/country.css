@@ -2,7 +2,7 @@ body {
     margin: 0;
     background: linear-gradient(45deg, #6495ED, #B0E0E6);
 
-    height: 100vh;
+    height: 150vh;
 
 }
 
@@ -71,6 +71,8 @@ body {
 
 #monde{
     width: 80%;
+    border-radius: 20px;
+    box-shadow: 20px 20px 40px -6px rgba(0,0,0, .2);
 }
 
 
@@ -126,4 +128,26 @@ body {
 
 #vide{
     width: 20em;
+}
+
+
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+
+    box-sizing: border-box;
+}
+
+.btnsearch {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.btnsearch:hover {
+    color: lightskyblue;
 }

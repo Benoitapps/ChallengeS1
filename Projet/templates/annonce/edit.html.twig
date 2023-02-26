@@ -2,15 +2,17 @@
 
 {% block title %}Modifier Annonce{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    {{ encore_entry_link_tags('newAnnonce') }}
+{% endblock %}
+
 {% block body %}
-    <h1>Modifier Annonce</h1>
+    <div>{% include 'barreAdmin.html.twig' %}</div>
+    {{ include('annonce/_formUpdate.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    {{ include('annonce/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    {{ form_start(form) }}
-    {{ form_rest(form) }}
-    <input type="submit" value="Enregistrer">
-    {{ form_end(form) }}
 
     {{ include('annonce/_delete_form.html.twig') }}
 {% endblock %}
