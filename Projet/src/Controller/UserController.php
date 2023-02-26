@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Entity\User;
+use App\Form\UserprofilType;
 use App\Form\UserType;
 use App\Repository\AnnonceRepository;
 use App\Repository\PlaceRepository;
@@ -15,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\UuidV6 as Uuid;
 
-#[Security("is_granted('ROLE_ADMIN')")]
+
 #[Route('/user')]
 class UserController extends AbstractController
 {
@@ -75,6 +76,31 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_CUSTOMER')")]
+    #[Route('/{id}', name: 'app_user_profil', methods: ['GET'])]
+    public function showProfil(User $user): Response
+    {
+        return $this->render('user/profil.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    #[Security("is_granted('ROLE_CUSTOMER')")]
+    #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    {
+        $form = $this->createForm(UserprofilType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->save($user, true);
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('user/edit.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
     #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin/annonce/{id}', name: 'app_user_annonce', methods: ['GET'])]
     public function anonce(User $user, PlaceRepository $placeRepository,Uuid $id): Response
@@ -90,8 +116,8 @@ class UserController extends AbstractController
 
 
     #[Security("is_granted('ROLE_ADMIN')")]
-    #[Route('/admin/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    #[Route('/admin/{id}/edit', name: 'app_user_editadmin', methods: ['GET', 'POST'])]
+    public function editadmin(Request $request, User $user, UserRepository $userRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

@@ -30,8 +30,12 @@
                 <a href="{{ path('app_admin') }}">Mode Admin</a></div>
         {% endif %}
         <div class="menu2">
-            <a href="{{ path('app_logout') }}">Logo</a></div>
+            <a href="{{ path('app_user_profil', {'id': app.user.id}) }}">Profil</a></div>
+        <div class="menu2">
+        <div class="menu2">
+            <a href="{{ path('app_logout') }}">Logout</a></div>
         <div class="menu2">
             <a href="{{ path('app_annonce_panier')}}">panier</a></div>
         </td>
     </div>
+</div>
